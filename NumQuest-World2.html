@@ -914,7 +914,7 @@ function build(){
   <div class="view" id="v-boss"><div class="hero"><div class="eyebrow">World 2 boss · Midterm gate</div><h1>The Matrix Warden</h1><p class="mission"><b>Mission</b> &nbsp;Get through seven exam-style problems on one four-span beam to open the way to World 3.</p></div>
    <div class="bossbar" id="bossbar"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M18 52a32 32 0 0 1 64 0z" fill="#f2b705" stroke="#06152b" stroke-width="4"/><rect x="10" y="50" width="80" height="9" fill="#f2b705" stroke="#06152b" stroke-width="4"/><rect x="26" y="52" width="48" height="42" fill="#e8f1ff" stroke="#06152b" stroke-width="4"/><path d="M26 66h48M26 80h48M42 52v42M58 52v42" stroke="#06152b" stroke-width="2.5" fill="none"/><circle cx="34" cy="59" r="3.5" fill="#c92a2a"/><circle cx="66" cy="59" r="3.5" fill="#c92a2a"/></svg>
    <div style="flex:1;min-width:0"><div class="bn">Matrix Warden</div><div class="hp"><i id="hpFill"></i></div><div class="mono hint" id="hpTxt" style="color:#b9d0ee;margin-top:4px"></div></div></div>
-   <div id="bossLock" class="lockbox" hidden><h3>The gate is shut</h3><p id="lockTxt"></p><div class="btns"><button type="button" class="btn primary" id="forceBtn">Enter anyway</button></div></div>
+   <div id="bossLock" class="lockbox" hidden><h3>The gate is shut</h3><p id="lockTxt"></p></div>
    <div id="bossBody">${SEC.boss}<section class="sec"><h2>Problems</h2>${EX.boss.map(exHTML).join('')}</section></div></div>`;
   $('#nav').innerHTML=`<a href="#home" data-v="home"><span class="sn">HOME</span><span class="nt">Title screen</span></a><div class="div"></div>`+
     STAGES.map(s=>`<a href="#${s.id}" data-v="${s.id}"><span class="sn">${s.no}</span><span class="nt">${s.title}<br><span class="st" id="ns-${s.id}"></span></span></a>`).join('')+
@@ -1043,10 +1043,11 @@ function refreshAll(){
   $('#bossbar').classList.toggle('dead',hit===EX.boss.length);
   $('#ns-boss').innerHTML=hit===EX.boss.length?'<span class="st">★ defeated</span>':'';
   $(`.nav a[data-v="boss"]`).classList.toggle('done',hit===EX.boss.length);
-  const have=STAGES.reduce((a,s)=>a+stageStats(s.id).done,0),total=STAGES.reduce((a,s)=>a+EX[s.id].length,0),need=Math.ceil(.6*total);
-  const open=S.teacher||S.bossForce||have>=need||hit>0;
+  const okN=k=>EX[k].filter(e=>S.ex[e.id]&&S.ex[e.id].st==='ok').length;
+  const have=STAGES.reduce((a,s)=>a+okN(s.id),0),total=STAGES.reduce((a,s)=>a+EX[s.id].length,0),need=Math.ceil(.67*total);
+  const open=S.teacher||have>=need;
   $('#bossLock').hidden=open;$('#bossBody').hidden=!open;
-  $('#lockTxt').textContent=`Clear at least ${need} checkpoints across Stages 2-1 to 2-3 to open the gate. You have ${have}. You can also walk in early.`;
+  $('#lockTxt').textContent=`Clear at least ${need} checkpoints across Stages 2-1 to 2-3 correctly (67%) to open the gate. You have ${have}.`;
   $('#homeXp').textContent=S.xp;renderMap();renderBadges();
 }
 
@@ -1284,7 +1285,6 @@ $('#resetBtn').addEventListener('click',e=>{
   clearTimeout(armT);b.classList.remove('armed');b.textContent='Reset';
   const keep={sfx:S.sfx,theme:S.theme};S=Object.assign(fresh(),keep);save();build();route();toast('Progress reset','Starting from level 1');
 });
-document.addEventListener('click',e=>{if(e.target.id==='forceBtn'){S.bossForce=true;save();refreshAll()}});
 
 function route(){
   let h=(location.hash||'#home').slice(1);if(!VIEWS.includes(h))h='home';

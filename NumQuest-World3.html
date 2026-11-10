@@ -964,7 +964,7 @@ function build(){
   <div class="view" id="v-boss"><div class="hero"><div class="eyebrow">World 3 boss · Exam gate</div><h1>The Noisy Oracle</h1><p class="mission"><b>Mission</b> &nbsp;Get through seven exam-style problems on fitting, interpolation and differentiation to leave the valley.</p></div>
    <div class="bossbar" id="bossbar"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" fill="#e8f1ff" stroke="#06152b" stroke-width="4"/><path d="M14 58 L26 40 L36 66 L46 30 L58 70 L68 38 L78 62 L88 50" fill="none" stroke="#c92a2a" stroke-width="5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="34" cy="26" r="4" fill="#06152b"/><circle cx="66" cy="26" r="4" fill="#06152b"/><path d="M32 82q18 8 36 0" fill="none" stroke="#06152b" stroke-width="4" stroke-linecap="round"/></svg>
    <div style="flex:1;min-width:0"><div class="bn">The Noisy Oracle</div><div class="hp"><i id="hpFill"></i></div><div class="mono hint" id="hpTxt" style="color:#b9d0ee;margin-top:4px"></div></div></div>
-   <div id="bossLock" class="lockbox" hidden><h3>The oracle is hiding</h3><p id="lockTxt"></p><div class="btns"><button type="button" class="btn primary" id="forceBtn">Enter anyway</button></div></div>
+   <div id="bossLock" class="lockbox" hidden><h3>The oracle is hiding</h3><p id="lockTxt"></p></div>
    <div id="bossBody">${SEC.boss}<section class="sec"><h2>Problems</h2>${EX.boss.map(exHTML).join('')}</section></div></div>`;
   $('#nav').innerHTML=`<a href="#home" data-v="home"><span class="sn">HOME</span><span class="nt">Title screen</span></a><div class="div"></div>`+
     STAGES.map(s=>`<a href="#${s.id}" data-v="${s.id}"><span class="sn">${s.no}</span><span class="nt">${s.title}<br><span class="st" id="ns-${s.id}"></span></span></a>`).join('')+
@@ -1097,10 +1097,11 @@ function refreshAll(){
   $('#bossbar').classList.toggle('dead',hit===EX.boss.length);
   $('#ns-boss').innerHTML=hit===EX.boss.length?'<span class="st">★ defeated</span>':'';
   $(`.nav a[data-v="boss"]`).classList.toggle('done',hit===EX.boss.length);
-  const have=STAGES.reduce((a,s)=>a+stageStats(s.id).done,0),need=Math.ceil(.6*stageEx());
-  const open=S.teacher||S.bossForce||have>=need||hit>0;
+  const okN=k=>EX[k].filter(e=>S.ex[e.id]&&S.ex[e.id].st==='ok').length;
+  const have=STAGES.reduce((a,s)=>a+okN(s.id),0),need=Math.ceil(.67*stageEx());
+  const open=S.teacher||have>=need;
   $('#bossLock').hidden=open;$('#bossBody').hidden=!open;
-  $('#lockTxt').textContent=`Clear at least ${need} checkpoints across Stages 3-1 to 3-4 to meet the oracle. You have ${have}. You can also walk in early.`;
+  $('#lockTxt').textContent=`Clear at least ${need} checkpoints across Stages 3-1 to 3-4 correctly (67%) to meet the oracle. You have ${have}.`;
   $('#homeXp').textContent=S.xp;renderMap();renderBadges();
 }
 
@@ -1349,7 +1350,6 @@ $('#resetBtn').addEventListener('click',e=>{
   clearTimeout(armT);b.classList.remove('armed');b.textContent='Reset';
   const keep={sfx:S.sfx,theme:S.theme};S=Object.assign(fresh(),keep);save();build();route();toast('Progress reset','Starting from level 1');
 });
-document.addEventListener('click',e=>{if(e.target.id==='forceBtn'){S.bossForce=true;save();refreshAll()}});
 
 function route(){
   let h=(location.hash||'#home').slice(1);if(!['home','line','curve','interp','diff','boss'].includes(h))h='home';
