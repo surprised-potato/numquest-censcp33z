@@ -1322,6 +1322,7 @@ function initMath(){
     const post=()=>{try{parent.postMessage({nq:'progress',w:WN,S:S},'*')}catch(e){}};
     try{const _s=save;save=function(){_s();post()}}catch(e){}
     post();
+    ['click','touchend'].forEach(ev=>document.addEventListener(ev,()=>{try{parent.__nqShell.unlock()}catch(e){}},true));
     document.addEventListener('click',e=>{const a=e.target.closest&&e.target.closest('a[href]');if(!a)return;
       const m=(a.getAttribute('href')||'').match(/NumQuest-World(\d)\.html/);if(m){e.preventDefault();parent.postMessage({nq:'goto',w:+m[1]},'*')}},true);
     window.addEventListener('message',e=>{const d=e.data||{};
@@ -1367,6 +1368,15 @@ function initMath(){
       MC.resume();if(playing)return;playing=true;nextT=MC.currentTime+.08;step=0;timer=setInterval(sched,80);
     }catch(e){}
   }
+  let silent=null;
+  function unlock(){
+    try{if(navigator.audioSession)navigator.audioSession.type='playback'}catch(e){}
+    try{if(!MC){MC=new (window.AudioContext||window.webkitAudioContext)();master=MC.createGain();master.gain.value=.5;master.connect(MC.destination)}
+      if(MC.state!=='running')MC.resume();
+      const b=MC.createBuffer(1,1,22050),s=MC.createBufferSource();s.buffer=b;s.connect(MC.destination);s.start(0)}catch(e){}
+    if(!navigator.audioSession&&!silent){try{silent=new Audio('data:audio/wav;base64,UklGRkQDAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YSADAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgA==');silent.loop=true;silent.play().catch(()=>{})}catch(e){}}
+  }
+  ['click','touchend','keydown'].forEach(ev=>document.addEventListener(ev,()=>{if(window.__nqIntro&&window.__nqIntro.music().on&&!document.getElementById('nqWelcome')){unlock();start()}else unlock()},true));
   function stop(){playing=false;clearInterval(timer);if(master){master.gain.cancelScheduledValues(0);}if(MC)MC.suspend()}
   function sync(){musicOn?start():stop();const b=document.getElementById('musicBtn');if(b)b.setAttribute('aria-pressed',musicOn)}
   document.addEventListener('visibilitychange',()=>{if(!MC)return;if(document.hidden)MC.suspend();else if(musicOn&&playing)MC.resume()});
@@ -1416,7 +1426,7 @@ function initMath(){
   }
   window.__nqIntro={show:showWelcome,music:()=>({on:musicOn,playing})};
   if(seen){ // returning in the same session: music starts on the first click anywhere
-    if(musicOn){const once=()=>{sync();document.removeEventListener('pointerdown',once)};document.addEventListener('pointerdown',once)}
+    /* music starts from the global click/touchend unlock handler above */
   }else showWelcome();
 })();
 

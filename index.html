@@ -530,10 +530,19 @@ const music=(function(){
     MC.resume();if(playing)return;playing=true;nextT=MC.currentTime+.08;step=0;timer=setInterval(sched,80)}catch(e){}}
   function stop(){playing=false;clearInterval(timer);if(MC)MC.suspend()}
   function sync(){on?start():stop();$('#musicBtn').setAttribute('aria-pressed',on)}
+  let silent=null;
+  function unlock(){                                              // iOS/iPadOS: must run inside a click or touchend
+    try{if(navigator.audioSession)navigator.audioSession.type='playback'}catch(e){}
+    try{if(!MC){MC=new (window.AudioContext||window.webkitAudioContext)();master=MC.createGain();master.gain.value=.5;master.connect(MC.destination)}
+      if(MC.state!=='running')MC.resume();
+      const b=MC.createBuffer(1,1,22050),s=MC.createBufferSource();s.buffer=b;s.connect(MC.destination);s.start(0)}catch(e){}
+    if(!navigator.audioSession&&!silent){try{silent=new Audio('data:audio/wav;base64,UklGRkQDAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YSADAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgA==');silent.loop=true;silent.play().catch(()=>{})}catch(e){}}
+  }
+  ['click','touchend','keydown'].forEach(ev=>document.addEventListener(ev,()=>{unlock();if(on)start()},true));
   document.addEventListener('visibilitychange',()=>{if(!MC)return;if(document.hidden)MC.suspend();else if(on&&playing)MC.resume()});
   $('#musicBtn').addEventListener('click',()=>{on=!on;try{localStorage.setItem(MK,on?'on':'off')}catch(e){}sync()});
   return {
-    isOn:()=>on,toggle(){on=!on;try{localStorage.setItem(MK,on?'on':'off')}catch(e){}sync();return on},
+    isOn:()=>on,unlock,toggle(){on=!on;try{localStorage.setItem(MK,on?'on':'off')}catch(e){}sync();return on},
     start(){if(on)start()},sync,
     world(n){if(n===wi)return;wi=n;step=0;if(playing&&MC)nextT=MC.currentTime+.1}
   };
@@ -543,7 +552,7 @@ $('#musicBtn').addEventListener('click',pushMusic);
 /* ---------- welcome screen ---------- */
 function welcome(){
   let seen=false;try{seen=sessionStorage.getItem('nq-welcome-shell')==='1'}catch(e){}
-  if(seen||(location.hash&&location.hash!=='#map')){const once=()=>{music.start();document.removeEventListener('pointerdown',once)};document.addEventListener('pointerdown',once);return}
+  if(seen||(location.hash&&location.hash!=='#map'))return;
   const t=totals(),L=level(t.xp),cont=t.xp>0,w=document.createElement('div');
   w.id='nqWelcome';w.setAttribute('role','dialog');w.setAttribute('aria-modal','true');w.setAttribute('aria-label','Welcome to NumQuest');
   w.innerHTML=`<div class="card"><div class="eb">CENSCP33Z · Numerical Solutions to CE Problems</div><h1>NumQuest</h1><div class="wn">4 worlds · 1 course</div>
@@ -558,7 +567,7 @@ function welcome(){
 }
 try{applyTheme()}catch(e){}
 $('#musicBtn').setAttribute('aria-pressed',music.isOn());route();welcome();
-window.__nqShell={totals,readW,route};
+window.__nqShell={totals,readW,route,unlock:()=>{music.unlock();if(music.isOn())music.start()}};
 })();
 </script>
 </body>
