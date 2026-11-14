@@ -224,8 +224,8 @@ table.mat tr.tg td.pv{background:var(--gold)}
       <h1>NumQuest · Course Frontier</h1>
       <p class="mission">Master numerical analysis across four core engineering worlds — Roots, Matrices, Data Fitting &amp; Calculus, and Numerical Integration — then conquer the optional <b>Differential Frontier</b> epilogue to graduate with Certificate Honours.</p>
       <div class="chiefline" style="margin-top:12px">
-        <img class="chiefface" src="numquest-art/web/guide-prof.webp" alt="Prof. Dan Po">
-        <div><b>Prof. Dan Po</b> <span class="hint">(Instructor)</span><br>Each world saves your progress locally in this browser. Beat Bosses 1–4 to unlock your Course Certificate, and clear World 5 to stamp the gold Frontier Honours seal.</div>
+        <img class="chiefface" src="numquest-art/web/guide-prof.webp" alt="CE Data Analyst">
+        <div><b>CE Data Analyst</b> <span class="hint">(Course Guide)</span><br>Each world saves your progress locally in this browser. Beat Bosses 1–4 to unlock your Course Certificate, and clear World 5 to stamp the gold Frontier Honours seal.</div>
       </div>
     </div>
     <div class="tblock">
@@ -346,7 +346,7 @@ function render(){
     ${T.honours?'<div><span class="cert-honours">★ WITH DIFFERENTIAL FRONTIER HONOURS ★</span></div>':''}
     <p class="hint" style="max-width:640px;margin:8px auto">For demonstrating mastery across Root Finding, Matrix Systems &amp; Determinants, Least-Squares &amp; Finite Differences, Numerical Integration${T.honours?', and ODE/BVP Differential Frontiers':''}.</p>
     <div class="seals">${T.per.map(p=>`<div class="seal ${p.dead?'got':''}"><img src="${p.w.bossImg}" alt="${p.w.bossName}"><span>${p.w.opt?'Honours Seal':'Boss '+p.w.n}</span></div>`).join('')}</div>
-    <div class="cert-sig"><span><b>Prof. Dan Po</b>, Instructor</span><span>Total XP: <b>${T.xp}</b> · Seals: <b>${T.bss}/5</b></span></div></div>`;
+    <div class="cert-sig"><span><b>CE Data Analyst</b></span><span>Total XP: <b>${T.xp}</b> · Seals: <b>${T.bss}/5</b></span></div></div>`;
 
   /* Mobile Sticky Go CTA */
   const nxtW=T.per.find(p=>!p.dead)||T.per[0];
