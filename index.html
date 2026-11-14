@@ -346,7 +346,7 @@ function render(){
     ${T.honours?'<div><span class="cert-honours">★ WITH DIFFERENTIAL FRONTIER HONOURS ★</span></div>':''}
     <p class="hint" style="max-width:640px;margin:8px auto">For demonstrating mastery across Root Finding, Matrix Systems &amp; Determinants, Least-Squares &amp; Finite Differences, Numerical Integration${T.honours?', and ODE/BVP Differential Frontiers':''}.</p>
     <div class="seals">${T.per.map(p=>`<div class="seal ${p.dead?'got':''}"><img src="${p.w.bossImg}" alt="${p.w.bossName}"><span>${p.w.opt?'Honours Seal':'Boss '+p.w.n}</span></div>`).join('')}</div>
-    <div class="cert-sig"><span><b>Prof. Ada Vance</b> · Course Chair</span><span>Total XP: <b>${T.xp}</b> · Seals: <b>${T.bss}/5</b></span></div></div>`;
+    <div class="cert-sig"><span><b>Prof. Dan Po</b>, Instructor</span><span>Total XP: <b>${T.xp}</b> · Seals: <b>${T.bss}/5</b></span></div></div>`;
 
   /* Mobile Sticky Go CTA */
   const nxtW=T.per.find(p=>!p.dead)||T.per[0];
