@@ -473,6 +473,18 @@ html.nq-embed .hud{top:0}
 .bossart{width:84px;height:84px;object-fit:cover;border:2px solid var(--gold);background:var(--plot);flex:0 0 auto}
 @media (max-width:560px){.bossart{width:64px;height:64px}}
 
+/* SVG Badge Medals */
+.badge{opacity:.82;transition:transform .12s,border-color .12s,opacity .12s}
+.badge.got{opacity:1}
+.medal{width:62px;height:66px;margin:0 auto 8px;background:none!important;clip-path:none!important;display:grid;place-items:center}
+.medal-svg{width:62px;height:66px;display:block;color:var(--ink)}
+.medal-svg .m-outer{fill:var(--paper2);stroke:var(--soft);stroke-width:2.4}
+.medal-svg .m-inner{fill:var(--paper);stroke:var(--soft);stroke-width:1.3;stroke-dasharray:4 3}
+.badge:not(.got) .medal-svg{filter:grayscale(.65);opacity:.78}
+.badge.got .medal-svg{filter:drop-shadow(0 3px 6px var(--shadow))}
+.badge.got .medal-svg .m-outer{fill:color-mix(in srgb,var(--gold) 26%,var(--paper2));stroke:var(--gold);stroke-width:2.8}
+.badge.got .medal-svg .m-inner{fill:var(--paper);stroke:var(--accent);stroke-width:1.4;stroke-dasharray:none}
+
 /* First-visit World Welcome dialog */
 #nqWelcome{position:fixed;inset:0;z-index:260;background:color-mix(in srgb,var(--hud) 78%,transparent);display:none;align-items:center;justify-content:center;padding:16px}
 #nqWelcome.open{display:flex}
@@ -862,9 +874,44 @@ function renderMap(){
   });
   $('#map').innerHTML=svg+'</svg>';
 }
+const BADGE_ICONS={
+  coin:`<circle cx="32" cy="34" r="13" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="32" cy="34" r="4" fill="var(--accent)"/><path d="M32 16v6M32 46v6M14 34h6M44 34h6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>`,
+  c3:`<path d="M18 42l7-14 6 8 7-14 8 20" fill="none" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="18" cy="42" r="2.6" fill="currentColor"/><circle cx="31" cy="36" r="2.6" fill="currentColor"/><circle cx="38" cy="22" r="2.6" fill="var(--gold)"/>`,
+  c5:`<polygon points="32,17 36.5,27 47.5,28.2 39.2,35.6 41.5,46.5 32,41 22.5,46.5 24.8,35.6 16.5,28.2 27.5,27" fill="var(--gold)" fill-opacity=".28" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="32" cy="33" r="3.2" fill="var(--accent)"/>`,
+  c10:`<polygon points="32,16 37,25 47,26 40,33 42,43 32,38 22,43 24,33 17,26 27,25" fill="var(--accent)" fill-opacity=".22" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M23 47h18" stroke="var(--gold)" stroke-width="2.6" stroke-linecap="round"/><circle cx="32" cy="31" r="3" fill="var(--gold)"/>`,
+  star3:`<polygon points="20,39 22,34 18,31 23,31 25,26 27,31 32,31 28,34 30,39 25,36" fill="var(--gold)" stroke="currentColor" stroke-width="1.4"/><polygon points="32,29 34.2,23.5 29.5,20 35.3,20 37.5,14.5 39.7,20 45.5,20 40.8,23.5 43,29 37.5,25.5" fill="var(--gold)" stroke="currentColor" stroke-width="1.4" transform="translate(-5.5,4)"/><polygon points="39,41 41,36 37,33 42,33 44,28 46,33 51,33 47,36 49,41 44,38" fill="var(--gold)" stroke="currentColor" stroke-width="1.4" transform="translate(-2,-2)"/>`,
+  boss:`<path d="M20 46L44 20M44 46L20 20" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="M18 42l6 6M46 42l-6 6" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round"/><polygon points="32,17 37,24 32,31 27,24" fill="var(--gold)" stroke="currentColor" stroke-width="1.8"/>`,
+  scan:`<line x1="14" y1="34" x2="50" y2="34" stroke="currentColor" stroke-width="1.6" stroke-dasharray="3 2"/><path d="M15 24c4 0 5 20 9 20s5-20 9-20 5 20 9 20 5-16 8-16" fill="none" stroke="var(--qx)" stroke-width="2.4"/><circle cx="20" cy="34" r="3" fill="var(--accent)"/><circle cx="29" cy="34" r="3" fill="var(--accent)"/><circle cx="38" cy="34" r="3" fill="var(--accent)"/>`,
+  brk:`<path d="M19 22v24M45 22v24M19 34h26" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><path d="M25 26l-6 8 6 8M39 26l6 8-6 8" fill="none" stroke="var(--qx)" stroke-width="2"/><circle cx="32" cy="34" r="3.6" fill="var(--accent)"/>`,
+  web:`<line x1="16" y1="48" x2="48" y2="20" stroke="currentColor" stroke-width="1.6" stroke-dasharray="3 2"/><path d="M16 44q14-20 32-18" fill="none" stroke="var(--qy)" stroke-width="2.2"/><path d="M21 44v-11h11v-7h6v-3" fill="none" stroke="var(--accent)" stroke-width="2"/><circle cx="38" cy="23" r="3" fill="var(--gold)"/>`,
+  tan:`<path d="M16 47q12-4 28-29" fill="none" stroke="var(--qx)" stroke-width="2.4"/><line x1="20" y1="45" x2="47" y2="22" stroke="var(--accent)" stroke-width="2.2"/><line x1="14" y1="45" x2="50" y2="45" stroke="currentColor" stroke-width="1.6"/><circle cx="20" cy="45" r="3" fill="var(--gold)"/><circle cx="40" cy="28" r="2.8" fill="var(--qx)"/>`,
+  elim:`<path d="M20 20h-4v28h4M44 20h4v28h-4" fill="none" stroke="currentColor" stroke-width="2.4"/><rect x="22" y="23" width="6" height="6" fill="var(--gold)"/><rect x="30" y="31" width="6" height="6" fill="var(--gold)"/><rect x="38" y="39" width="4" height="6" fill="var(--gold)"/><circle cx="25" cy="41" r="2.2" fill="var(--accent)"/>`,
+  pivot:`<circle cx="29" cy="31" r="10" fill="none" stroke="currentColor" stroke-width="2.4"/><line x1="36.5" y1="38.5" x2="46" y2="48" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/><text x="29" y="35" text-anchor="middle" font-family="var(--f-mono)" font-size="11" font-weight="700" fill="var(--qx)">ε</text>`,
+  race:`<path d="M17 28h26l-5-5M47 40H21l5 5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="43" cy="28" r="2.8" fill="var(--qy)"/><circle cx="21" cy="40" r="2.8" fill="var(--accent)"/>`,
+  lu:`<polygon points="17,21 17,46 42,46" fill="var(--qx)" fill-opacity=".35" stroke="var(--qx)" stroke-width="2.2" stroke-linejoin="round"/><polygon points="22,19 47,19 47,44" fill="var(--gold)" fill-opacity=".35" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>`,
+  ln:`<line x1="16" y1="45" x2="48" y2="22" stroke="var(--accent)" stroke-width="2.4" stroke-linecap="round"/><circle cx="19" cy="39" r="2.6" fill="var(--qx)"/><circle cx="27" cy="41" r="2.6" fill="var(--qx)"/><circle cx="35" cy="28" r="2.6" fill="var(--qx)"/><circle cx="44" cy="21" r="2.6" fill="var(--qx)"/>`,
+  deg:`<path d="M16 46L48 22" stroke="currentColor" stroke-width="1.8" stroke-dasharray="3 2"/><path d="M16 46c8-18 20-26 32-24" fill="none" stroke="var(--qx)" stroke-width="2.5"/><circle cx="32" cy="28" r="3" fill="var(--gold)"/>`,
+  wig:`<path d="M14 42c3-18 6 14 9-14s6 18 9-12 6 20 9-10 5 16 8-6" fill="none" stroke="var(--qe)" stroke-width="2.3" stroke-linecap="round"/><circle cx="32" cy="34" r="2.5" fill="currentColor"/>`,
+  slp:`<path d="M16 45q16-6 32-24" fill="none" stroke="var(--qx)" stroke-width="2.4"/><line x1="21" y1="44" x2="45" y2="22" stroke="var(--accent)" stroke-width="2.2"/><circle cx="32" cy="34" r="3" fill="var(--gold)"/>`,
+  trz:`<path d="M16 45h32M16 45V33l10-6v18M26 27l11-5v23M37 22l11 4v19" fill="var(--gold)" fill-opacity=".35" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/><path d="M16 33q16-14 32-7" fill="none" stroke="var(--qx)" stroke-width="2.2"/>`,
+  smp:`<path d="M16 45V34q16-22 32-4v15Z" fill="var(--qy)" fill-opacity=".3" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/><circle cx="16" cy="34" r="2.5" fill="var(--accent)"/><circle cx="32" cy="24" r="2.5" fill="var(--accent)"/><circle cx="48" cy="30" r="2.5" fill="var(--accent)"/>`,
+  mid:`<rect x="17" y="30" width="9" height="15" fill="var(--qx)" fill-opacity=".35" stroke="currentColor" stroke-width="1.8"/><rect x="27" y="23" width="10" height="22" fill="var(--qx)" fill-opacity=".35" stroke="currentColor" stroke-width="1.8"/><rect x="38" y="27" width="9" height="18" fill="var(--qx)" fill-opacity=".35" stroke="currentColor" stroke-width="1.8"/><circle cx="21.5" cy="30" r="2.2" fill="var(--accent)"/><circle cx="32" cy="23" r="2.2" fill="var(--accent)"/><circle cx="42.5" cy="27" r="2.2" fill="var(--accent)"/>`,
+  gss:`<line x1="15" y1="45" x2="49" y2="45" stroke="currentColor" stroke-width="1.8"/><path d="M16 45q16-30 32 0" fill="var(--gold)" fill-opacity=".32" stroke="var(--qx)" stroke-width="2.2"/><line x1="25" y1="45" x2="25" y2="29" stroke="var(--accent)" stroke-width="2.2"/><line x1="39" y1="45" x2="39" y2="29" stroke="var(--accent)" stroke-width="2.2"/><circle cx="25" cy="29" r="2.6" fill="var(--accent)"/><circle cx="39" cy="29" r="2.6" fill="var(--accent)"/>`,
+  slp5:`<path d="M17 24l6-3M17 34l6-2M17 44l6-1M29 22l6-2M29 33l6-1M29 44l6 0" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M17 44l12-10 17-12" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="46" cy="22" r="2.8" fill="var(--gold)"/>`,
+  rk4:`<path d="M16 44c6-12 18-20 32-22" fill="none" stroke="var(--qx)" stroke-width="2.4"/><circle cx="16" cy="44" r="2.5" fill="currentColor"/><circle cx="27" cy="32" r="2.6" fill="var(--gold)"/><circle cx="37" cy="25" r="2.6" fill="var(--accent)"/><circle cx="48" cy="22" r="2.8" fill="var(--qy)"/>`,
+  bvp:`<line x1="16" y1="26" x2="16" y2="44" stroke="currentColor" stroke-width="2.4"/><line x1="48" y1="26" x2="48" y2="44" stroke="currentColor" stroke-width="2.4"/><path d="M16 32q16 14 32 0" fill="none" stroke="var(--qx)" stroke-width="2.4"/><circle cx="24" cy="36" r="2.3" fill="var(--gold)"/><circle cx="32" cy="39" r="2.6" fill="var(--accent)"/><circle cx="40" cy="36" r="2.3" fill="var(--gold)"/>`
+};
+function badgeSVG(b){
+  const icon=BADGE_ICONS[b[0]]||`<text x="32" y="39" text-anchor="middle" font-family="var(--f-disp)" font-weight="700" font-size="18" fill="currentColor">${b[3]}</text>`;
+  return `<svg class="medal-svg" viewBox="0 0 64 68" role="img" aria-hidden="true">
+    <polygon class="m-outer" points="32,3 59,18 59,50 32,65 5,50 5,18"/>
+    <polygon class="m-inner" points="32,8 54,20 54,48 32,60 10,48 10,20"/>
+    ${icon}
+  </svg>`;
+}
 function renderBadges(){
   const el=$('#badges');if(!el)return;
-  el.innerHTML=BADGES.map(b=>`<div class="badge ${S.badges[b[0]]?'got':''}"><div class="medal">${b[3]}</div><b>${b[1]}</b><span>${b[2]}</span></div>`).join('');
+  el.innerHTML=BADGES.map(b=>`<div class="badge ${S.badges[b[0]]?'got':''}"><div class="medal">${badgeSVG(b)}</div><b>${b[1]}</b><span>${b[2]}</span></div>`).join('');
 }
 
 // NumQuest World 1 Content — Root Hunters
