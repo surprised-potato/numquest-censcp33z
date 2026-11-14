@@ -1127,14 +1127,14 @@ ${hz(GRAIN.x.map(v=>v.toFixed(3)),GRAIN.y,'Diameter (mm)','Strength (MPa)')}
 <div class="wx">
 <div class="wx-head"><div><b>Worked example: 28-day concrete strength vs water-cement ratio</b></div></div>
 <div class="wx-grid">
-<figure class="wx-fig"><svg class="plot" viewBox="0 0 440 240" role="img" aria-label="Concrete strength vs water-cement ratio showing least-squares line and vertical residuals"><line x1="42" y1="16" x2="42" y2="212" stroke="var(--ink)" stroke-width="1.4"/><line x1="42" y1="212" x2="424" y2="212" stroke="var(--ink)" stroke-width="1.4"/><line x1="82.2" y1="35.6" x2="82.2" y2="37.2" stroke="var(--qe)" stroke-width="2"/><line x1="132.5" y1="61.7" x2="132.5" y2="63.1" stroke="var(--qe)" stroke-width="2"/><line x1="182.7" y1="87.9" x2="182.7" y2="89.0" stroke="var(--qe)" stroke-width="2"/><line x1="233.0" y1="120.5" x2="233.0" y2="114.9" stroke="var(--qe)" stroke-width="2"/><line x1="283.3" y1="140.1" x2="283.3" y2="140.8" stroke="var(--qe)" stroke-width="2"/><line x1="333.5" y1="172.8" x2="333.5" y2="166.7" stroke="var(--qe)" stroke-width="2"/><line x1="383.8" y1="185.9" x2="383.8" y2="192.6" stroke="var(--qe)" stroke-width="2"/><line x1="62.1" y1="26.9" x2="403.9" y2="203.0" stroke="var(--good)" stroke-width="2.6"/><circle cx="82.2" cy="35.6" r="4.5" fill="var(--qx)" stroke="var(--plot)" stroke-width="1.2"/><circle cx="132.5" cy="61.7" r="4.5" fill="var(--qx)" stroke="var(--plot)" stroke-width="1.2"/><circle cx="182.7" cy="87.9" r="4.5" fill="var(--qx)" stroke="var(--plot)" stroke-width="1.2"/><circle cx="233.0" cy="120.5" r="4.5" fill="var(--qx)" stroke="var(--plot)" stroke-width="1.2"/><circle cx="283.3" cy="140.1" r="4.5" fill="var(--qx)" stroke="var(--plot)" stroke-width="1.2"/><circle cx="333.5" cy="172.8" r="4.5" fill="var(--qx)" stroke="var(--plot)" stroke-width="1.2"/><circle cx="383.8" cy="185.9" r="4.5" fill="var(--qx)" stroke="var(--plot)" stroke-width="1.2"/><text x="82.2" y="232" text-anchor="middle">0.40</text><text x="233.0" y="232" text-anchor="middle">0.55</text><text x="383.8" y="232" text-anchor="middle">0.70</text><text x="36" y="189.9" text-anchor="end">24</text><text x="36" y="111.5" text-anchor="end">36</text><text x="36" y="33.1" text-anchor="end">48</text><text x="253.1" y="34" style="fill:var(--good);font-weight:700">y = 78.46 - 79.29x (r^2 = 0.9927)</text><text x="142.5" y="120.5" style="fill:var(--qe);font-size:10px">residuals ei</text></svg><figcaption>Vertical red spikes show residuals $e_i = y_i - \hat{y}_i$ minimised across all 7 cylinders.</figcaption></figure>
+<figure class="wx-fig"><svg class="plot" viewBox="0 0 440 240" role="img" aria-label="Concrete strength vs water-cement ratio showing least-squares line and vertical residuals"><line x1="42" y1="16" x2="42" y2="212" stroke="var(--ink)" stroke-width="1.4"/><line x1="42" y1="212" x2="424" y2="212" stroke="var(--ink)" stroke-width="1.4"/><line x1="82.2" y1="35.6" x2="82.2" y2="37.2" stroke="var(--qe)" stroke-width="2"/><line x1="132.5" y1="61.7" x2="132.5" y2="63.1" stroke="var(--qe)" stroke-width="2"/><line x1="182.7" y1="87.9" x2="182.7" y2="89.0" stroke="var(--qe)" stroke-width="2"/><line x1="233.0" y1="120.5" x2="233.0" y2="114.9" stroke="var(--qe)" stroke-width="2"/><line x1="283.3" y1="140.1" x2="283.3" y2="140.8" stroke="var(--qe)" stroke-width="2"/><line x1="333.5" y1="172.8" x2="333.5" y2="166.7" stroke="var(--qe)" stroke-width="2"/><line x1="383.8" y1="185.9" x2="383.8" y2="192.6" stroke="var(--qe)" stroke-width="2"/><line x1="62.1" y1="26.9" x2="403.9" y2="203.0" stroke="var(--good)" stroke-width="2.6"/><circle cx="82.2" cy="35.6" r="4.5" fill="var(--qx)" stroke="var(--plot)" stroke-width="1.2"/><circle cx="132.5" cy="61.7" r="4.5" fill="var(--qx)" stroke="var(--plot)" stroke-width="1.2"/><circle cx="182.7" cy="87.9" r="4.5" fill="var(--qx)" stroke="var(--plot)" stroke-width="1.2"/><circle cx="233.0" cy="120.5" r="4.5" fill="var(--qx)" stroke="var(--plot)" stroke-width="1.2"/><circle cx="283.3" cy="140.1" r="4.5" fill="var(--qx)" stroke="var(--plot)" stroke-width="1.2"/><circle cx="333.5" cy="172.8" r="4.5" fill="var(--qx)" stroke="var(--plot)" stroke-width="1.2"/><circle cx="383.8" cy="185.9" r="4.5" fill="var(--qx)" stroke="var(--plot)" stroke-width="1.2"/><text x="82.2" y="232" text-anchor="middle">0.40</text><text x="233.0" y="232" text-anchor="middle">0.55</text><text x="383.8" y="232" text-anchor="middle">0.70</text><text x="36" y="189.9" text-anchor="end">24</text><text x="36" y="111.5" text-anchor="end">36</text><text x="36" y="33.1" text-anchor="end">48</text><text x="253.1" y="34" style="fill:var(--good);font-weight:700">y = 78.46 - 79.29x (r^2 = 0.9927)</text><text x="142.5" y="120.5" style="fill:var(--qe);font-size:10px">residuals ei</text></svg><figcaption>Vertical red spikes show residuals $e_i = y_i - \\hat{y}_i$ minimised across all 7 cylinders.</figcaption></figure>
 <div>
 <ol class="wx-steps">
-<li><b>Sums ($n=7$):</b> $\sum x = ${LC.sx.toFixed(2)}$, $\sum y = ${LC.sy}$, $\sum xy = ${LC.sxy.toFixed(2)}$, $\sum x^2 = ${LC.sxx.toFixed(4)}$.</li>
-<li><b>Slope:</b> $a_1 = (7\cdot 117.15 - 3.85\cdot 244)/(7\cdot 2.1875 - 3.85^2) = -79.2857\text{ MPa}$.</li>
-<li><b>Intercept:</b> $a_0 = 34.8571 - (-79.2857)(0.55) = 78.4643\text{ MPa}$.</li>
+<li><b>Sums ($n=7$):</b> $\\sum x = ${LC.sx.toFixed(2)}$, $\sum y = ${LC.sy}$, $\\sum xy = ${LC.sxy.toFixed(2)}$, $\sum x^2 = ${LC.sxx.toFixed(4)}$.</li>
+<li><b>Slope:</b> $a_1 = (7\\cdot 117.15 - 3.85\\cdot 244)/(7\\cdot 2.1875 - 3.85^2) = -79.2857\\text{ MPa}$.</li>
+<li><b>Intercept:</b> $a_0 = 34.8571 - (-79.2857)(0.55) = 78.4643\\text{ MPa}$.</li>
 </ol>
-<div class="wx-ans">$\hat{y} = 78.46 - 79.29x$ &nbsp;·&nbsp; $r^2 = 0.9927$</div>
+<div class="wx-ans">$\\hat{y} = 78.46 - 79.29x$ &nbsp;·&nbsp; $r^2 = 0.9927$</div>
 </div>
 </div>
 </div>
@@ -1171,24 +1171,24 @@ SEC.curve=`
 
 <section class="sec"><h2><span class="no">B</span>The quadratic normal equations</h2>
 <div class="prose"><p>Differentiate $S_{r}$ with respect to $a_{0}, a_{1}$ and $a_{2}$ and set each to zero:</p>
-<div class="formula">$$\begin{bmatrix}n&\sum x&\sum x^{2}\\\sum x&\sum x^{2}&\sum x^{3}\\\sum x^{2}&\sum x^{3}&\sum x^{4}\end{bmatrix}\begin{bmatrix}a_0\\a_1\\a_2\end{bmatrix}=\begin{bmatrix}\sum y\\\sum xy\\\sum x^{2}y\end{bmatrix}$$</div></div>
+<div class="formula">$$\\begin{bmatrix}n&\\sum x&\\sum x^{2}\\\sum x&\\sum x^{2}&\\sum x^{3}\\\sum x^{2}&\\sum x^{3}&\\sum x^{4}\\end{bmatrix}\\begin{bmatrix}a_0\\a_1\\a_2\\end{bmatrix}=\\begin{bmatrix}\\sum y\\\sum xy\\\sum x^{2}y\\end{bmatrix}$$</div></div>
 <div class="wx">
 <div class="wx-head"><div><b>Worked example: grain-size strength quadratic fit</b></div></div>
 <div class="wx-grid">
 <figure class="wx-fig"><svg class="plot" viewBox="0 0 440 240" role="img" aria-label="Quadratic least-squares curve fitting decaying grain strength data"><line x1="42" y1="16" x2="42" y2="212" stroke="var(--ink)" stroke-width="1.4"/><line x1="42" y1="212" x2="424" y2="212" stroke="var(--ink)" stroke-width="1.4"/><polyline points="42.0,48.9 48.4,55.9 54.7,62.7 61.1,69.4 67.5,75.8 73.8,82.1 80.2,88.3 86.6,94.2 92.9,100.0 99.3,105.6 105.7,111.0 112.0,116.2 118.4,121.3 124.8,126.2 131.1,130.9 137.5,135.4 143.9,139.8 150.2,144.0 156.6,148.0 163.0,151.8 169.3,155.5 175.7,158.9 182.1,162.3 188.4,165.4 194.8,168.3 201.2,171.1 207.5,173.7 213.9,176.1 220.3,178.4 226.6,180.5 233.0,182.3 239.4,184.1 245.7,185.6 252.1,187.0 258.5,188.2 264.8,189.2 271.2,190.0 277.6,190.7 283.9,191.2 290.3,191.5 296.7,191.6 303.0,191.6 309.4,191.4 315.8,191.0 322.1,190.4 328.5,189.7 334.9,188.7 341.2,187.6 347.6,186.4 354.0,184.9 360.3,183.3 366.7,181.5 373.1,179.5 379.4,177.4 385.8,175.0 392.2,172.5 398.5,169.8 404.9,167.0" fill="none" stroke="var(--good)" stroke-width="2.6"/><circle cx="57.9" cy="32.3" r="4.5" fill="var(--qx)"/><circle cx="70.7" cy="92.2" r="4.5" fill="var(--qx)"/><circle cx="92.9" cy="108.6" r="4.5" fill="var(--qx)"/><circle cx="121.6" cy="149.9" r="4.5" fill="var(--qx)"/><circle cx="169.3" cy="158.6" r="4.5" fill="var(--qx)"/><circle cx="239.4" cy="168.4" r="4.5" fill="var(--qx)"/><circle cx="312.6" cy="179.3" r="4.5" fill="var(--qx)"/><circle cx="392.2" cy="182.6" r="4.5" fill="var(--qx)"/><text x="105.7" y="232" text-anchor="middle">0.02</text><text x="233.0" y="232" text-anchor="middle">0.06</text><text x="360.3" y="232" text-anchor="middle">0.10 mm</text><text x="36" y="183.3" text-anchor="end">70</text><text x="36" y="107.1" text-anchor="end">140</text><text x="36" y="30.9" text-anchor="end">210</text><text x="239.4" y="36" text-anchor="middle" style="fill:var(--good);font-weight:700">y = 189.8 - 3256x + 20213x^2</text></svg><figcaption>The parabola captures the steep decay at small grain diameters where a line fails ($r^2 = 0.958$ vs $0.66$).</figcaption></figure>
 <div>
 <ol class="wx-steps">
-<li><b>Normal system:</b> $n=8, \sum x=0.352, \sum y=893, \sum x^2=0.025756$.</li>
-<li><b>Fitted model:</b> $\hat{y} = 189.80 - 3255.6x + 20212.7x^2$.</li>
-<li><b>Resample clean grid:</b> $0.017\text{ to }0.033\text{ mm}$ feeds stage 3-4 differentiation.</li>
+<li><b>Normal system:</b> $n=8, \\sum x=0.352, \\sum y=893, \\sum x^2=0.025756$.</li>
+<li><b>Fitted model:</b> $\\hat{y} = 189.80 - 3255.6x + 20212.7x^2$.</li>
+<li><b>Resample clean grid:</b> $0.017\\text{ to }0.033\\text{ mm}$ feeds stage 3-4 differentiation.</li>
 </ol>
-<div class="wx-ans">$\hat{y} = 189.80 - 3255.6\,x + 20212.7\,x^2$</div>
+<div class="wx-ans">$\\hat{y} = 189.80 - 3255.6\\,x + 20212.7\\,x^2$</div>
 </div>
 </div>
 </div>
 ${hz([0.017,0.021,0.025,0.029,0.033],[0.017,0.021,0.025,0.029,0.033].map(v=>fmt(grainP2.f(v),2)),'Diameter (mm)','Strength (MPa)')}
 <div class="stage-viz" data-viz="w3-overfit-dof"></div>
-<div class="callout prof"><span class="tag">Prof says</span><p>Look at those coefficients: 20212 on $x^{2}, 3255$ on $x$. They are huge only because $x$ is tiny, around 0.01. Matrix entries like $\sum x^{4} = 0.0002$ are also tiny, so the system is touchy. Rescaling $x$ (for example to micrometres) keeps the numbers friendly.</p></div>
+<div class="callout prof"><span class="tag">Prof says</span><p>Look at those coefficients: 20212 on $x^{2}, 3255$ on $x$. They are huge only because $x$ is tiny, around 0.01. Matrix entries like $\\sum x^{4} = 0.0002$ are also tiny, so the system is touchy. Rescaling $x$ (for example to micrometres) keeps the numbers friendly.</p></div>
 </section>
 
 <section class="sec"><h2><span class="no">C</span>Measuring a polynomial fit</h2>
@@ -1227,19 +1227,19 @@ ${hz(VISC.x,VISC.y,'T (°C)','$\\nu$ ($\\times 10^{-6}$ $\\mathrm{m}^{2}/\\mathr
 
 <section class="sec"><h2><span class="no">B</span>Newton’s polynomial</h2>
 <div class="prose"><p>Newton’s form adds one term for each new point, so earlier work is never wasted:</p>
-<div class="formula">$$P(x)=b_0+b_1(x-x_0)+b_2(x-x_0)(x-x_1)+b_3(x-x_0)(x-x_1)(x-x_2)+\cdots$$</div></div>
+<div class="formula">$$P(x)=b_0+b_1(x-x_0)+b_2(x-x_0)(x-x_1)+b_3(x-x_0)(x-x_1)(x-x_2)+\\cdots$$</div></div>
 ${ddTable}
 <div class="wx">
-<div class="wx-head"><div><b>Worked example: water kinematic viscosity at $T = 17\,^\circ\text{C}$</b></div></div>
+<div class="wx-head"><div><b>Worked example: water kinematic viscosity at $T = 17\\,^\\circ\\text{C}$</b></div></div>
 <div class="wx-grid">
 <figure class="wx-fig"><svg class="plot" viewBox="0 0 440 240" role="img" aria-label="Newton quadratic vs linear interpolation for water viscosity at 17 C"><line x1="46" y1="16" x2="46" y2="212" stroke="var(--ink)" stroke-width="1.4"/><line x1="46" y1="212" x2="424" y2="212" stroke="var(--ink)" stroke-width="1.4"/><line x1="185.3" y1="98.7" x2="284.7" y2="151.6" stroke="var(--qh)" stroke-width="1.8" stroke-dasharray="5 3"/><polyline points="85.8,32.9 95.7,40.0 105.7,47.1 115.6,54.0 125.6,60.8 135.5,67.4 145.5,73.9 155.4,80.3 165.4,86.6 175.3,92.7 185.3,98.7 195.2,104.6 205.2,110.3 215.1,115.9 225.1,121.4 235.0,126.8 244.9,132.0 254.9,137.1 264.8,142.1 274.8,146.9 284.7,151.6 294.7,156.2 304.6,160.7 314.6,165.0 324.5,169.2 334.5,173.2 344.4,177.2 354.4,181.0 364.3,184.7 374.3,188.2 384.2,191.6" fill="none" stroke="var(--good)" stroke-width="2.5"/><circle cx="85.8" cy="32.9" r="4.5" fill="var(--qx)"/><circle cx="185.3" cy="98.7" r="4.5" fill="var(--qx)"/><circle cx="284.7" cy="151.6" r="4.5" fill="var(--qx)"/><circle cx="225.1" cy="121.4" r="5.5" fill="var(--qe)" stroke="var(--plot)" stroke-width="1.5"/><text x="233.1" y="113.4" style="fill:var(--qe);font-weight:700">T=17: 1.08104</text><text x="85.8" y="232" text-anchor="middle">10 C</text><text x="185.3" y="232" text-anchor="middle">15 C</text><text x="284.7" y="232" text-anchor="middle">20 C</text><text x="384.2" y="232" text-anchor="middle">25 C</text><text x="40" y="153.2" text-anchor="end">1.0</text><text x="40" y="35.6" text-anchor="end">1.3</text></svg><figcaption>Quadratic curve through $(10,1.307)$, $(15,1.139)$, $(20,1.004)$ drops smoothly under the dashed linear chord.</figcaption></figure>
 <div>
 <ol class="wx-steps">
 <li><b>Read top diagonal:</b> $b_0=1.307$, $b_1=-0.0336$, $b_2=0.00066$.</li>
 <li><b>Substitute $T=17$:</b> $1.307 - 0.0336(7) + 0.00066(7)(2) = 1.08104$.</li>
-<li><b>4-point upgrade:</b> add $b_3(7)(2)(-3) = +0.000504 \Rightarrow 1.08154$.</li>
+<li><b>4-point upgrade:</b> add $b_3(7)(2)(-3) = +0.000504 \\Rightarrow 1.08154$.</li>
 </ol>
-<div class="wx-ans">$\nu(17\,^\circ\text{C}) = 1.08104 \times 10^{-6}\text{ m}^2/\text{s}$ (vs linear $1.0850$)</div>
+<div class="wx-ans">$\\nu(17\\,^\\circ\\text{C}) = 1.08104 \\times 10^{-6}\\text{ m}^2/\\text{s}$ (vs linear $1.0850$)</div>
 </div>
 </div>
 </div>
@@ -1292,28 +1292,28 @@ ${rowT(['$h$','Forward','Backward','Central','Central error'],diffRows)}
 <section class="sec"><h2><span class="no">D</span>More points, higher derivatives</h2>
 <div class="prose"><p>Using more neighbours gives higher accuracy. Subscripts are offsets from $x_{i}$:</p></div>
 ${rowT(['Formula','Expression','Error'],[
- ['3-point forward $f^{\prime}$','$\dfrac{-3f_0+4f_1-f_2}{2h}$','$O(h^{2})$'],
- ['3-point backward $f^{\prime}$','$\dfrac{3f_0-4f_{-1}+f_{-2}}{2h}$','$O(h^{2})$'],
- ['5-point central $f^{\prime}$ <span class="cm">(4 neighbours)</span>','$\dfrac{f_{-2}-8f_{-1}+8f_1-f_2}{12h}$','$O(h^{4})$'],
- ['3-point central $f^{\prime\prime}$','$\dfrac{f_{-1}-2f_0+f_1}{h^{2}}$','$O(h^{2})$'],
- ['5-point central $f^{\prime\prime}$','$\dfrac{-f_{-2}+16f_{-1}-30f_0+16f_1-f_2}{12h^{2}}$','$O(h^{4})$'],
- ['Central $f^{\prime\prime\prime}$','$\dfrac{f_2-2f_1+2f_{-1}-f_{-2}}{2h^{3}}$','$O(h^{2})$']])}
+ ['3-point forward $f^{\\prime}$','$\\dfrac{-3f_0+4f_1-f_2}{2h}$','$O(h^{2})$'],
+ ['3-point backward $f^{\\prime}$','$\\dfrac{3f_0-4f_{-1}+f_{-2}}{2h}$','$O(h^{2})$'],
+ ['5-point central $f^{\\prime}$ <span class="cm">(4 neighbours)</span>','$\\dfrac{f_{-2}-8f_{-1}+8f_1-f_2}{12h}$','$O(h^{4})$'],
+ ['3-point central $f^{\\prime\\prime}$','$\\dfrac{f_{-1}-2f_0+f_1}{h^{2}}$','$O(h^{2})$'],
+ ['5-point central $f^{\\prime\\prime}$','$\\dfrac{-f_{-2}+16f_{-1}-30f_0+16f_1-f_2}{12h^{2}}$','$O(h^{4})$'],
+ ['Central $f^{\\prime\\prime\\prime}$','$\\dfrac{f_2-2f_1+2f_{-1}-f_{-2}}{2h^{3}}$','$O(h^{2})$']])}
 <div class="wx">
-<div class="wx-head"><div><b>Worked example: particle velocity at boundary $t = 5.0\text{ s}$ ($h = 0.2\text{ s}$)</b></div></div>
+<div class="wx-head"><div><b>Worked example: particle velocity at boundary $t = 5.0\\text{ s}$ ($h = 0.2\\text{ s}$)</b></div></div>
 <div class="wx-grid">
-<figure class="wx-fig"><svg class="plot" viewBox="0 0 440 240" role="img" aria-label="3-point forward difference tangent slope 6.65 mm/s vs 2-point chord 6.10 mm/s"><polyline points="62.5,215.3 76.1,206.1 89.8,196.9 103.4,187.9 117.0,179.1 130.7,170.4 144.3,161.8 158.0,153.5 171.6,145.2 185.2,137.1 198.9,129.2 212.5,121.4 226.2,113.7 239.8,106.2 253.5,98.9 267.1,91.7 280.8,84.6 294.4,77.7 308.0,70.9 321.7,64.3 335.3,57.9 349.0,51.5 362.6,45.4 376.3,39.4 389.9,33.5" fill="none" stroke="var(--qx)" stroke-width="2.5"/><line x1="96.6" y1="192.4" x2="233.0" y2="109.9" stroke="var(--qh)" stroke-width="2" stroke-dasharray="5 3"/><line x1="96.6" y1="192.4" x2="267.1" y2="80.0" stroke="var(--qe)" stroke-width="2.4"/><circle cx="96.6" cy="192.4" r="5" fill="var(--ink)"/><circle cx="233.0" cy="109.9" r="4.5" fill="var(--qx)"/><circle cx="369.4" cy="42.4" r="4.5" fill="var(--qx)"/><text x="219.4" y="74.0" style="fill:var(--qe);font-weight:700">3-pt tangent = 6.65 mm/s</text><text x="178.4" y="161.3" style="fill:var(--qh);font-weight:600">2-pt chord = 6.10</text><text x="96.6" y="232" text-anchor="middle">5.0 s</text><text x="233.0" y="232" text-anchor="middle">5.2 s</text><text x="369.4" y="232" text-anchor="middle">5.4 s</text></svg><figcaption>Three-point forward stencil uses curvature from $(5.4, 4.31)$ to sharpen the boundary slope from $6.10$ to $6.65\text{ mm/s}$.</figcaption></figure>
+<figure class="wx-fig"><svg class="plot" viewBox="0 0 440 240" role="img" aria-label="3-point forward difference tangent slope 6.65 mm/s vs 2-point chord 6.10 mm/s"><polyline points="62.5,215.3 76.1,206.1 89.8,196.9 103.4,187.9 117.0,179.1 130.7,170.4 144.3,161.8 158.0,153.5 171.6,145.2 185.2,137.1 198.9,129.2 212.5,121.4 226.2,113.7 239.8,106.2 253.5,98.9 267.1,91.7 280.8,84.6 294.4,77.7 308.0,70.9 321.7,64.3 335.3,57.9 349.0,51.5 362.6,45.4 376.3,39.4 389.9,33.5" fill="none" stroke="var(--qx)" stroke-width="2.5"/><line x1="96.6" y1="192.4" x2="233.0" y2="109.9" stroke="var(--qh)" stroke-width="2" stroke-dasharray="5 3"/><line x1="96.6" y1="192.4" x2="267.1" y2="80.0" stroke="var(--qe)" stroke-width="2.4"/><circle cx="96.6" cy="192.4" r="5" fill="var(--ink)"/><circle cx="233.0" cy="109.9" r="4.5" fill="var(--qx)"/><circle cx="369.4" cy="42.4" r="4.5" fill="var(--qx)"/><text x="219.4" y="74.0" style="fill:var(--qe);font-weight:700">3-pt tangent = 6.65 mm/s</text><text x="178.4" y="161.3" style="fill:var(--qh);font-weight:600">2-pt chord = 6.10</text><text x="96.6" y="232" text-anchor="middle">5.0 s</text><text x="233.0" y="232" text-anchor="middle">5.2 s</text><text x="369.4" y="232" text-anchor="middle">5.4 s</text></svg><figcaption>Three-point forward stencil uses curvature from $(5.4, 4.31)$ to sharpen the boundary slope from $6.10$ to $6.65\\text{ mm/s}$.</figcaption></figure>
 <div>
 <ol class="wx-steps">
-<li><b>Data ($h=0.2$):</b> $f_0 = 2.09$, $f_1 = 3.31$, $f_2 = 4.31\text{ mm}$.</li>
-<li><b>Apply $O(h^2)$ stencil:</b> $\dfrac{-3(2.09) + 4(3.31) - 4.31}{2(0.2)} = \dfrac{2.66}{0.4}$.</li>
-<li><b>Compare 2-pt forward:</b> $(3.31 - 2.09)/0.2 = 6.10\text{ mm/s}$ (only $O(h)$).</li>
+<li><b>Data ($h=0.2$):</b> $f_0 = 2.09$, $f_1 = 3.31$, $f_2 = 4.31\\text{ mm}$.</li>
+<li><b>Apply $O(h^2)$ stencil:</b> $\\dfrac{-3(2.09) + 4(3.31) - 4.31}{2(0.2)} = \\dfrac{2.66}{0.4}$.</li>
+<li><b>Compare 2-pt forward:</b> $(3.31 - 2.09)/0.2 = 6.10\\text{ mm/s}$ (only $O(h)$).</li>
 </ol>
-<div class="wx-ans">$v(5.0) = 6.65\text{ mm/s}$</div>
+<div class="wx-ans">$v(5.0) = 6.65\\text{ mm/s}$</div>
 </div>
 </div>
 </div>
 <div class="stage-viz" data-viz="w3-noise-floor"></div>
-<div class="callout ce"><span class="tag">CE link</span><p>A beam’s bending moment is $M = -EI\cdot y^{\prime\prime}$. If you have measured deflections at equal spacing, the 3-point central second-derivative formula turns them into moments. You will do exactly this in the boss fight.</p></div>
+<div class="callout ce"><span class="tag">CE link</span><p>A beam’s bending moment is $M = -EI\\cdot y^{\\prime\\prime}$. If you have measured deflections at equal spacing, the 3-point central second-derivative formula turns them into moments. You will do exactly this in the boss fight.</p></div>
 </section>
 
 <section class="sec"><h2><span class="no">E</span>Uneven or noisy data</h2>

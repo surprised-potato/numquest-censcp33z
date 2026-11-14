@@ -1085,18 +1085,18 @@ SEC.trap=`
 
 <section class="sec"><h2><span class="no">C</span>Composite trapezoidal rule</h2>
 <div class="prose"><p>Cut $[a, b]$ into $N$ equal slices of width $h = (b - a)/N$, apply the rule to each slice and add. Interior heights are counted twice, because each belongs to two neighbouring trapezoids:</p>
-<div class="formula">$$I\approx\dfrac{h}{2}\left[f(a)+2\sum_{i=2}^{N} f(x_{i})+f(b)\right],\qquad h=\dfrac{b-a}{N}$$</div></div>
+<div class="formula">$$I\\approx\\dfrac{h}{2}\\left[f(a)+2\\sum_{i=2}^{N} f(x_{i})+f(b)\\right],\\qquad h=\\dfrac{b-a}{N}$$</div></div>
 <div class="wx">
 <div class="wx-head"><div><b>Worked example: Boeing 737 braking distance ($N = 10$ trapezoids)</b></div></div>
 <div class="wx-grid">
-<figure class="wx-fig"><svg class="plot" viewBox="0 0 440 240" role="img" aria-label="Composite trapezoidal rule with N=10 slices summing to 574.0855 m"><line x1="42" y1="212.0" x2="424" y2="212.0" stroke="var(--ink)" stroke-width="1.5"/><polygon class="ar" points="55.4,212.0 55.4,129.8 90.9,119.2 90.9,212.0"/><polygon class="ar" points="90.9,212.0 90.9,119.2 126.4,108.8 126.4,212.0"/><polygon class="ar" points="126.4,212.0 126.4,108.8 162.0,98.6 162.0,212.0"/><polygon class="ar" points="162.0,212.0 162.0,98.6 197.5,88.5 197.5,212.0"/><polygon class="ar" points="197.5,212.0 197.5,88.5 233.0,78.5 233.0,212.0"/><polygon class="ar" points="233.0,212.0 233.0,78.5 268.5,68.8 268.5,212.0"/><polygon class="ar" points="268.5,212.0 268.5,68.8 304.0,59.2 304.0,212.0"/><polygon class="ar" points="304.0,212.0 304.0,59.2 339.6,49.9 339.6,212.0"/><polygon class="ar" points="339.6,212.0 339.6,49.9 375.1,40.7 375.1,212.0"/><polygon class="ar" points="375.1,212.0 375.1,40.7 410.6,31.8 410.6,212.0"/><polyline points="55.4,129.8 62.1,127.8 68.8,125.8 75.5,123.8 82.2,121.8 88.9,119.8 95.6,117.9 102.3,115.9 109.0,113.9 115.7,112.0 122.4,110.0 129.1,108.1 135.8,106.1 142.5,104.2 149.2,102.2 155.9,100.3 162.6,98.4 169.3,96.5 176.0,94.6 182.7,92.7 189.4,90.8 196.1,88.9 202.8,87.0 209.5,85.1 216.2,83.2 222.9,81.3 229.6,79.5 236.4,77.6 243.1,75.8 249.8,73.9 256.5,72.1 263.2,70.3 269.9,68.4 276.6,66.6 283.3,64.8 290.0,63.0 296.7,61.2 303.4,59.4 310.1,57.6 316.8,55.9 323.5,54.1 330.2,52.3 336.9,50.6 343.6,48.8 350.3,47.1 357.0,45.4 363.7,43.6 370.4,41.9 377.1,40.2 383.8,38.5 390.5,36.8 397.2,35.1 403.9,33.5 410.6,31.8" fill="none" stroke="var(--qx)" stroke-width="2.5"/><text x="55.4" y="232" text-anchor="middle">40</text><text x="233.0" y="232" text-anchor="middle">66.5</text><text x="410.6" y="232" text-anchor="middle">93 m/s</text><text x="209.5" y="34" text-anchor="middle" style="fill:var(--good);font-weight:700">N=10 Trap = 574.0855 m</text></svg><figcaption>Ten uniform velocity slices ($|\Delta v| = 5.3\text{ m/s}$) capture $574.0855\text{ m}$ against exact $574.1494\text{ m}$.</figcaption></figure>
+<figure class="wx-fig"><svg class="plot" viewBox="0 0 440 240" role="img" aria-label="Composite trapezoidal rule with N=10 slices summing to 574.0855 m"><line x1="42" y1="212.0" x2="424" y2="212.0" stroke="var(--ink)" stroke-width="1.5"/><polygon class="ar" points="55.4,212.0 55.4,129.8 90.9,119.2 90.9,212.0"/><polygon class="ar" points="90.9,212.0 90.9,119.2 126.4,108.8 126.4,212.0"/><polygon class="ar" points="126.4,212.0 126.4,108.8 162.0,98.6 162.0,212.0"/><polygon class="ar" points="162.0,212.0 162.0,98.6 197.5,88.5 197.5,212.0"/><polygon class="ar" points="197.5,212.0 197.5,88.5 233.0,78.5 233.0,212.0"/><polygon class="ar" points="233.0,212.0 233.0,78.5 268.5,68.8 268.5,212.0"/><polygon class="ar" points="268.5,212.0 268.5,68.8 304.0,59.2 304.0,212.0"/><polygon class="ar" points="304.0,212.0 304.0,59.2 339.6,49.9 339.6,212.0"/><polygon class="ar" points="339.6,212.0 339.6,49.9 375.1,40.7 375.1,212.0"/><polygon class="ar" points="375.1,212.0 375.1,40.7 410.6,31.8 410.6,212.0"/><polyline points="55.4,129.8 62.1,127.8 68.8,125.8 75.5,123.8 82.2,121.8 88.9,119.8 95.6,117.9 102.3,115.9 109.0,113.9 115.7,112.0 122.4,110.0 129.1,108.1 135.8,106.1 142.5,104.2 149.2,102.2 155.9,100.3 162.6,98.4 169.3,96.5 176.0,94.6 182.7,92.7 189.4,90.8 196.1,88.9 202.8,87.0 209.5,85.1 216.2,83.2 222.9,81.3 229.6,79.5 236.4,77.6 243.1,75.8 249.8,73.9 256.5,72.1 263.2,70.3 269.9,68.4 276.6,66.6 283.3,64.8 290.0,63.0 296.7,61.2 303.4,59.4 310.1,57.6 316.8,55.9 323.5,54.1 330.2,52.3 336.9,50.6 343.6,48.8 350.3,47.1 357.0,45.4 363.7,43.6 370.4,41.9 377.1,40.2 383.8,38.5 390.5,36.8 397.2,35.1 403.9,33.5 410.6,31.8" fill="none" stroke="var(--qx)" stroke-width="2.5"/><text x="55.4" y="232" text-anchor="middle">40</text><text x="233.0" y="232" text-anchor="middle">66.5</text><text x="410.6" y="232" text-anchor="middle">93 m/s</text><text x="209.5" y="34" text-anchor="middle" style="fill:var(--good);font-weight:700">N=10 Trap = 574.0855 m</text></svg><figcaption>Ten uniform velocity slices ($|\\Delta v| = 5.3\\text{ m/s}$) capture $574.0855\\text{ m}$ against exact $574.1494\\text{ m}$.</figcaption></figure>
 <div>
 <ol class="wx-steps">
-<li><b>Step size:</b> $h = (40 - 93)/10 = -5.3\text{ m/s}$.</li>
-<li><b>Interior sum:</b> $\sum_{i=2}^{10} f(v_i) = ${fmt(AIR_SUM10,5)}$ m.</li>
+<li><b>Step size:</b> $h = (40 - 93)/10 = -5.3\\text{ m/s}$.</li>
+<li><b>Interior sum:</b> $\\sum_{i=2}^{10} f(v_i) = ${fmt(AIR_SUM10,5)}$ m.</li>
 <li><b>Combine:</b> $(-5.3/2)[${fmt(AIR_FA,5)}$ + ${fmt(AIR_FB,5)}$ + 2(-97.60648)]$.</li>
 </ol>
-<div class="wx-ans">$I_{10} = ${fmt(airN[1],4)}$ m$ (error $-0.0639\text{ m}$, $0.011\%$)</div>
+<div class="wx-ans">$I_{10} = ${fmt(airN[1],4)}$ m (error $-0.0639\\text{ m}$, $0.011\\%$)</div>
 </div>
 </div>
 </div>
@@ -1127,7 +1127,7 @@ SEC.simp=`
 
 <section class="sec"><h2><span class="no">B</span>Simpson’s 1/3 rule</h2>
 <div class="prose"><p>Take the two end points and the midpoint $x_{2} = (a + b)/2$. The parabola through them integrates to:</p>
-<div class="formula">$$I\approx\dfrac{h}{3}\left[f(a)+4f\!\left(\dfrac{a+b}{2}\right)+f(b)\right],\qquad h=\dfrac{b-a}{2}$$</div></div>
+<div class="formula">$$I\\approx\\dfrac{h}{3}\\left[f(a)+4f\\!\\left(\\dfrac{a+b}{2}\\right)+f(b)\\right],\\qquad h=\\dfrac{b-a}{2}$$</div></div>
 <div class="wx">
 <div class="wx-head"><div><b>Worked example: single Simpson 1/3 parabola vs trapezoid chord</b></div></div>
 <div class="wx-grid">
@@ -1136,14 +1136,14 @@ SEC.simp=`
 <ol class="wx-steps">
 <li><b>Nodes ($h = -26.5$):</b> $f(93)=-14.71027$, $f(66.5)=-10.89407$, $f(40)=-6.71280$.</li>
 <li><b>Apply 1/3 weights:</b> $(-26.5/3)[-14.71027 + 4(-10.89407) - 6.71280]$.</li>
-<li><b>Composite ($N$ even):</b> weights $1, 4, 2, 4, 2, \ldots, 4, 1$ hit $574.1494\text{ m}$ at $N=12$.</li>
+<li><b>Composite ($N$ even):</b> weights $1, 4, 2, 4, 2, \\ldots, 4, 1$ hit $574.1494\\text{ m}$ at $N=12$.</li>
 </ol>
-<div class="wx-ans">$I_{1/3} = ${fmt(RULE.s13(AF,93,40,2),4)}$ m$ (within $0.0115\text{ m}$ in one step!)</div>
+<div class="wx-ans">$I_{1/3} = ${fmt(RULE.s13(AF,93,40,2),4)}$ m (within $0.0115\\text{ m}$ in one step!)</div>
 </div>
 </div>
 </div>
 <div class="prose"><p><b>Composite form.</b> Cut the range into $N$ equal slices and apply the rule to each <i>pair</i>:</p>
-<div class="formula">$$I\approx\dfrac{h}{3}\left[f(a)+4\sum_{i=2,4,6,\ldots}^{N}f(x_{i})+2\sum_{j=3,5,7,\ldots}^{N-1}f(x_{j})+f(b)\right],\quad h=\dfrac{b-a}{N}$$</div></div>
+<div class="formula">$$I\\approx\\dfrac{h}{3}\\left[f(a)+4\\sum_{i=2,4,6,\\ldots}^{N}f(x_{i})+2\\sum_{j=3,5,7,\\ldots}^{N-1}f(x_{j})+f(b)\\right],\\quad h=\\dfrac{b-a}{N}$$</div></div>
 <div class="stage-viz" data-viz="w4-simpson-parity"></div>
 <div class="callout trap"><span class="tag">Trap!</span><p>Two conditions must hold: the slices must be <b>equally spaced</b>, and $N$ must be <b>even</b>. Count intervals, not points. Nine data points means eight intervals, which is fine.</p></div>
 </section>
@@ -1192,9 +1192,9 @@ SEC.mid=`
 <figure class="wx-fig"><svg class="plot" viewBox="0 0 440 240" role="img" aria-label="Composite midpoint bars showing balanced overshoot and undershoot errors (+0.0320 m)"><line x1="42" y1="212.0" x2="424" y2="212.0" stroke="var(--ink)" stroke-width="1.5"/><rect class="ar" x="55.4" y="124.5" width="35.5" height="87.5"/><rect class="ar" x="90.9" y="114.0" width="35.5" height="98.0"/><rect class="ar" x="126.4" y="103.7" width="35.5" height="108.3"/><rect class="ar" x="162.0" y="93.5" width="35.5" height="118.5"/><rect class="ar" x="197.5" y="83.5" width="35.5" height="128.5"/><rect class="ar" x="233.0" y="73.6" width="35.5" height="138.4"/><rect class="ar" x="268.5" y="64.0" width="35.5" height="148.0"/><rect class="ar" x="304.0" y="54.5" width="35.5" height="157.5"/><rect class="ar" x="339.6" y="45.3" width="35.5" height="166.7"/><rect class="ar" x="375.1" y="36.2" width="35.5" height="175.8"/><polyline points="55.4,129.8 62.1,127.8 68.8,125.8 75.5,123.8 82.2,121.8 88.9,119.8 95.6,117.9 102.3,115.9 109.0,113.9 115.7,112.0 122.4,110.0 129.1,108.1 135.8,106.1 142.5,104.2 149.2,102.2 155.9,100.3 162.6,98.4 169.3,96.5 176.0,94.6 182.7,92.7 189.4,90.8 196.1,88.9 202.8,87.0 209.5,85.1 216.2,83.2 222.9,81.3 229.6,79.5 236.4,77.6 243.1,75.8 249.8,73.9 256.5,72.1 263.2,70.3 269.9,68.4 276.6,66.6 283.3,64.8 290.0,63.0 296.7,61.2 303.4,59.4 310.1,57.6 316.8,55.9 323.5,54.1 330.2,52.3 336.9,50.6 343.6,48.8 350.3,47.1 357.0,45.4 363.7,43.6 370.4,41.9 377.1,40.2 383.8,38.5 390.5,36.8 397.2,35.1 403.9,33.5 410.6,31.8" fill="none" stroke="var(--qx)" stroke-width="2.5"/><text x="222.9" y="34" text-anchor="middle" style="fill:var(--good);font-weight:700">Midpoint N=10 = 574.1814 m (+0.032 m)</text><text x="55.4" y="232" text-anchor="middle">40</text><text x="233.0" y="232" text-anchor="middle">66.5</text><text x="410.6" y="232" text-anchor="middle">93 m/s</text></svg><figcaption>Each horizontal bar pivots through the panel midpoint, balancing overshoot on one side against undershoot on the other.</figcaption></figure>
 <div>
 <ol class="wx-steps">
-<li><b>Midpoints ($N=10$):</b> evaluate $f$ at $90.35, 85.05, \ldots, 42.65\text{ m/s}$.</li>
-<li><b>Midpoint result:</b> $574.1814\text{ m}$ (error $+0.0320\text{ m}$).</li>
-<li><b>Compare trapezoid:</b> $574.0855\text{ m}$ (error $-0.0639\text{ m}$, twice as big and opposite sign!).</li>
+<li><b>Midpoints ($N=10$):</b> evaluate $f$ at $90.35, 85.05, \\ldots, 42.65\\text{ m/s}$.</li>
+<li><b>Midpoint result:</b> $574.1814\\text{ m}$ (error $+0.0320\\text{ m}$).</li>
+<li><b>Compare trapezoid:</b> $574.0855\\text{ m}$ (error $-0.0639\\text{ m}$, twice as big and opposite sign!).</li>
 </ol>
 <div class="wx-ans">Exact distance sits bracketed between Trapezoid &amp; Midpoint!</div>
 </div>
@@ -1237,23 +1237,23 @@ ${rowT(['$n$','Points $t_{i}$','Weights $C_{i}$'],[1,2,3,4,5,6].map(n=>[n,GAUSS[
 
 <section class="sec"><h2><span class="no">D</span>Any interval $[a, b]$</h2>
 <div class="prose"><p>Change variables so that $[a, b]$ maps onto $[-1, 1]$:</p>
-<div class="formula">$$x=\dfrac{b-a}{2}\,t+\dfrac{b+a}{2},\qquad dx=\dfrac{b-a}{2}\,dt$$ $$\int_{a}^{b} f(x)\,dx=\dfrac{b-a}{2}\int_{-1}^{1} f\!\left(\dfrac{b-a}{2}\,t+\dfrac{b+a}{2}\right)dt\approx\dfrac{b-a}{2}\sum_{i=1}^{n}C_{i}\,f(x_{i})$$</div></div>
+<div class="formula">$$x=\\dfrac{b-a}{2}\\,t+\\dfrac{b+a}{2},\\qquad dx=\\dfrac{b-a}{2}\\,dt$$ $$\\int_{a}^{b} f(x)\\,dx=\\dfrac{b-a}{2}\\int_{-1}^{1} f\\!\\left(\\dfrac{b-a}{2}\\,t+\\dfrac{b+a}{2}\\right)dt\\approx\\dfrac{b-a}{2}\\sum_{i=1}^{n}C_{i}\\,f(x_{i})$$</div></div>
 <div class="wx">
-<div class="wx-head"><div><b>Worked example: 4-point Gauss quadrature on $\int_{0}^{3} e^{-x^2}\,dx$</b></div></div>
+<div class="wx-head"><div><b>Worked example: 4-point Gauss quadrature on $\\int_{0}^{3} e^{-x^2}\\,dx$</b></div></div>
 <div class="wx-grid">
-<figure class="wx-fig"><svg class="plot" viewBox="0 0 440 240" role="img" aria-label="4-point Gauss quadrature bars on exp(-x^2) over [0, 3]"><line x1="42" y1="212.0" x2="424" y2="212.0" stroke="var(--ink)" stroke-width="1.5"/><rect class="ar" x="35.3" y="48.8" width="66.4" height="163.2"/><rect class="ar" x="105.8" y="148.0" width="124.6" height="64.0"/><rect class="ar" x="235.7" y="209.0" width="124.6" height="3.0"/><rect class="ar" x="364.3" y="211.9" width="66.4" height="0.1"/><polyline points="42.0,41.6 48.4,42.0 54.7,43.3 61.1,45.4 67.5,48.2 73.8,51.9 80.2,56.2 86.6,61.2 92.9,66.8 99.3,72.8 105.7,79.3 112.0,86.1 118.4,93.1 124.8,100.3 131.1,107.6 137.5,114.9 143.9,122.1 150.2,129.2 156.6,136.2 163.0,142.9 169.3,149.3 175.7,155.4 182.1,161.2 188.4,166.6 194.8,171.6 201.2,176.3 207.5,180.6 213.9,184.5 220.3,188.0 226.6,191.2 233.0,194.0 239.4,196.6 245.7,198.8 252.1,200.8 258.5,202.5 264.8,204.0 271.2,205.3 277.6,206.4 283.9,207.4 290.3,208.2 296.7,208.9 303.0,209.5 309.4,209.9 315.8,210.3 322.1,210.7 328.5,210.9 334.9,211.1 341.2,211.3 347.6,211.5 354.0,211.6 360.3,211.7 366.7,211.7 373.1,211.8 379.4,211.8 385.8,211.9 392.2,211.9 398.5,211.9 404.9,211.9 411.3,212.0 417.6,212.0 424.0,212.0" fill="none" stroke="var(--qx)" stroke-width="2.5"/><circle cx="68.5" cy="48.8" r="4.5" fill="var(--qe)"/><circle cx="168.1" cy="148.0" r="4.5" fill="var(--qe)"/><circle cx="297.9" cy="209.0" r="4.5" fill="var(--qe)"/><circle cx="397.5" cy="211.9" r="4.5" fill="var(--qe)"/><text x="283.9" y="34" text-anchor="middle" style="fill:var(--good);font-weight:700">4-pt Gauss = 0.88414 (exact 0.88621)</text><text x="42.0" y="232" text-anchor="middle">0</text><text x="233.0" y="232" text-anchor="middle">1.5</text><text x="424.0" y="232" text-anchor="middle">3</text></svg><figcaption>Bar widths equal scaled weights $1.5\,C_i$; heights equal $e^{-x_i^2}$ at mapped interior Gauss nodes.</figcaption></figure>
+<figure class="wx-fig"><svg class="plot" viewBox="0 0 440 240" role="img" aria-label="4-point Gauss quadrature bars on exp(-x^2) over [0, 3]"><line x1="42" y1="212.0" x2="424" y2="212.0" stroke="var(--ink)" stroke-width="1.5"/><rect class="ar" x="35.3" y="48.8" width="66.4" height="163.2"/><rect class="ar" x="105.8" y="148.0" width="124.6" height="64.0"/><rect class="ar" x="235.7" y="209.0" width="124.6" height="3.0"/><rect class="ar" x="364.3" y="211.9" width="66.4" height="0.1"/><polyline points="42.0,41.6 48.4,42.0 54.7,43.3 61.1,45.4 67.5,48.2 73.8,51.9 80.2,56.2 86.6,61.2 92.9,66.8 99.3,72.8 105.7,79.3 112.0,86.1 118.4,93.1 124.8,100.3 131.1,107.6 137.5,114.9 143.9,122.1 150.2,129.2 156.6,136.2 163.0,142.9 169.3,149.3 175.7,155.4 182.1,161.2 188.4,166.6 194.8,171.6 201.2,176.3 207.5,180.6 213.9,184.5 220.3,188.0 226.6,191.2 233.0,194.0 239.4,196.6 245.7,198.8 252.1,200.8 258.5,202.5 264.8,204.0 271.2,205.3 277.6,206.4 283.9,207.4 290.3,208.2 296.7,208.9 303.0,209.5 309.4,209.9 315.8,210.3 322.1,210.7 328.5,210.9 334.9,211.1 341.2,211.3 347.6,211.5 354.0,211.6 360.3,211.7 366.7,211.7 373.1,211.8 379.4,211.8 385.8,211.9 392.2,211.9 398.5,211.9 404.9,211.9 411.3,212.0 417.6,212.0 424.0,212.0" fill="none" stroke="var(--qx)" stroke-width="2.5"/><circle cx="68.5" cy="48.8" r="4.5" fill="var(--qe)"/><circle cx="168.1" cy="148.0" r="4.5" fill="var(--qe)"/><circle cx="297.9" cy="209.0" r="4.5" fill="var(--qe)"/><circle cx="397.5" cy="211.9" r="4.5" fill="var(--qe)"/><text x="283.9" y="34" text-anchor="middle" style="fill:var(--good);font-weight:700">4-pt Gauss = 0.88414 (exact 0.88621)</text><text x="42.0" y="232" text-anchor="middle">0</text><text x="233.0" y="232" text-anchor="middle">1.5</text><text x="424.0" y="232" text-anchor="middle">3</text></svg><figcaption>Bar widths equal scaled weights $1.5\\,C_i$; heights equal $e^{-x_i^2}$ at mapped interior Gauss nodes.</figcaption></figure>
 <div>
 <ol class="wx-steps">
-<li><b>Map $[0,3] \leftrightarrow [-1,1]$:</b> $x = 1.5t + 1.5$, Jacobian $dx = 1.5\,dt$.</li>
+<li><b>Map $[0,3] \\leftrightarrow [-1,1]$:</b> $x = 1.5t + 1.5$, Jacobian $dx = 1.5\\,dt$.</li>
 <li><b>Nodes:</b> $x = 0.2083, 0.9900, 2.0100, 2.7917$.</li>
-<li><b>Weighted sum:</b> $1.5\sum C_i e^{-x_i^2} = 0.884136$.</li>
+<li><b>Weighted sum:</b> $1.5\\sum C_i e^{-x_i^2} = 0.884136$.</li>
 </ol>
 <div class="wx-ans">$I_4 = ${fmt(gauss(x=>Math.exp(-x*x),0,3,4),6)}$ (exact $0.886207$)</div>
 </div>
 </div>
 </div>
 <div class="stage-viz" data-viz="w4-gauss-map"></div>
-<div class="callout prof"><span class="tag">Prof says</span><p>The lecture example is a little unusual. $e^{-x^{2}}$ is almost flat at both ends of $[0, 3]$, so midpoint/trapezoid do surprisingly well there. On smooth curved integrands like the airplane or $\sin x$, Gauss wins by orders of magnitude.</p></div>
+<div class="callout prof"><span class="tag">Prof says</span><p>The lecture example is a little unusual. $e^{-x^{2}}$ is almost flat at both ends of $[0, 3]$, so midpoint/trapezoid do surprisingly well there. On smooth curved integrands like the airplane or $\\sin x$, Gauss wins by orders of magnitude.</p></div>
 <div class="callout trap"><span class="tag">Trap!</span><p>Do not forget the scale factor $(b - a)/2$. And evaluate $f$ at mapped $x_{i}$, not raw $t_{i}$.</p></div>
 </section>
 
@@ -1462,7 +1462,7 @@ function labGauss(root){
     const s=q('#gss-s'),eM=RULE.mid(F.f,F.a,F.b,n)-F.ex;
     if(st.fn==='air'&&rel<.001){s.className='status good';s.innerHTML=`<b>Within 0.001% with ${n} Gauss point${n>1?'s':''}.</b> Relative error ${rel<1e-4?rel.toExponential(2):fmt(rel,5)}%. The midpoint rule with the same ${n} evaluations is off by ${ef(eM)} m, and the trapezoid rule needed about 15 slices just to reach 0.005%.`;labDone('gss')}
     else if(st.fn==='air'){s.className='status warn';s.innerHTML=`Relative error ${fmt(rel,5)}%. The airplane integrand is smooth, so Gauss points converge quickly. Add a point. Compare the midpoint tile: same number of evaluations, far larger error.`}
-    else if(st.fn==='exp'){s.className='status';s.innerHTML=`<b>A special case.</b> $e^{-x^{2}}$ is almost flat at both ends of [0, 3], and that makes the midpoint and trapezoid rules unusually accurate. Gauss still converges, though not smoothly: the error here changes sign and does not fall at every step. Try $\sin x$ or the airplane to see Gauss’s real advantage.`}
+    else if(st.fn==='exp'){s.className='status';s.innerHTML=`<b>A special case.</b> $e^{-x^{2}}$ is almost flat at both ends of [0, 3], and that makes the midpoint and trapezoid rules unusually accurate. Gauss still converges, though not smoothly: the error here changes sign and does not fall at every step. Try $\\sin x$ or the airplane to see Gauss’s real advantage.`}
     else{s.className='status good';s.innerHTML=`Error ${ef(err)} with ${n} point${n>1?'s':''}, against ${ef(eM)} for the midpoint rule with the same number of evaluations. A polynomial would be exact up to degree ${2*n-1}. Switch to the airplane to earn the lab goal.`}
   }
   root.addEventListener('input',ev=>{if(ev.target.id==='gss-n'){st.n=+ev.target.value;draw()}});
