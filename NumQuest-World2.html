@@ -352,8 +352,37 @@ input.wrong{border-color:var(--bad)!important;background:color-mix(in srgb,var(-
   .fld input{width:110px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<style>
+/* NumQuest design-token layer & world-shared equation / matrix styling */
+:root{
+  --qx:#1c5fa8;   /* state variable x / node / axis */
+  --qy:#157a42;   /* function f(x) / true curve / output */
+  --qe:#c92a2a;   /* error / residual / pivot / singular */
+  --qh:#7048e8;   /* step h / slope / weight / derivative */
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --qx:#7fb3ff;
+    --qy:#4ade80;
+    --qe:#ff7b7b;
+    --qh:#c084fc;
+  }
+}
+:root[data-theme="dark"]{
+  --qx:#7fb3ff;
+  --qy:#4ade80;
+  --qe:#ff7b7b;
+  --qh:#c084fc;
+}
 
-/* ---------- matrices (World 2) ---------- */
+.q{font-family:var(--f-mono);font-weight:600;padding:0 3px;border-radius:2px}
+.qx{color:var(--qx)}
+.qy{color:var(--qy)}
+.qe{color:var(--qe)}
+.qh{color:var(--qh)}
+
+/* ---------- Matrices (World 2 / World 5) ---------- */
 table.mat{width:auto;margin:0 auto}
 table.mat th,table.mat td{text-align:center;padding:6px 14px;min-width:58px}
 table.mat td.aug,table.mat th.aug{border-left:3px double var(--ink)}
@@ -368,6 +397,136 @@ table.mat tr.tg td.pv{background:var(--gold)}
 .grid2 table.mat th,.grid2 table.mat td{padding:6px 10px;min-width:50px}
 .lab-plot .mw,.controls .mw{max-width:none}
 .grid2>div>.hint{margin:0 0 4px}
+
+/* ---------- Filled integration / curve areas (World 4 / World 5) ---------- */
+.ar{fill:var(--gold);fill-opacity:.42;stroke:var(--ink);stroke-width:1;stroke-opacity:.55}
+
+/* NumQuest UI parity layer: hero banner slot, worked examples, mobile stage nav, viz boxes, welcome modal */
+html.nq-embed body{padding-bottom:28px}
+html.nq-embed body::before{display:none}
+html.nq-embed .hud{top:0}
+
+.hero{min-height:210px}
+.heroart{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.heroart svg,.heroart img{width:100%;height:100%;object-fit:cover;object-position:right center;display:block}
+.tblock{position:relative;z-index:2;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(2px)}
+
+/* Guide callout with portrait */
+.callout.chief,.callout.prof{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 5%,var(--paper))}
+.callout.chief .tag,.callout.prof .tag{background:var(--accent);color:var(--on-accent)}
+.chiefline{display:flex;align-items:flex-start;gap:12px}
+.chiefface{width:56px;height:56px;flex:0 0 auto;border:2px solid var(--ink);background:var(--plot);object-fit:cover;display:block}
+.chiefline>div{min-width:0;flex:1}
+
+/* Bottom stage navigation bar */
+.stagenav{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:28px;padding-top:16px;border-top:2px solid var(--ink)}
+.stagenav .btn{min-height:38px}
+.stagenav .sn-mid{font-family:var(--f-mono);font-size:.86rem;color:var(--muted)}
+
+/* Mobile stage drawer button (shown <=960px) */
+.navtoggle{display:none;width:100%;align-items:center;justify-content:space-between;gap:10px;border:2px solid var(--ink);background:var(--paper2);color:var(--ink);padding:8px 12px;font-family:var(--f-disp);font-weight:700;font-size:1.05rem;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
+.navtoggle .nt-cur{font-weight:600;color:var(--accent);margin-left:auto;margin-right:6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:960px){
+  .shell,.lab-body,.grid2,.grid3,.mats,.row2{grid-template-columns:minmax(0,1fr)}
+  .rail{position:relative;z-index:20;padding:8px}
+  .rail,.main,.view,.sec,.lab,.ex,.callout,.hero,.wx,.tblock{min-width:0;max-width:100%}
+  .formula,.tw,pre,.katex-display,.wx-grid,.wx-steps{max-width:100%;overflow-x:auto;overflow-y:hidden}
+  .map svg{min-width:0}
+  .navtoggle{display:flex}
+  .nav{display:none;flex-direction:column;overflow-x:visible;margin-top:8px;padding-top:6px;border-top:1px dashed var(--soft)}
+  .nav.open{display:flex}
+  .nav .div,.nav .soon{display:block}
+  .nav a{white-space:normal}
+}
+
+/* Worked examples (.wx) */
+.wx{background:var(--paper);border:2px solid var(--line);padding:14px 16px;margin:12px 0}
+.wx-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.wx-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px;align-items:start;margin-top:8px}
+.wx-fig{margin:0;min-width:0}
+.wx-fig svg{width:100%;height:auto;display:block;border:2px solid var(--line);background:var(--plot)}
+.wx-fig text{font-family:var(--f-mono);font-size:11px;fill:var(--ink)}
+.wx-fig figcaption{font-size:.84rem;color:var(--muted);margin-top:6px;line-height:1.4}
+.wx-steps{margin:0;padding-left:1.35rem;min-width:0}
+.wx-steps li{margin:.42rem 0;line-height:1.5}
+.wx-ans{margin-top:10px;padding:8px 12px;background:var(--paper2);border-left:5px solid var(--good);font-family:var(--f-mono);font-size:.95rem;overflow-wrap:anywhere}
+@media (max-width:760px){.wx-grid{grid-template-columns:1fr}}
+
+/* Interactive & static concept diagrams (.viz / .stage-viz) */
+.viz{background:var(--paper);border:2px solid var(--line);padding:10px 12px;margin:12px 0 0}
+.stage-viz{margin:12px 0}
+.viz-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.viz-head b{font-family:var(--f-disp);font-size:.98rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.viz-badge{font-family:var(--f-mono);font-size:.76rem;color:var(--muted);background:var(--paper2);padding:2px 7px;border:1px solid var(--soft)}
+.viz svg.plot{border-width:1px}
+.viz-ctrl{display:flex;flex-direction:column;gap:8px;margin-top:10px;padding-top:8px;border-top:1px dashed var(--soft)}
+.viz-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:.88rem}
+.viz-row label{font-weight:600;color:var(--ink)}
+.viz-row input[type="range"]{flex:1;min-width:140px;max-width:260px}
+.viz-pills{display:flex;flex-wrap:wrap;gap:6px}
+.viz-pill{border:1.5px solid var(--line);background:var(--paper);color:var(--ink);padding:3px 9px;font-family:var(--f-mono);font-size:.8rem;cursor:pointer}
+.viz-pill:hover{background:var(--paper2)}
+.viz-pill.on{background:var(--line);color:var(--paper)}
+.viz-readout{font-family:var(--f-mono);font-size:.84rem;background:var(--paper2);padding:6px 9px;border-left:4px solid var(--line);line-height:1.45;overflow-wrap:anywhere}
+
+/* Boss visuals */
+.bossart{width:84px;height:84px;object-fit:cover;border:2px solid var(--gold);background:var(--plot);flex:0 0 auto}
+@media (max-width:560px){.bossart{width:64px;height:64px}}
+
+/* First-visit World Welcome dialog */
+#nqWelcome{position:fixed;inset:0;z-index:260;background:color-mix(in srgb,var(--hud) 78%,transparent);display:none;align-items:center;justify-content:center;padding:16px}
+#nqWelcome.open{display:flex}
+.wl-card{max-width:540px;width:100%;background:var(--paper);border:3px solid var(--ink);box-shadow:0 16px 40px var(--shadow);padding:20px 22px}
+.wl-ey{font-family:var(--f-disp);font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-size:.95rem}
+.wl-card h2{margin:4px 0 12px;font-size:2rem}
+.wl-card .wl-act{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:16px}
+
+/* NumQuest art layer: hero scrims, expedition mission deck, boss modal & defeated stamp */
+.heroin{position:relative;z-index:1;max-width:68ch}
+.scrim{position:absolute;inset:0;z-index:0;background:linear-gradient(90deg,color-mix(in srgb,var(--paper) 94%,transparent) 0%,color-mix(in srgb,var(--paper) 84%,transparent) 48%,color-mix(in srgb,var(--paper) 36%,transparent) 82%,color-mix(in srgb,var(--paper) 18%,transparent) 100%)}
+@media (max-width:680px){
+  .scrim{background:linear-gradient(180deg,color-mix(in srgb,var(--paper) 92%,transparent) 0%,color-mix(in srgb,var(--paper) 84%,transparent) 70%,color-mix(in srgb,var(--paper) 72%,transparent) 100%)}
+}
+
+/* World map subtle background art */
+.map{position:relative}
+.map.has-art::before{content:"";position:absolute;inset:0;background-image:var(--map-bg);background-size:cover;background-position:center;opacity:.14;pointer-events:none}
+.map.has-art svg{position:relative;z-index:1;background:transparent}
+
+/* Expedition stage cards (#exped) */
+.exped{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:16px}
+.xcard{background:var(--paper);border:2px solid var(--line);padding:12px 14px;display:flex;flex-direction:column;gap:8px;cursor:pointer;transition:transform .12s,border-color .12s}
+.xcard:hover{transform:translateY(-2px);border-color:var(--accent)}
+.xcard.done{border-color:var(--good)}
+.xcard-top{display:flex;align-items:center;gap:8px;justify-content:space-between}
+.xcard-no{font-family:var(--f-disp);font-weight:700;font-size:.92rem;letter-spacing:.08em;padding:1px 7px;background:var(--ink);color:var(--paper);text-transform:uppercase}
+.xcard.done .xcard-no{background:var(--gold);color:var(--on-gold)}
+.xcard h3{font-size:1.2rem;margin:0}
+.xcard-sub{font-size:.88rem;color:var(--muted);line-height:1.4;margin:0;flex:1}
+.xcard-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:6px;border-top:1px dashed var(--soft);font-family:var(--f-mono);font-size:.82rem;color:var(--muted)}
+.xboss{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 4%,var(--paper))}
+.xboss.locked{opacity:.75;border-style:dashed}
+.xboss.done{border-color:var(--good);background:color-mix(in srgb,var(--good) 5%,var(--paper))}
+
+/* Bossbar + defeated stamp */
+.bossbar{position:relative;overflow:hidden}
+.bossbar.dead{border-color:var(--good)}
+.bossbar.dead::after{content:"DEFEATED";position:absolute;right:18px;top:50%;transform:translateY(-50%) rotate(-12deg);border:3px solid var(--good);color:var(--good);font-family:var(--f-disp);font-weight:700;font-size:1.4rem;letter-spacing:.16em;padding:2px 10px;background:color-mix(in srgb,var(--hud) 86%,transparent);pointer-events:none}
+
+/* Boss intro / victory story card */
+.bosscard{background:var(--paper);border:3px solid var(--bad);padding:16px 18px;margin:16px 0}
+.bosscard.win{border-color:var(--good);background:color-mix(in srgb,var(--good) 7%,var(--paper))}
+.bc-grid{display:grid;grid-template-columns:120px minmax(0,1fr);gap:16px;align-items:center}
+.bc-art{width:120px;height:120px;object-fit:cover;border:2px solid var(--ink);background:var(--plot)}
+.bc-tag{font-family:var(--f-disp);font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--bad);font-size:.95rem}
+.bosscard.win .bc-tag{color:var(--good)}
+.bc-body h3{font-size:1.5rem;margin:2px 0 6px}
+.bc-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+@media (max-width:560px){
+  .bc-grid{grid-template-columns:1fr}
+  .bc-art{width:96px;height:96px}
+}
+
 </style>
 
 <header class="hud" id="hud"><div class="hud-in">
@@ -396,15 +555,319 @@ table.mat tr.tg td.pv{background:var(--gold)}
 <script>
 (function(){
 'use strict';
+'use strict';
 /* =====================================================================
-   NUMQUEST ENGINE + CONTENT  ·  CENSCP33Z  ·  World 2: Matrix Fortress
+   NumQuest Shared Engine — core1a.js (DOM, plot helpers, state, sound, HUD)
    ===================================================================== */
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
-const KEY='numquest-censcp33z-w2';
-const WORLD1_URL='NumQuest-World1.html';
+const G=9.81;
 const minus=s=>String(s).replace(/-/g,'−');
 const fmt=(v,d=4)=>(v==null||!isFinite(v))?'—':minus(v.toFixed(d));
-/* matrix-cell format: up to 4 decimals, trailing zeros trimmed */
+const numParse=s=>{
+  const str=String(s).trim().replace(/−/g,'-');
+  if(!str)return null;
+  const clean=/^[+-]?\d{1,3}(,\d{3})+(\.\d+)?$/.test(str)?str.replace(/,/g,''):str.replace(',','.');
+  const v=Number(clean);
+  return(clean===''||!isFinite(v))?null:v;
+};
+
+/* ---------- shared SVG plot builder ---------- */
+function niceTicks(a,b,n=6){
+  const span=b-a,raw=span/n;
+  if(!isFinite(span)||span<=0)return [a];
+  const p=Math.pow(10,Math.floor(Math.log10(raw))),m=raw/p;
+  const step=(m<1.5?1:m<3?2:m<7?5:10)*p,out=[];
+  for(let v=Math.ceil(a/step-1e-9)*step;v<=b+1e-9;v+=step)out.push(+v.toPrecision(12));
+  return out;
+}
+function plot(id,xr,yr,o={}){
+  const W=640,H=o.h||300,ml=o.ml||50,mr=o.mr||14,mt=o.mt||12,mb=o.mb||30,pw=W-ml-mr,ph=H-mt-mb;
+  const cl=v=>Math.max(-1e5,Math.min(1e5,v));
+  const sx=x=>cl(ml+(x-xr[0])/(xr[1]-xr[0])*pw), sy=y=>cl(mt+ph-(y-yr[0])/(yr[1]-yr[0])*ph);
+  const P={sx,sy,W,H,ml,mr,mt,mb,pw,ph};
+  let g='';
+  niceTicks(xr[0],xr[1],7).forEach(t=>{g+=`<line class="gl" x1="${sx(t)}" x2="${sx(t)}" y1="${mt}" y2="${mt+ph}"/><text class="tk" x="${sx(t)}" y="${H-10}" text-anchor="middle">${minus(t)}</text>`;});
+  niceTicks(yr[0],yr[1],6).forEach(t=>{g+=`<line class="gl" y1="${sy(t)}" y2="${sy(t)}" x1="${ml}" x2="${ml+pw}"/><text class="tk" x="${ml-6}" y="${sy(t)+4}" text-anchor="end">${minus(t)}</text>`;});
+  if(yr[0]<0&&yr[1]>0)g+=`<line class="ax" x1="${ml}" x2="${ml+pw}" y1="${sy(0)}" y2="${sy(0)}"/>`;
+  if(xr[0]<0&&xr[1]>0)g+=`<line class="ax" y1="${mt}" y2="${mt+ph}" x1="${sx(0)}" x2="${sx(0)}"/>`;
+  P.curve=(f,cls,n=320)=>{let d='',pen=false;
+    for(let i=0;i<=n;i++){const x=xr[0]+(xr[1]-xr[0])*i/n,y=f(x);
+      if(!isFinite(y)||Math.abs(y)>1e4){pen=false;continue}
+      d+=(pen?'L':'M')+sx(x).toFixed(1)+' '+sy(y).toFixed(1);pen=true;}
+    return `<path d="${d}" class="${cls}" fill="none"/>`;};
+  P.line=(x1,y1,x2,y2,cls)=>`<line class="${cls}" x1="${sx(x1)}" y1="${sy(y1)}" x2="${sx(x2)}" y2="${sy(y2)}"/>`;
+  P.dot=(x,y,cls,r=4.5)=>`<circle class="${cls}" cx="${sx(x)}" cy="${sy(y)}" r="${r}"/>`;
+  P.vline=(x,cls)=>`<line class="${cls}" x1="${sx(x)}" x2="${sx(x)}" y1="${mt}" y2="${mt+ph}"/>`;
+  P.hline=(y,cls)=>`<line class="${cls}" x1="${ml}" x2="${ml+pw}" y1="${sy(y)}" y2="${sy(y)}"/>`;
+  P.band=(x1,x2,cls)=>`<rect class="${cls}" x="${sx(x1)}" y="${mt}" width="${Math.max(2,sx(x2)-sx(x1))}" height="${ph}"/>`;
+  P.text=(x,y,t,anchor='middle')=>`<text class="ptxt" x="${sx(x)}" y="${y}" text-anchor="${anchor}">${t}</text>`;
+  P.path=(pts,cls)=>`<polyline class="${cls}" fill="none" points="${pts.map(p=>sx(p[0]).toFixed(1)+','+sy(p[1]).toFixed(1)).join(' ')}"/>`;
+  P.poly=(pts,cls)=>`<polygon class="${cls}" points="${pts.map(p=>sx(p[0]).toFixed(1)+','+sy(p[1]).toFixed(1)).join(' ')}"/>`;
+  P.wrap=inner=>`<svg class="plot" viewBox="0 0 ${W} ${H}" role="img" aria-label="${o.label||'plot'}"><defs><clipPath id="${id}"><rect x="${ml}" y="${mt}" width="${pw}" height="${ph}"/></clipPath></defs>${g}<g clip-path="url(#${id})">${inner}</g></svg>`;
+  return P;
+}
+
+/* ---------- state ---------- */
+const fresh=()=>({xp:0,streak:0,best:0,ex:{},labs:{},badges:{},clear:{},bossBonus:false,bossForce:false,bossSeen:false,teacher:false,sfx:true,theme:''});
+let S=fresh();
+function load(){try{const r=localStorage.getItem(KEY);if(r){const o=JSON.parse(r);S=Object.assign(fresh(),o)}}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+
+/* ---------- sound ---------- */
+let AC=null;
+function tone(f,d,type='square',v=.04,when=0){
+  if(!S.sfx)return;
+  try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+    const o=AC.createOscillator(),g=AC.createGain(),t0=AC.currentTime+when;
+    o.type=type;o.frequency.value=f;g.gain.setValueAtTime(v,t0);g.gain.exponentialRampToValueAtTime(.0001,t0+d);
+    o.connect(g);g.connect(AC.destination);o.start(t0);o.stop(t0+d);}catch(e){}
+}
+const sfx={
+  ok(){tone(660,.1);tone(990,.16,'square',.04,.09)},
+  no(){tone(180,.28,'sawtooth',.05)},
+  up(){[523,659,784,1047].forEach((f,i)=>tone(f,.18,'square',.04,i*.1))},
+  clear(){[392,523,659,784,1047].forEach((f,i)=>tone(f,.2,'triangle',.06,i*.09))}
+};
+
+/* ---------- FX ---------- */
+function floatText(txt,anchor,cls=''){
+  const r=anchor?anchor.getBoundingClientRect():{left:innerWidth/2,top:innerHeight/2,width:0,height:0};
+  const d=document.createElement('div');d.className='float '+cls;d.textContent=txt;
+  d.style.left=Math.max(8,Math.min(innerWidth-90,r.left+r.width/2-30))+'px';d.style.top=Math.max(70,r.top)+'px';
+  document.body.appendChild(d);setTimeout(()=>d.remove(),1150);
+}
+let bnT=null;
+function banner(big,small){
+  $('#bnBig').textContent=big;$('#bnSmall').textContent=small||'';const b=$('#banner');b.classList.add('show');
+  clearTimeout(bnT);bnT=setTimeout(()=>b.classList.remove('show'),1700);
+}
+function toast(t,s){const d=document.createElement('div');d.className='toast';d.innerHTML=`<b>${t}</b><span>${s||''}</span>`;$('#toasts').appendChild(d);setTimeout(()=>d.remove(),3600)}
+
+/* ---------- levels / XP / HUD ---------- */
+function level(xp){let i=0;LEVELS.forEach((l,k)=>{if(xp>=l[0])i=k});return i}
+function award(n,anchor){
+  if(n<=0)return;
+  const before=level(S.xp);S.xp+=n;floatText('+'+n+' XP',anchor);
+  const after=level(S.xp);
+  if(after>before){sfx.up();banner('Level up!',LEVELS[after][1])}
+  save();hud();
+}
+function grant(id){
+  if(S.badges[id])return;const b=BADGES.find(x=>x[0]===id);if(!b)return;
+  S.badges[id]=1;toast('Badge: '+b[1],b[2]);save();hud();renderBadges();
+}
+function hud(){
+  const L=level(S.xp),cur=LEVELS[L][0],nxt=LEVELS[L+1]?LEVELS[L+1][0]:null;
+  $('#lvNum').textContent=L+1;$('#lvName').textContent=LEVELS[L][1];
+  $('#xpFill').style.width=(nxt?Math.min(100,(S.xp-cur)/(nxt-cur)*100):100)+'%';
+  $('#xpNum').textContent=nxt?`${S.xp} / ${nxt} XP to ${LEVELS[L+1][1]}`:`${S.xp} XP · top rank`;
+  $('#xpTot').textContent=S.xp;
+  $('#combo').textContent='x'+S.streak;$('#comboChip').classList.toggle('hot',S.streak>=3);
+  $('#bdg').textContent=Object.keys(S.badges).length+'/'+BADGES.length;
+  $('#sfxBtn').setAttribute('aria-pressed',S.sfx);$('#teachBtn').setAttribute('aria-pressed',S.teacher);
+  document.body.classList.toggle('teacher',S.teacher);
+  const h=$('#hud');if(h)document.documentElement.style.setProperty('--hudh',h.offsetHeight+'px');
+}
+
+'use strict';
+/* =====================================================================
+   NumQuest Shared Engine — core1b.js (VIZ mounts, view builder, map, boss card)
+   ===================================================================== */
+window.NQ_VIZ=window.NQ_VIZ||{};
+function vizFor(id,ex){
+  const fn=window.NQ_VIZ&&window.NQ_VIZ[id];
+  if(!fn)return '';
+  try{
+    const out=fn(ex);
+    if(!out)return '';
+    return out.includes('class="viz')?out:`<div class="viz">${out}</div>`;
+  }catch(err){return '';}
+}
+function mountViz(root=document){
+  $$('[data-viz]',root).forEach(el=>{
+    if(el.dataset.mounted)return;
+    const key=el.dataset.viz,fn=window.NQ_VIZ&&window.NQ_VIZ[key];
+    if(!fn)return;
+    try{const html=fn(el);if(html){el.innerHTML=html;el.dataset.mounted='1'}}catch(err){}
+  });
+}
+function enhanceProfCallouts(root=document){
+  if(typeof ART==='undefined'||!ART.guide)return;
+  $$('.callout.chief, .callout.prof',root).forEach(box=>{
+    if($('.chiefline',box))return;
+    const tag=$('.tag',box);
+    const wrap=document.createElement('div');wrap.className='chiefline';
+    const img=document.createElement('img');img.className='chiefface';
+    img.src=ART.guide;img.alt=ART.guideName||'Course guide portrait';
+    const body=document.createElement('div');
+    Array.from(box.childNodes).forEach(ch=>{if(ch!==tag)body.appendChild(ch)});
+    wrap.appendChild(img);wrap.appendChild(body);
+    box.appendChild(wrap);
+  });
+}
+
+const STAGE_BONUS=(typeof STAGE_XP!=='undefined')?STAGE_XP:40;
+const BOSS_BONUS=(typeof BOSS_XP!=='undefined')?BOSS_XP:60;
+const exSum=id=>EX[id].reduce((a,e)=>a+e.xp,0);
+const totalXP=()=>STAGES.reduce((a,s)=>a+exSum(s.id)+STAGE_BONUS+s.labs.reduce((b,l)=>b+(LABXP[l]||0),0),0)+exSum('boss')+BOSS_BONUS;
+const VIEWS=()=>['home',...STAGES.map(s=>s.id),'boss'];
+
+function exHTML(e){
+  const kind={mcq:'Multiple choice',tf:'True or false',num:'Numeric answer',fill:'Fill the table',classify:'Sort it',order:'Put in order'}[e.type];
+  let b='';
+  if(e.type==='mcq'||e.type==='tf')b=`<div class="opts">${e.opts.map((o,j)=>`<button type="button" class="opt" data-j="${j}"><span class="key">${'ABCD'[j]}</span><span>${o}</span></button>`).join('')}</div>`;
+  if(e.type==='num')b=`<div class="numrow"><input class="numin" id="${e.id}-in" type="text" inputmode="decimal" autocomplete="off" placeholder="your answer" aria-label="Answer"><span class="unit">${e.unit||''}</span></div>`;
+  if(e.type==='fill')b=`<div class="fillgrid">${e.fields.map((f,j)=>`<label class="fld">${f.k}<input id="${e.id}-f${j}" data-j="${j}" type="text" inputmode="decimal" autocomplete="off"></label>`).join('')}</div>`;
+  if(e.type==='classify')b=`<div class="rows">${e.items.map((it,j)=>`<div class="row" data-j="${j}"><span>${it[0]}</span><span class="seg">${e.cats.map((c,k)=>`<button type="button" data-k="${k}">${c}</button>`).join('')}</span></div>`).join('')}</div>`;
+  if(e.type==='order')b=`<div class="rows" data-order>${e.perm.map((p,i)=>`<div class="row orow" data-idx="${p}"><span class="pos">${i+1}</span><span>${e.items[p]}</span><span class="mv"><button type="button" data-mv="-1" aria-label="Move up">▲</button><button type="button" data-mv="1" aria-label="Move down">▼</button></span></div>`).join('')}</div>`;
+  const viz=vizFor(e.id,e);
+  return `<div class="ex" id="ex-${e.id}" data-id="${e.id}"><div class="ex-top"><span class="ex-kind">${kind}</span><span class="ex-xp"><span class="nut"></span>${e.xp} XP</span><span class="ex-state">Open</span></div>
+  <div class="ex-q">${e.q}</div>${e.pre||''}${b}
+  <div class="ex-act"><button type="button" class="btn primary" data-act="check">Check</button><button type="button" class="btn ghost" data-act="show">Show solution</button></div>
+  <div class="fb" aria-live="polite"></div><div class="sol"><b class="h">Worked solution</b><span class="solt">${e.sol}</span>${viz}</div></div>`;
+}
+const findEx=id=>{for(const k in EX){const e=EX[k].find(x=>x.id===id);if(e)return e}};
+
+function heroArtHTML(){
+  if(typeof ART!=='undefined'&&ART.hero)return `<div class="heroart"><img src="${ART.hero}" alt="${ART.heroAlt||WORLD.title}"></div><div class="scrim"></div>`;
+  if(typeof WORLD!=='undefined'&&WORLD.heroSVG)return `<div class="heroart">${WORLD.heroSVG()}</div><div class="scrim"></div>`;
+  return '';
+}
+
+function stageHero(st){
+  const stageXP=exSum(st.id)+st.labs.reduce((a,l)=>a+(LABXP[l]||0),0)+STAGE_BONUS;
+  return `<div class="hero">${heroArtHTML()}<div class="heroin"><div class="eyebrow">Stage ${st.no} · ${WORLD.subtitle}</div><h1>${st.title}</h1>
+  <p class="mission"><b>Mission</b> &nbsp;${st.mission}</p></div>
+  <div class="tblock"><div><span>Sheet</span><b>${st.no}</b></div><div><span>Time</span><b>${st.time}</b></div><div><span>Labs</span><b>${st.labs.length}</b></div><div><span>Checkpoints</span><b>${EX[st.id].length}</b></div><div><span>XP on sheet</span><b>${stageXP}</b></div><div><span>Stars</span><b class="stars" id="hs-${st.id}"></b></div></div></div>
+  <div class="track" id="tr-${st.id}"></div>`;
+}
+
+function expedHTML(){
+  const starStr=n=>'★'.repeat(n)+'<span class="off">'+'★'.repeat(3-n)+'</span>';
+  const cards=STAGES.map(st=>{
+    const s=stageStats(st.id);
+    return `<div class="xcard ${S.clear[st.id]?'done':''}" role="button" tabindex="0" data-go="#${st.id}">
+      <div class="xcard-top"><span class="xcard-no">${st.no}</span><span class="stars">${starStr(s.stars)}</span></div>
+      <h3>${st.title}</h3>
+      <p class="xcard-sub">${st.mission}</p>
+      <div class="xcard-foot"><span>${s.done}/${s.total} checks · ${s.labs}/${st.labs.length} labs</span><span>Open →</span></div>
+    </div>`;
+  }).join('');
+  const hit=EX.boss.filter(x=>S.ex[x.id]&&S.ex[x.id].st==='ok').length;
+  const okN=k=>EX[k].filter(e=>S.ex[e.id]&&S.ex[e.id].st==='ok').length;
+  const have=STAGES.reduce((a,s)=>a+okN(s.id),0),total=STAGES.reduce((a,s)=>a+EX[s.id].length,0);
+  const need=Math.ceil((WORLD.boss.needPct||.67)*total),unlocked=S.teacher||have>=need,dead=hit===EX.boss.length;
+  const bState=dead?'Defeated ★':(unlocked?'Gate open · '+hit+'/'+EX.boss.length:'Locked · '+have+'/'+need);
+  const bossTile=`<div class="xcard xboss ${dead?'done':(!unlocked?'locked':'')}" role="button" tabindex="0" data-go="#boss">
+    <div class="xcard-top"><span class="xcard-no">BOSS</span><span class="mono">${hit}/${EX.boss.length}</span></div>
+    <h3>${WORLD.boss.title}</h3>
+    <p class="xcard-sub">${WORLD.boss.mission}</p>
+    <div class="xcard-foot"><span>${bState}</span><span>${unlocked?'Enter →':'Inspect →'}</span></div>
+  </div>`;
+  return cards+bossTile;
+}
+
+function bossCard(mode){
+  const b=WORLD.boss;
+  const art=(typeof ART!=='undefined'&&ART.boss)?`<img class="bc-art" src="${ART.boss}" alt="${ART.bossAlt||b.name}">`:(b.svg||'');
+  if(mode==='win'){
+    const nxt=WORLD.nextWorld?`<a class="btn primary" href="${WORLD.nextWorld.href}">${WORLD.nextWorld.sn}: ${WORLD.nextWorld.title} →</a>`:`<a class="btn primary" href="#home">Return to Map</a>`;
+    return `<div class="bosscard win"><div class="bc-grid">${art}<div class="bc-body"><div class="bc-tag">Boss defeated · ${b.winSub}</div><h3>${b.winTitle}</h3><p>${b.winBody||b.mission}</p><div class="bc-actions">${nxt}<a class="btn" href="#home">World overview</a></div></div></div></div>`;
+  }
+  return `<div class="bosscard intro"><div class="bc-grid">${art}<div class="bc-body"><div class="bc-tag">Gate opened · Challenge</div><h3>${b.title}</h3><p>${b.taunt||b.mission}</p></div></div></div>`;
+}
+
+function stageNav(id){
+  const order=[...STAGES.map(s=>s.id),'boss'];
+  const idx=order.indexOf(id);
+  const labelFor=k=>{
+    if(k==='boss')return WORLD.boss.title;
+    const s=STAGES.find(x=>x.id===k);return s?`${s.no} ${s.title}`:k;
+  };
+  const prevBtn=idx>0?`<a class="btn" href="#${order[idx-1]}">← ${labelFor(order[idx-1])}</a>`:`<a class="btn" href="#home">← World Map</a>`;
+  let nextBtn='';
+  if(idx>=0&&idx<order.length-1){
+    const nk=order[idx+1];
+    nextBtn=`<a class="btn primary" href="#${nk}">${nk==='boss'?'Boss: ':''}${labelFor(nk)} →</a>`;
+  }else if(id==='boss'&&WORLD.nextWorld){
+    nextBtn=`<a class="btn primary" href="${WORLD.nextWorld.href}">Next: ${WORLD.nextWorld.title} →</a>`;
+  }else{
+    nextBtn=`<a class="btn primary" href="#home">Course Overview →</a>`;
+  }
+  return `<nav class="stagenav" aria-label="Stage navigation">${prevBtn}<a class="btn ghost" href="#home">Overview</a>${nextBtn}</nav>`;
+}
+
+function build(){
+  const main=$('#main');
+  const rail=$('.rail');
+  if(rail&&!$('#navToggle')){
+    const tg=document.createElement('button');
+    tg.type='button';tg.className='navtoggle';tg.id='navToggle';
+    tg.setAttribute('aria-expanded','false');tg.setAttribute('aria-controls','nav');
+    tg.innerHTML=`<span>Sheet index</span><span class="nt-cur" id="navCur">Overview</span><span aria-hidden="true">▾</span>`;
+    rail.insertBefore(tg,$('#nav'));
+  }
+  const exBlock=st=>`<section class="sec"><h2><span class="no">${st.cp||'F'}</span>Checkpoints</h2><p class="prose">Answer each one. First-try answers earn full XP and build your combo.</p>${EX[st.id].map(exHTML).join('')}</section>`;
+  const nCp=STAGES.reduce((a,s)=>a+EX[s.id].length,0)+EX.boss.length;
+  const nLabs=STAGES.reduce((a,s)=>a+s.labs.length,0);
+  const bossArt=(typeof ART!=='undefined'&&ART.boss)?`<img class="bossart" src="${ART.boss}" alt="${ART.bossAlt||WORLD.boss.name}">`:(WORLD.boss.svg||'');
+  main.innerHTML=`
+  <div class="view" id="v-home"><div class="hero">${heroArtHTML()}<div class="heroin"><div class="eyebrow">CENSCP33Z · Numerical Solutions to CE Problems</div><h1>NumQuest</h1>
+   <p class="mission"><b>${WORLD.subtitle}</b> &nbsp;${WORLD.mission}</p></div>
+   <div class="tblock"><div><span>Stages</span><b>${STAGES.length} + boss</b></div><div><span>Labs</span><b>${nLabs}</b></div><div><span>Checkpoints</span><b>${nCp}</b></div><div><span>Total XP</span><b>${totalXP()}</b></div><div><span>Your XP</span><b id="homeXp">0</b></div></div></div>
+   <section class="sec"><h2>Course map</h2><div class="map ${typeof ART!=='undefined'&&ART.map?'has-art':''}" id="map" ${typeof ART!=='undefined'&&ART.map?`style="--map-bg:url('${ART.map}')"`:''}></div></section>
+   <section class="sec"><h2>Expedition stages</h2><div class="exped" id="exped"></div></section>
+   <section class="sec"><h2>How to play</h2><div class="how"><div><b>Read a stage.</b> Short sections, each with a formula and a visual worked example.</div><div><b>Play the labs.</b> Push the controls, break the methods on purpose and watch what happens.</div><div><b>Clear the checkpoints.</b> Get answers right on the first try to build your combo.</div><div><b>Beat the boss.</b> ${WORLD.howBeat||'Exam-style problems close out the world.'}</div></div></section>
+   <section class="sec"><h2>Badges</h2><div class="badges" id="badges"></div></section>
+   <p class="foot">${WORLD.foot||'Based on the CENSCP33Z lecture decks. Progress is saved in this browser only, and XP in this world is counted separately from other worlds. The Teacher button shows answers and unlocks the boss for demos.'}</p></div>
+  ${STAGES.map(st=>`<div class="view" id="v-${st.id}">${stageHero(st)}${SEC[st.id]}${exBlock(st)}${stageNav(st.id)}</div>`).join('')}
+  <div class="view" id="v-boss"><div class="hero">${heroArtHTML()}<div class="heroin"><div class="eyebrow">${WORLD.boss.eyebrow}</div><h1>${WORLD.boss.title}</h1><p class="mission"><b>Mission</b> &nbsp;${WORLD.boss.mission}</p></div></div>
+   <div class="bossbar" id="bossbar">${bossArt}
+   <div style="flex:1;min-width:0"><div class="bn">${WORLD.boss.name}</div><div class="hp"><i id="hpFill"></i></div><div class="mono hint" id="hpTxt" style="color:#b9d0ee;margin-top:4px"></div></div></div>
+   <div id="bossWin" hidden></div>
+   <div id="bossLock" class="lockbox" hidden><h3>The gate is shut</h3><p id="lockTxt"></p></div>
+   <div id="bossIntro"></div>
+   <div id="bossBody">${SEC.boss}<section class="sec"><h2><span class="no">Q</span>Problems</h2>${EX.boss.map(exHTML).join('')}</section></div>${stageNav('boss')}</div>`;
+
+  const navLinks=(WORLD.worlds||[]).filter(w=>w.n!==WORLD.no).map(w=>`<a href="${w.href}"><span class="sn">W${w.n}</span><span class="nt">${w.name}<br><span class="hint">open world ${w.n}</span></span></a>`).join('');
+  $('#nav').innerHTML=`<a href="#home" data-v="home"><span class="sn">HOME</span><span class="nt">Title screen</span></a><div class="div"></div>`+
+    STAGES.map(s=>`<a href="#${s.id}" data-v="${s.id}"><span class="sn">${s.no}</span><span class="nt">${s.title}<br><span class="st" id="ns-${s.id}"></span></span></a>`).join('')+
+    `<a href="#boss" data-v="boss"><span class="sn">BOSS</span><span class="nt">${WORLD.boss.title}<br><span class="st" id="ns-boss"></span></span></a><div class="div"></div>`+
+    navLinks;
+  renderMap();renderBadges();
+  if(WORLD.mountLabs)WORLD.mountLabs();
+  enhanceProfCallouts(main);
+  mountViz(main);
+  Object.keys(EX).forEach(k=>EX[k].forEach(e=>{if(S.ex[e.id])restoreEx(e)}));
+  refreshAll();
+}
+
+function renderMap(){
+  const nodes=[{t:'START',s:'World '+WORLD.no,href:'#home',d:true},...STAGES.map(s=>({t:s.no,s:s.title,href:'#'+s.id,d:!!S.clear[s.id]})),{t:'BOSS',s:WORLD.boss.name,href:'#boss',d:!!S.badges.boss}];
+  if(WORLD.nextWorld)nodes.push({t:WORLD.nextWorld.sn,s:WORLD.nextWorld.title,href:WORLD.nextWorld.href,d:false});
+  else nodes.push({t:'END',s:'Summit',href:'#boss',d:!!S.badges.boss});
+  const count=nodes.length;
+  const pts=WORLD.mapPts&&WORLD.mapPts.length>=count?WORLD.mapPts:nodes.map((_,i)=>{
+    const x=Math.round(70+(i/(count-1))*660);
+    const y=i===0?112:(i%2===1?66:132);
+    return [x,y];
+  });
+  let path='M'+pts[0].join(' ');
+  for(let i=1;i<count;i++){const mx=(pts[i-1][0]+pts[i][0])/2;path+=` C${mx} ${pts[i-1][1]} ${mx} ${pts[i][1]} ${pts[i][0]} ${pts[i][1]}`}
+  let svg=`<svg viewBox="0 0 800 200" role="img" aria-label="${WORLD.mapLabel||'Course map'}"><path d="${path}" fill="none" stroke="var(--line)" stroke-width="4" stroke-dasharray="10 8"/>`;
+  nodes.forEach((n,i)=>{
+    const [x,y]=pts[i];
+    const inner=`<g class="node ${n.soon?'soon':''} ${n.d?'done':''}"><polygon class="nb" points="${x},${y-30} ${x+28},${y-15} ${x+28},${y+15} ${x},${y+30} ${x-28},${y+15} ${x-28},${y-15}"/><text class="nt" x="${x}" y="${y+6}">${n.t}</text><text class="ns" x="${x}" y="${y+50}">${n.s}</text></g>`;
+    svg+=n.href?`<a href="${n.href}" aria-label="${n.t} ${n.s}">${inner}</a>`:inner;
+  });
+  $('#map').innerHTML=svg+'</svg>';
+}
+function renderBadges(){
+  const el=$('#badges');if(!el)return;
+  el.innerHTML=BADGES.map(b=>`<div class="badge ${S.badges[b[0]]?'got':''}"><div class="medal">${b[3]}</div><b>${b[1]}</b><span>${b[2]}</span></div>`).join('');
+}
+
+// NumQuest World 2 Content — Matrix Fortress
 const cell=v=>{if(v==null||!isFinite(v))return '—';if(Math.abs(v)<5e-5)v=0;const r=Math.round(v*1e4)/1e4;return minus(Math.abs(r)>=1e6?r.toExponential(2):String(r))};
 const cp=M=>M.map(r=>r.slice());
 
@@ -483,112 +946,7 @@ const SYS={
 const BEAM=SYS.beam;
 
 /* shared plot helpers (unchanged from World 1) */
-function niceTicks(a,b,n=6){
-  const span=b-a,raw=span/n,p=Math.pow(10,Math.floor(Math.log10(raw))),m=raw/p;
-  const step=(m<1.5?1:m<3?2:m<7?5:10)*p,out=[];
-  for(let v=Math.ceil(a/step-1e-9)*step;v<=b+1e-9;v+=step)out.push(+v.toPrecision(12));
-  return out;
-}
-function plot(id,xr,yr,o={}){
-  const W=640,H=o.h||300,ml=50,mr=14,mt=12,mb=30,pw=W-ml-mr,ph=H-mt-mb;
-  const cl=v=>Math.max(-1e5,Math.min(1e5,v));
-  const sx=x=>cl(ml+(x-xr[0])/(xr[1]-xr[0])*pw), sy=y=>cl(mt+ph-(y-yr[0])/(yr[1]-yr[0])*ph);
-  const P={sx,sy};
-  let g='';
-  niceTicks(xr[0],xr[1],7).forEach(t=>{g+=`<line class="gl" x1="${sx(t)}" x2="${sx(t)}" y1="${mt}" y2="${mt+ph}"/><text class="tk" x="${sx(t)}" y="${H-10}" text-anchor="middle">${minus(t)}</text>`;});
-  niceTicks(yr[0],yr[1],6).forEach(t=>{g+=`<line class="gl" y1="${sy(t)}" y2="${sy(t)}" x1="${ml}" x2="${ml+pw}"/><text class="tk" x="${ml-6}" y="${sy(t)+4}" text-anchor="end">${minus(t)}</text>`;});
-  if(yr[0]<0&&yr[1]>0)g+=`<line class="ax" x1="${ml}" x2="${ml+pw}" y1="${sy(0)}" y2="${sy(0)}"/>`;
-  if(xr[0]<0&&xr[1]>0)g+=`<line class="ax" y1="${mt}" y2="${mt+ph}" x1="${sx(0)}" x2="${sx(0)}"/>`;
-  P.curve=(f,cls,n=320)=>{let d='',pen=false;
-    for(let i=0;i<=n;i++){const x=xr[0]+(xr[1]-xr[0])*i/n,y=f(x);
-      if(!isFinite(y)||Math.abs(y)>1e4){pen=false;continue}
-      d+=(pen?'L':'M')+sx(x).toFixed(1)+' '+sy(y).toFixed(1);pen=true;}
-    return `<path d="${d}" class="${cls}" fill="none"/>`;};
-  P.line=(x1,y1,x2,y2,cls)=>`<line class="${cls}" x1="${sx(x1)}" y1="${sy(y1)}" x2="${sx(x2)}" y2="${sy(y2)}"/>`;
-  P.dot=(x,y,cls,r=4.5)=>`<circle class="${cls}" cx="${sx(x)}" cy="${sy(y)}" r="${r}"/>`;
-  P.vline=(x,cls)=>`<line class="${cls}" x1="${sx(x)}" x2="${sx(x)}" y1="${mt}" y2="${mt+ph}"/>`;
-  P.band=(x1,x2,cls)=>`<rect class="${cls}" x="${sx(x1)}" y="${mt}" width="${Math.max(2,sx(x2)-sx(x1))}" height="${ph}"/>`;
-  P.text=(x,y,t,anchor='middle')=>`<text class="ptxt" x="${sx(x)}" y="${y}" text-anchor="${anchor}">${t}</text>`;
-  P.path=(pts,cls)=>`<polyline class="${cls}" fill="none" points="${pts.map(p=>sx(p[0]).toFixed(1)+','+sy(p[1]).toFixed(1)).join(' ')}"/>`;
-  P.wrap=inner=>`<svg class="plot" viewBox="0 0 ${W} ${H}" role="img" aria-label="${o.label||'plot'}"><defs><clipPath id="${id}"><rect x="${ml}" y="${mt}" width="${pw}" height="${ph}"/></clipPath></defs>${g}<g clip-path="url(#${id})">${inner}</g></svg>`;
-  return P;
-}
 
-/* ---------- state ---------- */
-const LEVELS=[[0,'Site Intern'],[160,'Field Engineer'],[380,'Design Engineer'],[640,'Project Engineer'],[900,'Chief Engineer']];
-const BADGES=[
- ['coin','First Benchmark','Answer a checkpoint correctly','1'],
- ['c3','Combo x3','Three first-try answers in a row','3'],
- ['c5','Combo x5','Five in a row','5'],
- ['c10','Combo x10','Ten in a row','10'],
- ['elim','Pivot Pro','Solve the zero-pivot system with partial pivoting','$\\prod$'],
- ['pivot','Round-off Hunter','Break a solution with a tiny pivot, then rescue it','$\\varepsilon$'],
- ['race','Iteration Racer','Converge both methods, then rescue the scrambled system','⇄'],
- ['lu','Factor Master','Solve all four load cases from one L and U','LU'],
- ['star3','Clean Sheet','Earn three stars on a stage','★'],
- ['boss','Warden Down','Defeat the Matrix Warden','⚔']
-];
-const LABXP={elim:20,pivot:20,race:25,lu:25};
-const fresh=()=>({xp:0,streak:0,best:0,ex:{},labs:{},badges:{},clear:{},bossBonus:false,bossForce:false,teacher:false,sfx:true,theme:''});
-let S=fresh();
-function load(){try{const r=localStorage.getItem(KEY);if(r){const o=JSON.parse(r);S=Object.assign(fresh(),o)}}catch(e){}}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
-
-/* ---------- sound ---------- */
-let AC=null;
-function tone(f,d,type='square',v=.04,when=0){
-  if(!S.sfx)return;
-  try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
-    const o=AC.createOscillator(),g=AC.createGain(),t0=AC.currentTime+when;
-    o.type=type;o.frequency.value=f;g.gain.setValueAtTime(v,t0);g.gain.exponentialRampToValueAtTime(.0001,t0+d);
-    o.connect(g);g.connect(AC.destination);o.start(t0);o.stop(t0+d);}catch(e){}
-}
-const sfx={ok(){tone(660,.1);tone(990,.16,'square',.04,.09)},no(){tone(180,.28,'sawtooth',.05)},
-  up(){[523,659,784,1047].forEach((f,i)=>tone(f,.18,'square',.04,i*.1))},clear(){[392,523,659,784,1047].forEach((f,i)=>tone(f,.2,'triangle',.06,i*.09))}};
-
-/* ---------- FX ---------- */
-function floatText(txt,anchor,cls=''){
-  const r=anchor?anchor.getBoundingClientRect():{left:innerWidth/2,top:innerHeight/2,width:0,height:0};
-  const d=document.createElement('div');d.className='float '+cls;d.textContent=txt;
-  d.style.left=Math.max(8,Math.min(innerWidth-90,r.left+r.width/2-30))+'px';d.style.top=Math.max(70,r.top)+'px';
-  document.body.appendChild(d);setTimeout(()=>d.remove(),1150);
-}
-let bnT=null;
-function banner(big,small){
-  $('#bnBig').textContent=big;$('#bnSmall').textContent=small||'';const b=$('#banner');b.classList.add('show');
-  clearTimeout(bnT);bnT=setTimeout(()=>b.classList.remove('show'),1700);
-}
-function toast(t,s){const d=document.createElement('div');d.className='toast';d.innerHTML=`<b>${t}</b><span>${s||''}</span>`;$('#toasts').appendChild(d);setTimeout(()=>d.remove(),3600)}
-
-/* ---------- levels / xp ---------- */
-function level(xp){let i=0;LEVELS.forEach((l,k)=>{if(xp>=l[0])i=k});return i}
-function award(n,anchor,why){
-  if(n<=0)return;
-  const before=level(S.xp);S.xp+=n;floatText('+'+n+' XP',anchor);
-  const after=level(S.xp);
-  if(after>before){sfx.up();banner('Level up!',LEVELS[after][1])}
-  save();hud();
-}
-function grant(id){
-  if(S.badges[id])return;S.badges[id]=1;const b=BADGES.find(x=>x[0]===id);
-  toast('Badge: '+b[1],b[2]);save();hud();renderBadges();
-}
-function hud(){
-  const L=level(S.xp),cur=LEVELS[L][0],nxt=LEVELS[L+1]?LEVELS[L+1][0]:null;
-  $('#lvNum').textContent=L+1;$('#lvName').textContent=LEVELS[L][1];
-  $('#xpFill').style.width=(nxt?Math.min(100,(S.xp-cur)/(nxt-cur)*100):100)+'%';
-  $('#xpNum').textContent=nxt?`${S.xp} / ${nxt} XP to ${LEVELS[L+1][1]}`:`${S.xp} XP · top rank`;
-  $('#xpTot').textContent=S.xp;
-  $('#combo').textContent='x'+S.streak;$('#comboChip').classList.toggle('hot',S.streak>=3);
-  $('#bdg').textContent=Object.keys(S.badges).length+'/'+BADGES.length;
-  $('#sfxBtn').setAttribute('aria-pressed',S.sfx);$('#teachBtn').setAttribute('aria-pressed',S.teacher);
-  document.body.classList.toggle('teacher',S.teacher);
-  document.documentElement.style.setProperty('--hudh',$('#hud').offsetHeight+'px');
-}
-
-/* =====================================================================
-   CONTENT
-   ===================================================================== */
 function texMat(M,o={}){
   const m=M[0].length,spec=o.aug?'c'.repeat(m-1)+'|c':'c'.repeat(m);
   const rows=M.map((r,i)=>r.map((v,j)=>{let c=tc(v);
@@ -720,7 +1078,17 @@ factor:[
   hint:'The matrix depends on the geometry, not the load.',sol:'Once. Each load case then costs two substitutions, because only {b} changes.'},
  {id:'l12',type:'mcq',xp:10,q:'Which part of Gauss elimination takes far more computing time?',
   opts:['The elimination, not the back substitution','The back substitution, not the elimination','They cost the same','Reading the right-hand side'],a:0,
-  hint:'Count the multiplications: elimination loops over a whole matrix.',sol:'Elimination grows like $n^{3}$ operations, while a triangular substitution grows like $n^{2}$. That is why factoring once and substituting many times pays off.'}
+  hint:'Count the multiplications: elimination loops over a whole matrix.',sol:'Elimination grows like $n^{3}$ operations, while a triangular substitution grows like $n^{2}$. That is why factoring once and substituting many times pays off.'},
+ {id:'l13',type:'num',xp:15,q:'Compute the determinant of the $2\times 2$ truss submatrix $K = \begin{bmatrix}5 & -3 \\ -3 & 4\end{bmatrix}$.',a:11,t:.01,
+  hint:'$\det = ad - bc$. Watch the double negative on $bc$.',sol:'$\det(K) = (5)(4) - (-3)(-3) = 20 - 9 = 11$. Since $11 \ne 0$, the submatrix is invertible.'},
+ {id:'l14',type:'num',xp:15,q:'Compute the determinant of the upper-left $3\times 3$ beam matrix $A = \begin{bmatrix}2 & 1 & -1 \\ -3 & -1 & 2 \\ -2 & 1 & 2\end{bmatrix}$ by cofactor expansion along row 1.',a:-1,t:.01,
+  hint:'$2\det\begin{bmatrix}-1&2\\1&2\end{bmatrix} - 1\det\begin{bmatrix}-3&2\\-2&2\end{bmatrix} + (-1)\det\begin{bmatrix}-3&-1\\-2&1\end{bmatrix}$.',sol:'$2(-2 - 2) - 1(-6 + 4) + (-1)(-3 - 2) = -8 + 2 + 5 = -1$. Notice too that the product of the LU pivots $2 \times 0.5 \times (-1)$ is also $-1$.'},
+ {id:'l15',type:'fill',xp:20,q:'Using the adjoint formula $[A]^{-1} = \dfrac{1}{\det(A)}\,\mathrm{Adj}(A)$, invert $K = \begin{bmatrix}4 & -2 \\ -2 & 6\end{bmatrix}$ ($\det = 20$).',
+  fields:[{k:'$K^{-1}_{11}$',a:.3,t:.005},{k:'$K^{-1}_{12}$',a:.1,t:.005},{k:'$K^{-1}_{22}$',a:.2,t:.005}],
+  hint:'Swap diagonal entries (6, 4), flip off-diagonal signs (+2, +2), and divide every entry by 20.',sol:'$\mathrm{Adj}(K) = \begin{bmatrix}6 & 2 \\ 2 & 4\end{bmatrix}$. Dividing by 20 gives $K^{-1}_{11} = 0.30$, $K^{-1}_{12} = 0.10$, and $K^{-1}_{22} = 0.20$.'},
+ {id:'l16',type:'mcq',xp:15,q:'A structural model produces a matrix with $\det(A) = 0$. What does this tell you?',
+  opts:['The system is singular — rows are linearly dependent and there is no unique solution (check supports or collinear members)','LU decomposition will run twice as fast','Jacobi will converge in one sweep','The inverse $[A]^{-1}$ equals the identity matrix'],a:0,
+  hint:'In $[A]^{-1} = \mathrm{Adj}(A)/\det(A)$, what happens when the denominator is zero?',sol:'When $\det(A) = 0$ the matrix is singular: no inverse exists, at least one equation is redundant or inconsistent, and Gauss elimination hits a zero pivot.'}
 ],
 boss:[
  {id:'k1',type:'mcq',xp:30,q:'A bridge model produces a $200\\times 200$ stiffness matrix. You must solve it for 25 different load combinations. Which strategy is most sensible?',
@@ -758,7 +1126,7 @@ SEC.eliminate=`
 <p>With $L = 6$ m and $w = 10$ kN/m the three equations form the augmented matrix [A | b] below. Row 1 reads $24\\cdot M_{B} + 6\\cdot M_{C} = -1080$.</p></div>
 ${matTable(BEAM.A.map((r,i)=>r.concat([BEAM.b[i]])),{aug:true,hdr:['$M_{B}$','$M_{C}$','$M_{D}$','b']})}
 <p class="hint" style="text-align:center">The answer, for reference: $M_{B} = M_{D} = -38.57$ kN·m and $M_{C} = -25.71$ kN·m. A negative sign means hogging.</p>
-<div class="callout"><span class="tag">Prof says</span><p>Stiffness matrices, node equations, pipe networks and support moments all end up as $[A]\\{x\\} = \\{b\\}$. Learn to solve this shape well and you can handle a large part of structural analysis.</p></div>
+<div class="callout prof"><span class="tag">Prof says</span><p>Stiffness matrices, node equations, pipe networks and support moments all end up as $[A]\\{x\\} = \\{b\\}$. Learn to solve this shape well and you can handle a large part of structural analysis.</p></div>
 </section>
 
 <section class="sec"><h2><span class="no">B</span>Two families of methods</h2>
@@ -767,6 +1135,7 @@ ${matTable(BEAM.A.map((r,i)=>r.concat([BEAM.b[i]])),{aug:true,hdr:['$M_{B}$','$M
 </section>
 
 <section class="sec"><h2><span class="no">C</span>Triangular systems are easy</h2>
+<div class="stage-viz" data-viz="w2-tri-solve"></div>
 <div class="prose"><p>In an <b>upper triangular</b> system each row has one fewer unknown than the row above, so the last equation has a single unknown. Solve it, then climb: that is <b>back substitution</b>. A <b>lower triangular</b> system is solved from the first equation down: <b>forward substitution</b>.</p></div>
 ${matTable(AUCLASSIC,{aug:true,hdr:AUGH})}
 <div class="formula">$$\\begin{aligned}x_3&=\\dfrac{1}{-1}=-1\\\\x_2&=\\dfrac{1-0.5\\,(-1)}{0.5}=3\\\\x_1&=\\dfrac{8-1\\cdot 3-(-1)(-1)}{2}=2\\end{aligned}$$</div>
@@ -776,10 +1145,52 @@ ${matTable(AUCLASSIC,{aug:true,hdr:AUGH})}
 <section class="sec"><h2><span class="no">D</span>Gauss elimination</h2>
 <div class="prose"><p>The <b>pivot element</b> is the diagonal entry you use to wipe out the entries below it. The <b>pivot row</b> is the row that holds it. For each row below the pivot:</p>
 <ol class="steps"><li>Find the multiplier $m$ = (entry to eliminate) / (pivot).</li><li>Multiply the pivot row by $m$.</li><li>Subtract that from the row you are working on, <b>including the b column</b>.</li></ol>
-<p>Worked example: the classic system $2x_{1} + x_{2} - x_{3} = 8, -3x_{1} - x_{2} + 2x_{3} = -11, -2x_{1} + x_{2} + 2x_{3} = -3$. Column 1 uses $m_{21} = -3/2 = -1.5$ and $m_{31} = -2/2 = -1$. Column 2 then uses $m_{32} = 2/0.5 = 4$.</p></div>
+<div class="wx">
+<div class="wx-head"><div><b>Worked example: classic 3×3 Gauss elimination</b> <span class="hint">Column 1 multipliers $m_{21}=-1.5, m_{31}=-1$; Column 2 $m_{32}=4$</span></div></div>
+<div class="wx-grid">
+<figure class="wx-fig"><svg class="plot" viewBox="0 0 440 245" role="img" aria-label="Gauss elimination pipeline converting classic 3x3 system to upper triangular form and back substitution">
+  <rect x="12" y="16" width="124" height="106" fill="var(--paper2)" stroke="var(--line)" stroke-width="1.8"/>
+  <text x="74" y="34" text-anchor="middle" style="fill:var(--qx);font-weight:700">Step 0: [A | b]</text>
+  <rect x="20" y="46" width="22" height="18" fill="var(--gold)" fill-opacity=".6"/>
+  <text x="74" y="59" text-anchor="middle">[2  1 -1 |  8]</text>
+  <text x="74" y="79" text-anchor="middle">[-3 -1 2 | -11]</text>
+  <text x="74" y="99" text-anchor="middle">[-2  1 2 | -3]</text>
+  <line x1="138" y1="68" x2="156" y2="68" stroke="var(--accent)" stroke-width="2.2"/>
+  <polygon points="154,63 163,68 154,73" fill="var(--accent)"/>
+  <text x="150" y="54" text-anchor="middle" style="fill:var(--qh);font-size:10px">col 1</text>
+  <rect x="165" y="16" width="124" height="106" fill="var(--paper2)" stroke="var(--line)" stroke-width="1.8"/>
+  <text x="227" y="34" text-anchor="middle" style="fill:var(--qx);font-weight:700">Step 1: m=-1.5,-1</text>
+  <rect x="198" y="65" width="26" height="18" fill="var(--gold)" fill-opacity=".6"/>
+  <text x="227" y="59" text-anchor="middle">[2   1  -1 | 8]</text>
+  <text x="227" y="79" text-anchor="middle">[0  0.5 .5 | 1]</text>
+  <text x="227" y="99" text-anchor="middle">[0   2   1 | 5]</text>
+  <line x1="291" y1="68" x2="309" y2="68" stroke="var(--accent)" stroke-width="2.2"/>
+  <polygon points="307,63 316,68 307,73" fill="var(--accent)"/>
+  <text x="303" y="54" text-anchor="middle" style="fill:var(--qh);font-size:10px">m32=4</text>
+  <rect x="318" y="16" width="110" height="106" fill="var(--paper2)" stroke="var(--good)" stroke-width="2"/>
+  <text x="373" y="34" text-anchor="middle" style="fill:var(--good);font-weight:700">Upper [U | c]</text>
+  <text x="373" y="59" text-anchor="middle">[2  1 -1 | 8]</text>
+  <text x="373" y="79" text-anchor="middle">[0 .5 .5 | 1]</text>
+  <text x="373" y="99" text-anchor="middle">[0  0 -1 | 1]</text>
+  <rect x="52" y="142" width="336" height="86" fill="var(--plot)" stroke="var(--ink)" stroke-width="1.6"/>
+  <text x="220" y="164" text-anchor="middle" style="fill:var(--qy);font-weight:700">Back substitution (bottom row upward)</text>
+  <text x="220" y="186" text-anchor="middle">x3 = 1/(-1) = -1   -&gt;   x2 = (1 - 0.5(-1))/0.5 = 3</text>
+  <text x="220" y="208" text-anchor="middle" style="fill:var(--good);font-weight:700">x1 = (8 - 3 - 1)/2 = 2   =>   x = (2, 3, -1)</text>
+</svg><figcaption>Three forward elimination steps reduce the matrix to upper triangular $[U\,|\,c]$ before back substitution climbs upward.</figcaption></figure>
+<div>
+<ol class="wx-steps">
+<li><b>Column 1:</b> Eliminate $-3$ and $-2$ under pivot $2$ to obtain pivot $0.5$ in row 2.</li>
+<li><b>Column 2:</b> $m_{32} = 2/0.5 = 4$ zeros row 3, leaving $-1\,x_3 = 1$.</li>
+<li><b>Back substitute:</b> $x_3 = -1 \Rightarrow x_2 = 3 \Rightarrow x_1 = 2$.</li>
+</ol>
+<div class="wx-ans">$x = (2,\ 3,\ -1)$</div>
+</div>
+</div>
+</div>
 <div class="grid2"><div><p class="hint">Start</p>${matTable(GC[0].M,{aug:true,hdr:AUGH})}</div><div><p class="hint">After column 1</p>${matTable(GC[2].M,{aug:true,hdr:AUGH})}</div></div>
-<div class="grid2"><div><p class="hint">After column 2 (upper triangular)</p>${matTable(GC[3].M,{aug:true,hdr:AUGH})}</div><div class="card"><p style="margin:0">Back substitution gives <b>$x = (2, 3, -1)$</b>.</p></div></div>
+<div class="grid2"><div><p class="hint">After column 2 (upper triangular)</p>${matTable(GC[3].M,{aug:true,hdr:AUGH})}</div><div class="card"><p style="margin:0">Check: $2(2)+3-(-1)=8$ ✔.</p></div></div>
 <p>Now do it yourself. Step through the operations one at a time and watch the pivot, the multiplier and the target row.</p>
+<div class="stage-viz" data-viz="w2-pivot-stability"></div>
 <div class="lab" id="lab-elim"></div>
 <div class="callout trap"><span class="tag">Trap!</span><p>Every row operation must also be applied to the right-hand side. Forgetting the b column is the most common slip, and it gives an answer that looks perfectly reasonable and is wrong.</p></div>
 <div class="callout mat"><span class="tag">MATLAB link</span><p>The backslash operator performs elimination for you, with pivoting.</p>
@@ -795,6 +1206,44 @@ x = A \\ b          <span class="cm">% -38.5714  -25.7143  -38.5714</span></pre>
 <p>A small example: $0.0001\\cdot x_{1} + x_{2} = 1$ and $x_{1} + x_{2} = 2$. The exact answer is $x_{1} = 1.0001$ and $x_{2} = 0.9999$. With the pivot 0.0001 the multiplier is 10 000, and $a_{22}^{\\prime} = 1 - 10\\,000 = -9999$. A calculator with 3 digits keeps only −10 000, so the original 1 vanishes. Try it.</p></div>
 <div class="lab" id="lab-pivot"></div>
 <div class="callout ce"><span class="tag">CE link</span><p>Round-off shows up in real structural models, especially stiffness matrices that mix very stiff and very flexible members. Software uses pivoting for exactly this reason.</p></div>
+</section>
+<section class="sec"><h2><span class="no">F</span>Determinants, singularity and the adjoint inverse</h2>
+<div class="prose"><p>Before solving $[A]\{x\} = \{b\}$ or inverting a stiffness matrix $[K]$, ask a fundamental question from linear algebra (Deck 02): <b>does a unique solution exist?</b> The answer lives in the <b>determinant</b>, $\det(A)$.</p>
+<div class="formula">$$\det\begin{bmatrix}a&b\\c&d\end{bmatrix}=ad-bc,\qquad\det(A)=\sum_{j=1}^{n} (-1)^{1+j}\,a_{1j}\,M_{1j}$$<div class="fnote">$M_{1j}$ is the minor determinant formed by deleting row 1 and column j. If $\det(A)=0$, the matrix is <b>singular</b> and has no inverse.</div></div>
+<p>When $\det(A) \ne 0$, the exact algebraic inverse follows from the <b>cofactor matrix</b> $[C]$ (where $C_{ij} = (-1)^{i+j}M_{ij}$) and its transpose, the <b>adjoint</b> $\mathrm{Adj}(A) = [C]^T$:</p>
+<div class="formula">$$[A]^{-1}=\dfrac{1}{\det(A)}\,\mathrm{Adj}(A),\qquad\text{and for }2\times 2:\quad\begin{bmatrix}a&b\\c&d\end{bmatrix}^{-1}=\dfrac{1}{ad-bc}\begin{bmatrix}d&-b\\-c&a\end{bmatrix}$$</div></div>
+<div class="wx">
+<div class="wx-head"><div><b>Worked example: determinant &amp; adjoint inverse of a 2-DOF frame stiffness matrix</b></div></div>
+<div class="wx-grid">
+<figure class="wx-fig"><svg class="plot" viewBox="0 0 440 245" role="img" aria-label="Determinant sign test and 2x2 adjoint matrix inverse for stiffness matrix K">
+  <rect x="14" y="18" width="194" height="106" fill="var(--paper2)" stroke="var(--qx)" stroke-width="1.8"/>
+  <text x="111" y="38" text-anchor="middle" style="fill:var(--qx);font-weight:700">Determinant: det(K)</text>
+  <text x="111" y="60" text-anchor="middle">K = [ 4   -2 ; -2   6 ]</text>
+  <text x="111" y="82" text-anchor="middle" style="fill:var(--qy);font-weight:700">det = 4(6) - (-2)(-2) = 20</text>
+  <text x="111" y="106" text-anchor="middle" style="fill:var(--good);font-size:10px">det != 0 =&gt; unique inverse exists</text>
+  <rect x="232" y="18" width="194" height="106" fill="var(--paper2)" stroke="var(--qe)" stroke-width="1.8"/>
+  <text x="329" y="38" text-anchor="middle" style="fill:var(--qe);font-weight:700">Singular Case: det = 0</text>
+  <text x="329" y="60" text-anchor="middle">S = [ 2  -1 ; -4   2 ]</text>
+  <text x="329" y="82" text-anchor="middle" style="fill:var(--qe);font-weight:700">det = 2(2) - (-1)(-4) = 0</text>
+  <text x="329" y="106" text-anchor="middle" style="fill:var(--qe);font-size:10px">parallel rows =&gt; no unique solution</text>
+  <rect x="44" y="142" width="352" height="86" fill="var(--plot)" stroke="var(--good)" stroke-width="2"/>
+  <text x="220" y="164" text-anchor="middle" style="fill:var(--qh);font-weight:700">Adjoint Inverse Formula: K^-1 = (1 / det K) * Adj(K)</text>
+  <text x="220" y="186" text-anchor="middle">Swap diag (6,4), negate off-diag (+2,+2): Adj(K) = [6 2; 2 4]</text>
+  <text x="220" y="208" text-anchor="middle" style="fill:var(--good);font-weight:700">(1/20) * [6 2; 2 4] = [0.30  0.10 ; 0.10  0.20]</text>
+</svg><figcaption>Non-zero determinant confirms nonsingularity; swapping the diagonal and negating off-diagonals yields $\mathrm{Adj}(K)$.</figcaption></figure>
+<div>
+<ol class="wx-steps">
+<li><b>Determinant:</b> $\det(K) = (4)(6) - (-2)(-2) = 24 - 4 = 20 \ne 0$.</li>
+<li><b>Cofactor &amp; adjoint:</b> Swap $(4,6)\to(6,4)$ and flip signs on $-2$: $\mathrm{Adj}(K) = \begin{bmatrix}6&2\\2&4\end{bmatrix}$.</li>
+<li><b>Scale by $1/\det$:</b> $[K]^{-1} = \frac{1}{20}\begin{bmatrix}6&2\\2&4\end{bmatrix} = \begin{bmatrix}0.30&0.10\\0.10&0.20\end{bmatrix}$.</li>
+</ol>
+<div class="wx-ans">$[K][K]^{-1} = [I]$ &nbsp;·&nbsp; Flexibility coefficients computed in one division</div>
+</div>
+</div>
+</div>
+<div class="stage-viz" data-viz="w2-det-area"></div>
+<div class="stage-viz" data-viz="w2-lu-vs-inv"></div>
+<div class="callout ce"><span class="tag">CE link</span><p>A zero determinant in a finite-element stiffness matrix usually means an <b>unstable support</b> (rigid-body motion is unrestrained) or two collinear truss bars! Checking $\det(K)$ catches an unstable structure immediately, while $[K]^{-1}$ gives the <b>flexibility matrix</b> whose entries are deflections under unit loads.</p></div>
 </section>`;
 
 SEC.iterate=`
@@ -810,14 +1259,30 @@ ${iterTbl(BEAM.A,BEAM.b,'J',7)}
 </section>
 
 <section class="sec"><h2><span class="no">C</span>Gauss–Seidel</h2>
-<div class="prose"><p>In <b>Gauss–Seidel</b> each new value is used the moment it is computed. $M_{B}$ is updated first, and the new $M_{B}$ goes straight into the $M_{C}$ equation, which feeds the $M_{D}$ equation. Same system, same start:</p></div>
+<div class="prose"><p>In <b>Gauss–Seidel</b> each new value is used the moment it is computed. $M_{B}$ is updated first, and the new $M_{B}$ goes straight into the $M_{C}$ equation, which feeds the $M_{D}$ equation.</p></div>
+<div class="wx">
+<div class="wx-head"><div><b>Worked example: Jacobi vs Gauss–Seidel convergence on the 4-span beam</b></div></div>
+<div class="wx-grid">
+<figure class="wx-fig"><svg class="plot" viewBox="0 0 440 240" role="img" aria-label="Log plot comparing Jacobi vs Gauss-Seidel percent error convergence over 7 iterations"><line x1="46" y1="18.0" x2="422" y2="18.0" stroke="var(--soft)" stroke-width="1"/><text x="41" y="22.0" text-anchor="end">100%</text><line x1="46" y1="66.0" x2="422" y2="66.0" stroke="var(--soft)" stroke-width="1"/><text x="41" y="70.0" text-anchor="end">10%</text><line x1="46" y1="114.0" x2="422" y2="114.0" stroke="var(--soft)" stroke-width="1"/><text x="41" y="118.0" text-anchor="end">1%</text><line x1="46" y1="162.0" x2="422" y2="162.0" stroke="var(--soft)" stroke-width="1"/><text x="41" y="166.0" text-anchor="end">0.1%</text><line x1="46" y1="210.0" x2="422" y2="210.0" stroke="var(--soft)" stroke-width="1"/><text x="41" y="214.0" text-anchor="end">0.01%</text><text x="46.0" y="232" text-anchor="middle">1</text><text x="108.7" y="232" text-anchor="middle">2</text><text x="171.3" y="232" text-anchor="middle">3</text><text x="234.0" y="232" text-anchor="middle">4</text><text x="296.7" y="232" text-anchor="middle">5</text><text x="359.3" y="232" text-anchor="middle">6</text><text x="422.0" y="232" text-anchor="middle">7</text><polyline points="46.0,18.0 108.7,18.0 171.3,51.6 234.0,63.8 296.7,93.3 359.3,107.4 422.0,136.4" fill="none" stroke="var(--qe)" stroke-width="2.4" stroke-dasharray="6 3"/><polyline points="46.0,18.0 108.7,45.8 171.3,82.2 234.0,125.7 296.7,169.1 359.3,212.4 422.0,255.8" fill="none" stroke="var(--good)" stroke-width="2.6"/><circle cx="46.0" cy="18.0" r="4" fill="var(--qe)"/><circle cx="108.7" cy="18.0" r="4" fill="var(--qe)"/><circle cx="171.3" cy="51.6" r="4" fill="var(--qe)"/><circle cx="234.0" cy="63.8" r="4" fill="var(--qe)"/><circle cx="296.7" cy="93.3" r="4" fill="var(--qe)"/><circle cx="359.3" cy="107.4" r="4" fill="var(--qe)"/><circle cx="422.0" cy="136.4" r="4" fill="var(--qe)"/><circle cx="46.0" cy="18.0" r="4" fill="var(--good)"/><circle cx="108.7" cy="45.8" r="4" fill="var(--good)"/><circle cx="171.3" cy="82.2" r="4" fill="var(--good)"/><circle cx="234.0" cy="125.7" r="4" fill="var(--good)"/><circle cx="296.7" cy="169.1" r="4" fill="var(--good)"/><circle cx="359.3" cy="212.4" r="4" fill="var(--good)"/><circle cx="422.0" cy="255.8" r="4" fill="var(--good)"/><text x="296.7" y="85.3" style="fill:var(--qe);font-weight:600">Jacobi</text><text x="284.1" y="185.1" style="fill:var(--good);font-weight:700">Gauss-Seidel</text></svg><figcaption>Log-scale percent relative error vs iteration starting from $(0,0,0)$. Immediate updates cut Gauss–Seidel sweeps roughly in half.</figcaption></figure>
+<div>
+<ol class="wx-steps">
+<li><b>Iteration 1 (GS):</b> $M_B=-45$, then $M_C = (-1080-6(-45))/24 = -33.75$, $M_D = -36.563$.</li>
+<li><b>Iteration 2 (Jacobi):</b> waits for old values: $(-33.75, -22.50, -33.75)$.</li>
+<li><b>By iteration 6:</b> GS max $\varepsilon_a = 0.04\%$ vs Jacobi $1.07\%$.</li>
+</ol>
+<div class="wx-ans">$\mathbf{M} = (-38.571,\ -25.714,\ -38.571)\text{ kN}\cdot\text{m}$</div>
+</div>
+</div>
+</div>
 ${iterTbl(BEAM.A,BEAM.b,'G',7)}
-<p class="hint">Compare the iteration counts. Gauss–Seidel usually gets there in about half as many sweeps.</p>
+<div class="stage-viz" data-viz="w2-diag-dom"></div>
+<p class="hint">Compare the iteration counts with Jacobi above. Gauss–Seidel reaches engineering tolerance in about half as many sweeps.</p>
 </section>
 
 <section class="sec"><h2><span class="no">D</span>When does it work?</h2>
 <div class="prose"><p>These methods do not always converge. A reliable sufficient test is <b>diagonal dominance</b>: in every row, $|a_{ii}|$ is larger than the sum of the absolute values of the other entries. The beam matrix passes easily, since 24 > 6 + 6.</p>
 <p>The order of the equations matters. The same three equations in a different order can fail completely. Use the lab: race the two methods, then try the scrambled system, and reorder its rows to rescue it. The chart plots the largest error against the exact solution, so convergence slopes down and divergence climbs.</p></div>
+<div class="stage-viz" data-viz="w2-sweep-flow"></div>
 <div class="lab" id="lab-race"></div>
 <div class="callout trap"><span class="tag">Trap!</span><p>Diagonal dominance is sufficient, not necessary. A system that fails the test may still converge, but one that passes is safe. Always check the diagonal before you iterate, and reorder the equations if you can.</p></div>
 <div class="callout ce"><span class="tag">CE link</span><p>Large structural and network models have thousands of equations, mostly zeros, with strong diagonals. Iterative solvers shine there, because they never fill in the zeros the way elimination does.</p></div>
@@ -837,8 +1302,43 @@ SEC.factor=`
 <section class="sec"><h2><span class="no">C</span>LU from Gauss elimination</h2>
 <div class="prose"><p>You have already computed both factors. [U] is the matrix at the end of elimination. [L] has ones on the diagonal and the multipliers below it. For the classic system:</p></div>
 <div class="grid2"><div><p class="hint">[A]</p>${matTable(SYS.classic.A)}</div><div><p class="hint">[L] (the multipliers)</p>${matTable(luCl.L)}</div></div>
-<div class="grid2"><div><p class="hint">[U] (after elimination)</p>${matTable(luCl.U)}</div><div class="card"><p style="margin:0">Check by multiplying [L][U]: you get [A] back. With $b = (8, -11, -3)$, forward substitution gives <b>$y = (8, 1, 1)$</b>, and back substitution gives <b>$x = (2, 3, -1)$</b>.</p></div></div>
-<div class="callout"><span class="tag">Prof says</span><p>Look at $y$. It is exactly the right-hand side as it stood at the end of elimination. LU does not change the arithmetic. It just saves the multipliers so you never have to eliminate again.</p></div>
+<div class="grid2"><div><p class="hint">[U] (after elimination)</p>${matTable(luCl.U)}</div><div class="card"><p style="margin:0">Check by multiplying [L][U]: you get [A] back.</p></div></div>
+<div class="wx"><div class="wx-grid">
+<figure class="wx-fig"><svg class="plot" viewBox="0 0 440 240" role="img" aria-label="LU factorization split: one O(n^3) decomposition reused across multiple load vectors">
+  <rect x="18" y="20" width="110" height="58" fill="var(--paper2)" stroke="var(--ink)" stroke-width="2"/>
+  <text x="73" y="44" text-anchor="middle" style="fill:var(--qx);font-weight:700">Matrix [A]</text>
+  <text x="73" y="64" text-anchor="middle" style="font-size:10px">(beam geometry)</text>
+  <line x1="128" y1="49" x2="162" y2="49" stroke="var(--accent)" stroke-width="2.2"/>
+  <polygon points="160,44 169,49 160,54" fill="var(--accent)"/>
+  <text x="147" y="40" text-anchor="middle" style="fill:var(--qh);font-size:10px">once</text>
+  <rect x="171" y="16" width="120" height="66" fill="var(--paper2)" stroke="var(--good)" stroke-width="2"/>
+  <text x="231" y="42" text-anchor="middle" style="fill:var(--good);font-weight:700">[L] and [U]</text>
+  <text x="231" y="62" text-anchor="middle" style="font-size:10px">stored in memory</text>
+  <line x1="231" y1="82" x2="231" y2="112" stroke="var(--line)" stroke-width="1.8"/>
+  <line x1="88" y1="112" x2="368" y2="112" stroke="var(--line)" stroke-width="1.8"/>
+  <line x1="88" y1="112" x2="88" y2="132" stroke="var(--line)" stroke-width="1.8"/>
+  <line x1="231" y1="112" x2="231" y2="132" stroke="var(--line)" stroke-width="1.8"/>
+  <line x1="368" y1="112" x2="368" y2="132" stroke="var(--line)" stroke-width="1.8"/>
+  <rect x="26" y="132" width="124" height="84" fill="var(--plot)" stroke="var(--qx)" stroke-width="1.8"/>
+  <text x="88" y="154" text-anchor="middle" style="fill:var(--qx);font-weight:700">LC1: {b1}</text>
+  <text x="88" y="176" text-anchor="middle">[L]{y}={b1}</text>
+  <text x="88" y="196" text-anchor="middle">[U]{x}={y1}</text>
+  <rect x="169" y="132" width="124" height="84" fill="var(--plot)" stroke="var(--qh)" stroke-width="1.8"/>
+  <text x="231" y="154" text-anchor="middle" style="fill:var(--qh);font-weight:700">LC2: {b2}</text>
+  <text x="231" y="176" text-anchor="middle">[L]{y}={b2}</text>
+  <text x="231" y="196" text-anchor="middle">no new elim!</text>
+  <rect x="306" y="132" width="120" height="84" fill="var(--plot)" stroke="var(--good)" stroke-width="1.8"/>
+  <text x="366" y="154" text-anchor="middle" style="fill:var(--good);font-weight:700">LCk: {bk}</text>
+  <text x="366" y="176" text-anchor="middle">O(n^2) solve</text>
+  <text x="366" y="196" text-anchor="middle">instant reuse</text>
+</svg><figcaption>Factoring $[A] = [L][U]$ once drops every additional load vector from $O(n^3)$ to $O(n^2)$.</figcaption></figure>
+<div><ol class="wx-steps">
+<li><b>Cost split:</b> Factor $[A] = [L][U]$ once per structural mesh.</li>
+<li><b>Forward solve:</b> $[L]\{y\} = \{b\}$ finds $\{y\} = (8, 1, 1)$ in $n^2/2$ flops.</li>
+<li><b>Back solve:</b> $[U]\{x\} = \{y\}$ yields $\{x\} = (2, 3, -1)$.</li>
+</ol><div class="wx-ans">$[A]\{x\} = [L][U]\{x\} = \{b\}$ with zero repeat elimination</div></div></div></div>
+<div style="display:none"><p> With $b = (8, -11, -3)$, forward substitution gives <b>$y = (8, 1, 1)$</b>, and back substitution gives <b>$x = (2, 3, -1)$</b>.</p></div></div>
+<div class="callout prof"><span class="tag">Prof says</span><p>Look at $y$. It is exactly the right-hand side as it stood at the end of elimination. LU does not change the arithmetic. It just saves the multipliers so you never have to eliminate again.</p></div>
 </section>
 
 <section class="sec"><h2><span class="no">D</span>Crout&rsquo;s method</h2>
@@ -862,209 +1362,29 @@ SEC.boss=`
 <section class="sec"><h2><span class="no">!</span>Rules of the gate</h2>
 <div class="prose"><p>Seven problems in the style of the midterm. Every correct answer damages the Warden. A first-try answer is worth full XP and a retry is worth half. Use your calculator, MATLAB, or the labs. Every problem uses the four-span beam from this world.</p></div></section>`;
 
-/* =====================================================================
-   RENDER VIEWS
-   ===================================================================== */
+// NumQuest World 2 Config & Labs
+const KEY='numquest-censcp33z-w2';
+const LEVELS=[[0,'Site Intern'],[160,'Field Engineer'],[380,'Design Engineer'],[640,'Project Engineer'],[900,'Chief Engineer']];
+const BADGES=[
+ ['coin','First Benchmark','Answer a checkpoint correctly','1'],
+ ['c3','Combo x3','Three first-try answers in a row','3'],
+ ['c5','Combo x5','Five in a row','5'],
+ ['c10','Combo x10','Ten in a row','10'],
+ ['elim','Pivot Pro','Solve the zero-pivot system with partial pivoting','$\\prod$'],
+ ['pivot','Round-off Hunter','Break a solution with a tiny pivot, then rescue it','$\\varepsilon$'],
+ ['race','Iteration Racer','Converge both methods, then rescue the scrambled system','⇄'],
+ ['lu','Factor Master','Solve all four load cases from one L and U','LU'],
+ ['star3','Clean Sheet','Earn three stars on a stage','★'],
+ ['boss','Warden Down','Defeat the Matrix Warden','⚔']
+];
+const LABXP={elim:20,pivot:20,race:25,lu:25};
+
 const STAGES=[
  {id:'eliminate',no:'2-1',title:'Eliminate',mission:'Turn a system into triangular form, solve it from the bottom up, and learn what makes a pivot go wrong.',labs:['elim','pivot'],time:'35 min',cp:'F'},
  {id:'iterate',no:'2-2',title:'Iterate',mission:'Guess, substitute, repeat. Race Jacobi against Gauss–Seidel and find out when they refuse to converge.',labs:['race'],time:'25 min',cp:'E'},
- {id:'factor',no:'2-3',title:'Factor',mission:'Split a matrix into L and U once, then reuse it for every load case.',labs:['lu'],time:'30 min',cp:'F'}
+ {id:'factor',no:'2-3',title:'Factor',mission:'Split a matrix into L and U once, reuse it for every load case, and test singularity with determinants & inverses.',labs:['lu'],time:'35 min',cp:'G'}
 ];
-const VIEWS=['home',...STAGES.map(s=>s.id),'boss'];
 const LABNAMES={elim:'Elimination Stepper',pivot:'Pivot Trouble',race:'Iteration Race',lu:'LU Factory'};
-const exSum=id=>EX[id].reduce((a,e)=>a+e.xp,0);
-const totalXP=()=>STAGES.reduce((a,s)=>a+exSum(s.id),0)+exSum('boss')+Object.values(LABXP).reduce((a,b)=>a+b,0)+40*STAGES.length+60;
-
-function exHTML(e){
-  const kind={mcq:'Multiple choice',tf:'True or false',num:'Numeric answer',fill:'Fill the table',classify:'Sort it',order:'Put in order'}[e.type];
-  let b='';
-  if(e.type==='mcq'||e.type==='tf')b=`<div class="opts">${e.opts.map((o,j)=>`<button type="button" class="opt" data-j="${j}"><span class="key">${'ABCD'[j]}</span><span>${o}</span></button>`).join('')}</div>`;
-  if(e.type==='num')b=`<div class="numrow"><input class="numin" id="${e.id}-in" type="text" inputmode="decimal" autocomplete="off" placeholder="your answer" aria-label="Answer"><span class="unit">${e.unit||''}</span></div>`;
-  if(e.type==='fill')b=(e.pre||'')+`<div class="fillgrid">${e.fields.map((f,j)=>`<label class="fld">${f.k}<input id="${e.id}-f${j}" data-j="${j}" type="text" inputmode="decimal" autocomplete="off"></label>`).join('')}</div>`;
-  if(e.type==='classify')b=`<div class="rows">${e.items.map((it,j)=>`<div class="row" data-j="${j}"><span>${it[0]}</span><span class="seg">${e.cats.map((c,k)=>`<button type="button" data-k="${k}">${c}</button>`).join('')}</span></div>`).join('')}</div>`;
-  if(e.type==='order')b=`<div class="rows" data-order>${e.perm.map((p,i)=>`<div class="row orow" data-idx="${p}"><span class="pos">${i+1}</span><span>${e.items[p]}</span><span class="mv"><button type="button" data-mv="-1" aria-label="Move up">▲</button><button type="button" data-mv="1" aria-label="Move down">▼</button></span></div>`).join('')}</div>`;
-  return `<div class="ex" id="ex-${e.id}" data-id="${e.id}"><div class="ex-top"><span class="ex-kind">${kind}</span><span class="ex-xp"><span class="nut"></span>${e.xp} XP</span><span class="ex-state">Open</span></div>
-  <div class="ex-q">${e.q}</div>${b}
-  <div class="ex-act"><button type="button" class="btn primary" data-act="check">Check</button><button type="button" class="btn ghost" data-act="show">Show solution</button></div>
-  <div class="fb" aria-live="polite"></div><div class="sol"><b class="h">Worked solution</b><span class="solt">${e.sol}</span></div></div>`;
-}
-const findEx=id=>{for(const k in EX){const e=EX[k].find(x=>x.id===id);if(e)return e}};
-const numParse=s=>{const v=parseFloat(String(s).replace(/−/g,'-').replace(',','.'));return isNaN(v)?null:v};
-
-
-function stageHero(st){
-  return `<div class="hero"><div class="eyebrow">Stage ${st.no} · World 2 · Matrix Fortress</div><h1>${st.title}</h1>
-  <p class="mission"><b>Mission</b> &nbsp;${st.mission}</p>
-  <div class="tblock"><div><span>Sheet</span><b>${st.no}</b></div><div><span>Time</span><b>${st.time}</b></div><div><span>Labs</span><b>${st.labs.length}</b></div><div><span>Checkpoints</span><b>${EX[st.id].length}</b></div><div><span>XP on sheet</span><b>${exSum(st.id)+st.labs.reduce((a,l)=>a+LABXP[l],0)+40}</b></div><div><span>Stars</span><b class="stars" id="hs-${st.id}"></b></div></div></div>
-  <div class="track" id="tr-${st.id}"></div>`;
-}
-function build(){
-  const main=$('#main');
-  const exBlock=st=>`<section class="sec"><h2><span class="no">${st.cp}</span>Checkpoints</h2><p class="prose">Answer each one. First-try answers earn full XP and build your combo.</p>${EX[st.id].map(exHTML).join('')}</section>`;
-  const nCp=STAGES.reduce((a,s)=>a+EX[s.id].length,0)+EX.boss.length;
-  main.innerHTML=`
-  <div class="view" id="v-home"><div class="hero"><div class="eyebrow">CENSCP33Z · Numerical Solutions to CE Problems</div><h1>NumQuest</h1>
-   <p class="mission"><b>World 2: Matrix Fortress</b> &nbsp;Solve systems of linear equations three ways: eliminate, iterate and factor. Every example comes from one four-span continuous beam, and the finale is the Matrix Warden.</p>
-   <div class="tblock"><div><span>Stages</span><b>3 + boss</b></div><div><span>Labs</span><b>4</b></div><div><span>Checkpoints</span><b>${nCp}</b></div><div><span>Total XP</span><b>${totalXP()}</b></div><div><span>Your XP</span><b id="homeXp">0</b></div></div></div>
-   <section class="sec"><h2>Course map</h2><div class="map" id="map"></div></section>
-   <section class="sec"><h2>How to play</h2><div class="how"><div><b>Read a stage.</b> Short sections, each with a formula and a worked example.</div><div><b>Play the labs.</b> Step through the methods and watch the matrices change.</div><div><b>Clear the checkpoints.</b> Get answers right on the first try to build your combo.</div><div><b>Beat the boss.</b> Seven exam-style problems close out the world.</div></div></section>
-   <section class="sec"><h2>Badges</h2><div class="badges" id="badges"></div></section>
-   <p class="foot">Based on the CENSCP33Z lecture decks on direct methods, iterative methods and LU decomposition. Progress is saved in this browser only, and XP in this world is counted separately from World 1. The Teacher button shows answers and unlocks the boss for demos.</p></div>
-  ${STAGES.map(st=>`<div class="view" id="v-${st.id}">${stageHero(st)}${SEC[st.id]}${exBlock(st)}</div>`).join('')}
-  <div class="view" id="v-boss"><div class="hero"><div class="eyebrow">World 2 boss · Midterm gate</div><h1>The Matrix Warden</h1><p class="mission"><b>Mission</b> &nbsp;Get through seven exam-style problems on one four-span beam to open the way to World 3.</p></div>
-   <div class="bossbar" id="bossbar"><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M18 52a32 32 0 0 1 64 0z" fill="#f2b705" stroke="#06152b" stroke-width="4"/><rect x="10" y="50" width="80" height="9" fill="#f2b705" stroke="#06152b" stroke-width="4"/><rect x="26" y="52" width="48" height="42" fill="#e8f1ff" stroke="#06152b" stroke-width="4"/><path d="M26 66h48M26 80h48M42 52v42M58 52v42" stroke="#06152b" stroke-width="2.5" fill="none"/><circle cx="34" cy="59" r="3.5" fill="#c92a2a"/><circle cx="66" cy="59" r="3.5" fill="#c92a2a"/></svg>
-   <div style="flex:1;min-width:0"><div class="bn">Matrix Warden</div><div class="hp"><i id="hpFill"></i></div><div class="mono hint" id="hpTxt" style="color:#b9d0ee;margin-top:4px"></div></div></div>
-   <div id="bossLock" class="lockbox" hidden><h3>The gate is shut</h3><p id="lockTxt"></p></div>
-   <div id="bossBody">${SEC.boss}<section class="sec"><h2>Problems</h2>${EX.boss.map(exHTML).join('')}</section></div></div>`;
-  $('#nav').innerHTML=`<a href="#home" data-v="home"><span class="sn">HOME</span><span class="nt">Title screen</span></a><div class="div"></div>`+
-    STAGES.map(s=>`<a href="#${s.id}" data-v="${s.id}"><span class="sn">${s.no}</span><span class="nt">${s.title}<br><span class="st" id="ns-${s.id}"></span></span></a>`).join('')+
-    `<a href="#boss" data-v="boss"><span class="sn">BOSS</span><span class="nt">The Matrix Warden<br><span class="st" id="ns-boss"></span></span></a><div class="div"></div>`+
-    `<a href="${WORLD1_URL}" target="_blank" rel="noopener"><span class="sn">W1</span><span class="nt">Root Hunters<br><span class="hint">opens World 1</span></span></a>`+
-    `<a href="NumQuest-World3.html"><span class="sn">W3</span><span class="nt">Data Valley<br><span class="hint">open world 3</span></span></a><a href="NumQuest-World4.html"><span class="sn">W4</span><span class="nt">Integration Peaks<br><span class="hint">open world 4</span></span></a>`;
-  renderMap();renderBadges();
-  mountLabs();
-  Object.keys(EX).forEach(k=>EX[k].forEach(e=>{if(S.ex[e.id])restoreEx(e)}));
-  refreshAll();
-}
-function renderMap(){
-  const pts=[[70,110],[195,70],[325,130],[455,70],[585,120],[715,90]];
-  const nodes=[{t:'START',s:'World 2',href:'#home',d:true},...STAGES.map(s=>({t:s.no,s:s.title,href:'#'+s.id,d:!!S.clear[s.id]})),{t:'BOSS',s:'Matrix Warden',href:'#boss',d:!!S.badges.boss},{t:'W3',s:'Data Valley',href:'NumQuest-World3.html'}];
-  let path='M'+pts[0].join(' ');
-  for(let i=1;i<pts.length;i++){const mx=(pts[i-1][0]+pts[i][0])/2;path+=` C${mx} ${pts[i-1][1]} ${mx} ${pts[i][1]} ${pts[i][0]} ${pts[i][1]}`}
-  let svg=`<svg viewBox="0 0 800 200" role="img" aria-label="Course map"><path d="${path}" fill="none" stroke="var(--line)" stroke-width="4" stroke-dasharray="10 8"/>`;
-  nodes.forEach((n,i)=>{
-    const [x,y]=pts[i];
-    const inner=`<g class="node ${n.soon?'soon':''} ${n.d?'done':''}"><polygon class="nb" points="${x},${y-30} ${x+28},${y-15} ${x+28},${y+15} ${x},${y+30} ${x-28},${y+15} ${x-28},${y-15}"/><text class="nt" x="${x}" y="${y+6}">${n.t}</text><text class="ns" x="${x}" y="${y+50}">${n.s}</text></g>`;
-    svg+=n.href?`<a href="${n.href}" aria-label="${n.t} ${n.s}">${inner}</a>`:inner;
-  });
-  $('#map').innerHTML=svg+'</svg>';
-}
-function renderBadges(){
-  const el=$('#badges');if(!el)return;
-  el.innerHTML=BADGES.map(b=>`<div class="badge ${S.badges[b[0]]?'got':''}"><div class="medal">${b[3]}</div><b>${b[1]}</b><span>${b[2]}</span></div>`).join('');
-}
-/* ---------- exercise logic ---------- */
-function gradeEx(e,root){
-  if(e.type==='mcq'||e.type==='tf'){const s=$('.opt.sel',root);if(!s)return null;return {ok:+s.dataset.j===e.a,sel:s}}
-  if(e.type==='num'){const v=numParse($('input',root).value);if(v==null)return null;return {ok:Math.abs(v-e.a)<=e.t+1e-12}}
-  if(e.type==='fill'){const ins=$$('.fld input',root),marks=[];let ok=true;
-    for(const i of ins){const v=numParse(i.value);if(v==null)return null;const f=e.fields[+i.dataset.j];const g=Math.abs(v-f.a)<=f.t+1e-12;marks.push([i,g]);ok=ok&&g}
-    return {ok,marks}}
-  if(e.type==='classify'){const rows=$$('.row',root),marks=[];let ok=true;
-    for(const r of rows){const s=$('.seg .sel',r);if(!s)return null;const g=+s.dataset.k===e.items[+r.dataset.j][1];marks.push([r,g]);ok=ok&&g}
-    return {ok,marks}}
-  if(e.type==='order'){const idx=$$('[data-idx]',root).map(r=>+r.dataset.idx);return {ok:idx.every((v,i)=>v===i)}}
-}
-function lockEx(e,root,state){
-  $$('input,.opt,.seg button,.mv button,[data-act=check],[data-act=show]',root).forEach(n=>{n.disabled=true});
-  root.classList.add('done');$('.ex-state',root).textContent=state;$('.sol',root).classList.add('show');$('.fb',root).classList.remove('show');
-}
-function fillAnswer(e,root){
-  if(e.type==='mcq'||e.type==='tf'){$$('.opt',root).forEach(o=>{o.classList.remove('sel','wrong');o.classList.toggle('right',+o.dataset.j===e.a)})}
-  if(e.type==='num'){$('input',root).value=String(e.a).replace('-','−')}
-  if(e.type==='fill'){$$('.fld input',root).forEach(i=>{i.value=String(e.fields[+i.dataset.j].a).replace('-','−');i.classList.remove('wrong');i.classList.add('right')})}
-  if(e.type==='classify'){$$('.row',root).forEach(r=>{r.classList.remove('wrong');r.classList.add('right');$$('.seg button',r).forEach(b=>{b.classList.remove('sel');b.classList.toggle('ans',+b.dataset.k===e.items[+r.dataset.j][1])})})}
-  if(e.type==='order'){const box=$('[data-order]',root);const rows=$$('[data-idx]',box).sort((a,b)=>a.dataset.idx-b.dataset.idx);rows.forEach(r=>box.appendChild(r));renumber(box)}
-}
-const renumber=box=>$$('.pos',box).forEach((p,i)=>p.textContent=i+1);
-function restoreEx(e){
-  const root=$('#ex-'+e.id);if(!root)return;const r=S.ex[e.id];
-  fillAnswer(e,root);lockEx(e,root,r.st==='ok'?'Cleared':'Revealed');
-}
-function checkEx(e,root,anchor){
-  if(root.classList.contains('done'))return;
-  const g=gradeEx(e,root),fb=$('.fb',root);
-  if(!g){fb.innerHTML='Answer every part first.';fb.classList.add('show');return}
-  const r=S.ex[e.id]=S.ex[e.id]||{att:0,st:'open'};r.att++;
-  if(g.ok){
-    const first=r.att===1,xp=first?e.xp:Math.ceil(e.xp/2);
-    r.st='ok';r.xp=xp;
-    if(g.marks)g.marks.forEach(([n])=>n.classList.add('right'));
-    if(g.sel)g.sel.classList.add('right');
-    lockEx(e,root,'Cleared · +'+xp+' XP');
-    root.classList.add('win');setTimeout(()=>root.classList.remove('win'),800);
-    sfx.ok();
-    if(first){S.streak++;S.best=Math.max(S.best,S.streak);
-      const bonus={3:5,5:10,10:20}[S.streak];
-      if(bonus){banner('Combo x'+S.streak,'+'+bonus+' bonus XP');award(bonus,$('#comboChip'))}}
-    award(xp,anchor||root);
-    if(S.ex[e.id].xp)grant('coin');
-    if(S.best>=3)grant('c3');if(S.best>=5)grant('c5');if(S.best>=10)grant('c10');
-    afterProgress(e,root);
-  }else{
-    S.streak=0;sfx.no();floatText('Combo lost',$('#comboChip'),'red');
-    if(g.sel){g.sel.classList.remove('sel');g.sel.classList.add('wrong')}
-    if(g.marks)g.marks.forEach(([n,ok])=>{n.classList.toggle('wrong',!ok);n.classList.toggle('right',ok)});
-    fb.innerHTML=`<b>Not quite.</b> ${e.hint}`;fb.classList.add('show');
-    if(r.att>=2)root.classList.add('canshow');
-    save();hud();
-  }
-}
-function showSolution(e,root){
-  if(root.classList.contains('done'))return;
-  const r=S.ex[e.id]=S.ex[e.id]||{att:0,st:'open'};r.st='rev';r.xp=0;
-  fillAnswer(e,root);lockEx(e,root,'Revealed · no XP');save();afterProgress(e,root);
-}
-function stageOf(id){for(const k in EX)if(EX[k].some(e=>e.id===id))return k}
-function stageStats(k){
-  const list=EX[k],done=list.filter(e=>S.ex[e.id]&&S.ex[e.id].st!=='open').length;
-  const first=list.filter(e=>S.ex[e.id]&&S.ex[e.id].st==='ok'&&S.ex[e.id].att===1).length;
-  const st=STAGES.find(s=>s.id===k);const labs=st?st.labs.filter(l=>S.labs[l]).length:0;
-  let stars=0;
-  if(done===list.length){stars=1;if(first/list.length>=.8)stars=2;if(first===list.length&&labs===st.labs.length)stars=3}
-  return {done,total:list.length,first,labs,stars};
-}
-function afterProgress(e,root){
-  const k=stageOf(e.id);
-  if(k!=='boss'){
-    const s=stageStats(k);
-    if(s.done===s.total&&!S.clear[k]){S.clear[k]=true;sfx.clear();banner('Stage clear!',STAGES.find(x=>x.id===k).title);award(40,root)}
-    if(s.stars===3)grant('star3');
-  }else{
-    const hit=EX.boss.filter(x=>S.ex[x.id]&&S.ex[x.id].st==='ok').length;
-    const bb=$('#bossbar');bb.classList.add('hit');setTimeout(()=>bb.classList.remove('hit'),350);
-    if(hit===EX.boss.length&&!S.bossBonus){S.bossBonus=true;grant('boss');sfx.clear();banner('Warden down!','World 2 complete');award(60,root)}
-  }
-  save();refreshAll();
-}
-function refreshAll(){
-  hud();
-  const starStr=n=>'★'.repeat(n)+'<span class="off">'+'★'.repeat(3-n)+'</span>';
-  STAGES.forEach(st=>{
-    const s=stageStats(st.id),el=$('#tr-'+st.id);
-    if(el)el.innerHTML=`<div class="tile"><span>Checkpoints</span><b>${s.done} / ${s.total}</b></div><div class="tile"><span>First try</span><b>${s.first} / ${s.total}</b></div><div class="tile"><span>Labs played</span><b>${s.labs} / ${st.labs.length}</b></div><div class="tile"><span>Stars</span><b class="stars">${starStr(s.stars)}</b></div>`;
-    const hs=$('#hs-'+st.id);if(hs)hs.innerHTML=starStr(s.stars);
-    const ns=$('#ns-'+st.id);if(ns)ns.innerHTML=starStr(s.stars);
-    const a=$(`.nav a[data-v="${st.id}"]`);if(a)a.classList.toggle('done',!!S.clear[st.id]);
-  });
-  const hit=EX.boss.filter(x=>S.ex[x.id]&&S.ex[x.id].st==='ok').length;
-  const hp=Math.round(100*(1-hit/EX.boss.length));
-  $('#hpFill').style.width=hp+'%';$('#hpTxt').textContent=`HP ${hp}% · ${hit} of ${EX.boss.length} hits landed`;
-  $('#bossbar').classList.toggle('dead',hit===EX.boss.length);
-  $('#ns-boss').innerHTML=hit===EX.boss.length?'<span class="st">★ defeated</span>':'';
-  $(`.nav a[data-v="boss"]`).classList.toggle('done',hit===EX.boss.length);
-  const okN=k=>EX[k].filter(e=>S.ex[e.id]&&S.ex[e.id].st==='ok').length;
-  const have=STAGES.reduce((a,s)=>a+okN(s.id),0),total=STAGES.reduce((a,s)=>a+EX[s.id].length,0),need=Math.ceil(.67*total);
-  const open=S.teacher||have>=need;
-  $('#bossLock').hidden=open;$('#bossBody').hidden=!open;
-  $('#lockTxt').textContent=`Clear at least ${need} checkpoints across Stages 2-1 to 2-3 correctly (67%) to open the gate. You have ${have}.`;
-  $('#homeXp').textContent=S.xp;renderMap();renderBadges();
-}
-
-/* =====================================================================
-   LABS
-   ===================================================================== */
-function labDone(id){
-  if(S.labs[id])return;S.labs[id]=1;
-  sfx.ok();toast('Lab complete',LABNAMES[id]+' · +'+LABXP[id]+' XP');award(LABXP[id],null);grant(id);
-  save();refreshAll();setGoal(id,true);
-}
-function setGoal(id,d){const g=$('#goal-'+id);if(g){g.classList.toggle('done',d);g.firstElementChild.textContent=d?'✔':'○'}}
-function labHead(id,title,goal){
-  return `<div class="lab-head"><span class="lab-tag">Lab</span><span class="lab-title">${title}</span><span class="lab-goal ${S.labs[id]?'done':''}" id="goal-${id}"><span>${S.labs[id]?'✔':'○'}</span> Goal: ${goal}</span></div>`;
-}
-const tile=(k,v,id)=>`<div class="tile"><span>${k}</span><b ${id?`id="${id}"`:''}>${v}</b></div>`;
-
 
 const n6=v=>{if(v==null||!isFinite(v))return '—';if(v===0)return '0';const a=Math.abs(v);return minus(a>=1e5||a<1e-3?v.toExponential(3):String(+v.toPrecision(8)))};
 
@@ -1252,8 +1572,339 @@ function labLU(root){
 }
 function mountLabs(){labElim($('#lab-elim'));labPivot($('#lab-pivot'));labRace($('#lab-race'));labLU($('#lab-lu'))}
 
+const ART={
+  hero:'numquest-art/web/w2-banner.webp',
+  heroAlt:'Blueprinted suspension truss fortress with illuminated pivot diagonal and matrix grid',
+  boss:'numquest-art/web/boss-singular.webp',
+  bossAlt:'The Matrix Warden fortress sentinel crest',
+  map:'numquest-art/web/map-continent.webp',
+  guide:'numquest-art/web/guide-prof.webp',
+  guideName:'Prof. Ada Vance',
+  guideTitle:'Chair of Computational Civil Engineering'
+};
+
+const WORLD={
+  no:2,
+  code:'CENSCP33Z',
+  course:'Numerical Solutions to CE Problems',
+  title:'Matrix Fortress',
+  subtitle:'World 2 · Matrix Fortress',
+  mission:'Solve systems of linear equations three ways: eliminate, iterate and factor, plus check singularity with determinants and inverses before confronting the Matrix Warden.',
+  howBeat:'Seven midterm-style beam problems close out the world.',
+  worlds:[{n:1,name:'Root Hunters',href:'NumQuest-World1.html'},{n:2,name:'Matrix Fortress',href:'NumQuest-World2.html'},{n:3,name:'Data Valley',href:'NumQuest-World3.html'},{n:4,name:'Integration Peaks',href:'NumQuest-World4.html'},{n:5,name:'Differential Frontier',href:'NumQuest-World5.html'}],
+  nextWorld:{href:'NumQuest-World3.html',sn:'W3',title:'Data Valley',hint:'open world 3'},
+  boss:{
+    eyebrow:'World 2 boss · Midterm gate',
+    title:'The Matrix Warden',
+    name:'Matrix Warden',
+    mission:'Get through seven exam-style problems on one four-span beam to open the way to World 3.',
+    taunt:'Swap zero pivots, verify diagonal dominance, and factor once before challenging the Warden.',
+    winTitle:'Warden down!',
+    winSub:'World 2 complete',
+    winBody:'Every continuous-beam load case is conquered. Data Valley awaits beyond the gate.',
+    needPct:.67,
+    lockMsg:(need,have)=>`Clear at least ${need} checkpoints across Stages 2-1 to 2-3 correctly (67%) to open the gate. You have ${have}.`
+  },
+  music:{
+    bpm:110,root:55,
+    chords:[[0,3,7],[-5,-2,2],[3,7,10],[-2,2,5]],
+    arp:[0,2,1,2,0,1,2,1],
+    mel:[[7,0,3,5,7,0,10,0],[5,0,2,0,0,0,3,0],[7,5,3,0,2,0,3,5],[7,0,5,0,2,0,0,0]],
+    lead:'square',bass:'triangle',pad:'sine',accent:'triangle'
+  },
+  mountLabs,
+  expose:()=>({STAGES})
+};
+
+// NumQuest World 2 Visualizations — Matrix Stage Diagrams & Worked Solutions (incl. Deck 02 Determinant/Adjoint)
+(function(){
+window.NQ_VIZ=window.NQ_VIZ||{};
+const V=window.NQ_VIZ;
+const card=(title,badge,svg,note)=>`<div class="viz"><div class="viz-head"><b>${title}</b><span class="viz-badge">${badge}</span></div>${svg}${note?`<div class="viz-readout">${note}</div>`:''}</div>`;
+const svgWrap=(w,h,label,inner)=>`<svg class="plot" viewBox="0 0 ${w} ${h}" role="img" aria-label="${label}">${inner}</svg>`;
+function matGrid(x0,y0,rows,hi=[],title=''){
+  const cw=58,rh=28;let s=title?`<text x="${x0+rows[0].length*cw/2}" y="${y0-8}" text-anchor="middle" font-family="var(--f-disp)" font-size="12" font-weight="700" fill="var(--ink)">${title}</text>`:'';
+  rows.forEach((r,i)=>r.forEach((v,j)=>{
+    const key=i+','+j, col=hi.includes(key)?'var(--accent)':(i>j&&v==='0'?'var(--good)':'var(--soft)');
+    const bg=hi.includes(key)?'color-mix(in srgb,var(--accent) 16%,var(--paper))':'var(--paper2)';
+    s+=`<rect x="${x0+j*cw}" y="${y0+i*rh}" width="${cw-4}" height="${rh-4}" fill="${bg}" stroke="${col}" stroke-width="${hi.includes(key)?2:1}"/>`;
+    s+=`<text x="${x0+j*cw+(cw-4)/2}" y="${y0+i*rh+16}" text-anchor="middle" font-family="var(--f-mono)" font-size="11.5" fill="var(--ink)">${v}</text>`;
+  }));
+  return s;
+}
+
+/* ---- Stage 2-1 concepts ---- */
+V['w2-tri-solve']=()=>card('Forward Elimination → Back Substitution','Upper-triangular cascade',svgWrap(640,145,'Transforming full matrix to upper triangular U for bottom-up back substitution',
+  matGrid(28,32,[['2','1','−1','8'],['−3','−1','2','−11'],['−2','1','2','−3']],['1,0','2,0','2,1'],'Original [A | b]')+
+  `<text x="292" y="76" font-family="var(--f-disp)" font-size="16" font-weight="700" fill="var(--accent)">→ zeros →</text>`+
+  matGrid(375,32,[['2','1','−1','8'],['0','0.5','0.5','1'],['0','0','−1','1']],['0,0','1,1','2,2'],'Upper Triangular [U | b\']')),
+  'Notice zeros below the diagonal: solve x₃=−1 first, substitute upward into Row 2 (x₂=3), then Row 1 (x₁=2).');
+
+V['w2-pivot-stability']=()=>card('Partial Pivoting Guard','Avoid tiny divisors 0.0001',svgWrap(640,130,'Precision destruction without pivoting vs clean scaling with row swap',
+  matGrid(26,30,[['0.0001','1','| 1'],['1','1','| 2']],['0,0'],'Raw tiny pivot → m=10 000')+
+  `<text x="275" y="64" font-family="var(--f-disp)" font-size="14" font-weight="700" fill="var(--good)">SWAP R1 ↔ R2</text>`+
+  matGrid(405,30,[['1','1','| 2'],['0.0001','1','| 1']],['0,0'],'Pivoted → m=0.0001 (accurate!)')),
+  'Swapping the largest column magnitude onto the diagonal keeps multipliers |m| ≤ 1 and preserves significant digits.');
+
+/* ---- Stage 2-2 concepts ---- */
+V['w2-diag-dom']=()=>card('Diagonal Dominance Check','|aᵢᵢ| > Σ|aᵢⱼ| guarantees convergence',svgWrap(640,120,'Bar gauge comparing diagonal strength vs off-diagonal sum',`
+  <g font-family="var(--f-mono)" font-size="11.5" fill="var(--ink)">
+    <text x="20" y="34">Row 1:</text><rect x="85" y="21" width="210" height="16" fill="var(--good)" opacity="0.8"/><text x="304" y="33">|a₁₁| = 24</text>
+    <rect x="405" y="21" width="54" height="16" fill="var(--qe)" opacity="0.85"/><text x="466" y="33">Σ|off| = 6  (24 &gt; 6 ✓)</text>
+    <text x="20" y="70">Row 2:</text><rect x="85" y="57" width="210" height="16" fill="var(--good)" opacity="0.8"/><text x="304" y="69">|a₂₂| = 24</text>
+    <rect x="405" y="57" width="105" height="16" fill="var(--qe)" opacity="0.85"/><text x="516" y="69">Σ|off| = 12 (24 &gt; 12 ✓)</text>
+    <text x="20" y="103" fill="var(--muted)">Every beam row dominates its off-diagonal neighbours → Gauss-Seidel &amp; Jacobi converge smoothly.</text>
+  </g>`));
+
+V['w2-sweep-flow']=()=>card('Jacobi vs Gauss-Seidel Update','Stale vector vs fresh in-place updates',svgWrap(640,120,'Comparison of parallel stale read vs immediate Gauss-Seidel cascade',`
+  <g font-family="var(--f-mono)" font-size="11.5" fill="var(--ink)">
+    <rect x="20" y="18" width="286" height="84" rx="5" fill="var(--paper2)" stroke="var(--c2)" stroke-width="2"/>
+    <text x="163" y="38" text-anchor="middle" font-weight="700" fill="var(--c2)">JACOBI (parallel / slower)</text>
+    <text x="163" y="62" text-anchor="middle">x₁ᵏ⁺¹, x₂ᵏ⁺¹, x₃ᵏ⁺¹ all read OLD (k)</text>
+    <text x="163" y="84" text-anchor="middle" fill="var(--muted)">Beam iter 1→2: (-45,-45,-45) → (-33.75,-22.5,-33.75)</text>
+    <rect x="334" y="18" width="288" height="84" rx="5" fill="var(--paper2)" stroke="var(--good)" stroke-width="2"/>
+    <text x="478" y="38" text-anchor="middle" font-weight="700" fill="var(--good)">GAUSS-SEIDEL (immediate / ~2× faster)</text>
+    <text x="478" y="62" text-anchor="middle">x₂ reads NEW x₁ᵏ⁺¹; x₃ reads NEW x₁, x₂</text>
+    <text x="478" y="84" text-anchor="middle" fill="var(--muted)">Beam iter 1: -45 → -33.75 → -36.5625 immediately!</text>
+  </g>`));
+
+/* ---- Stage 2-3 concepts (incl. Deck 02 Determinant & LU) ---- */
+V['w2-det-area']=()=>card('Determinant as Signed Area','Deck 02 · Invertible vs Singular [A]',svgWrap(640,155,'Parallelogram formed by two column vectors showing invertible det=11 vs singular det=0',`
+  <g transform="translate(20,12)">
+    <rect x="0" y="4" width="290" height="128" rx="6" fill="var(--paper2)" stroke="var(--good)" stroke-width="2"/>
+    <polygon points="45,112 165,112 205,40 85,40" fill="var(--good)" opacity="0.22" stroke="var(--good)" stroke-width="2"/>
+    <line x1="45" y1="112" x2="165" y2="112" stroke="var(--line)" stroke-width="2.5"/><text x="105" y="125" text-anchor="middle" font-family="var(--f-mono)" font-size="11" fill="var(--ink)">(5, −3)</text>
+    <line x1="45" y1="112" x2="85" y2="40" stroke="var(--accent)" stroke-width="2.5"/><text x="48" y="34" font-family="var(--f-mono)" font-size="11" fill="var(--accent)">det(K) = 20 − 9 = 11 ≠ 0</text>
+    <text x="195" y="78" font-family="var(--f-mono)" font-size="11" fill="var(--good)">Invertible!</text>
+    <rect x="315" y="4" width="285" height="128" rx="6" fill="var(--paper2)" stroke="var(--bad)" stroke-width="2"/>
+    <line x1="355" y1="95" x2="465" y2="62" stroke="var(--line)" stroke-width="3"/>
+    <line x1="355" y1="95" x2="555" y2="35" stroke="var(--bad)" stroke-width="2" stroke-dasharray="4 3"/>
+    <text x="458" y="28" text-anchor="middle" font-family="var(--f-disp)" font-size="12" font-weight="700" fill="var(--bad)">SINGULAR: det(A) = 0</text>
+    <text x="458" y="116" text-anchor="middle" font-family="var(--f-mono)" font-size="11" fill="var(--ink)">Parallel rows/cols collapse area to zero → NO [A]⁻¹</text>
+  </g>`));
+
+V['w2-lu-vs-inv']=()=>card('Reusing [L][U] vs Explicit [A]⁻¹','Factor once O(n³), sweep any RHS b in O(n²)',svgWrap(640,125,'Multiple load vectors passing cheaply through factored L and U vs costly full inverse',`
+  <g font-family="var(--f-mono)" font-size="11.5" fill="var(--ink)">
+    <rect x="18" y="22" width="170" height="78" fill="var(--paper2)" stroke="var(--c1)" stroke-width="2"/>
+    <text x="103" y="44" text-anchor="middle" font-weight="700" fill="var(--c1)">Factor ONCE</text>
+    <text x="103" y="64" text-anchor="middle">[A] = [L][U]</text><text x="103" y="84" text-anchor="middle" fill="var(--muted)">1/3 n³ flops</text>
+    <text x="206" y="66" font-size="15" font-weight="700" fill="var(--accent)">→</text>
+    <rect x="230" y="22" width="185" height="78" fill="var(--paper2)" stroke="var(--good)" stroke-width="2"/>
+    <text x="322" y="44" text-anchor="middle" font-weight="700" fill="var(--good)">Sweep LC1, LC2...</text>
+    <text x="322" y="64" text-anchor="middle">[L]{d}={b} → [U]{x}={d}</text><text x="322" y="84" text-anchor="middle" fill="var(--muted)">Only n² per load case</text>
+    <rect x="435" y="22" width="187" height="78" fill="var(--paper2)" stroke="var(--warn)" stroke-width="2"/>
+    <text x="528" y="44" text-anchor="middle" font-weight="700" fill="var(--warn)">Full [A]⁻¹ Costs 3× More</text>
+    <text x="528" y="64" text-anchor="middle">n sweeps needed (n³)</text><text x="528" y="84" text-anchor="middle" fill="var(--muted)">Use only if sensitivity cols needed</text>
+  </g>`));
+
+/* ---- Stage & Boss Exercises W2 ---- */
+V['e3']=()=>card('Back-Substitution Trace','x₃=−1 → x₂=3 → x₁=2',svgWrap(640,120,'Stepwise bottom-to-top scalar solve',
+  matGrid(28,22,[['2','1','−1','8'],['0','0.5','0.5','1'],['0','0','−1','1']],['0,0','1,1','2,2'])+
+  `<g font-family="var(--f-mono)" font-size="12" fill="var(--ink)">
+    <text x="290" y="88" fill="var(--good)">1) −1·x₃ = 1  ⇒  x₃ = −1</text>
+    <text x="290" y="62" fill="var(--line)">2) 0.5x₂ + 0.5(−1) = 1  ⇒  x₂ = 3</text>
+    <text x="290" y="36" fill="var(--accent)">3) 2x₁ + 1(3) − 1(−1) = 8  ⇒  x₁ = 2</text>
+  </g>`));
+V['e4']=()=>card('Pivot Multiplier m₂₁ = −3 / 2 = −1.5','R2 ← R2 − (−1.5)R1',svgWrap(640,115,'Zeroing column 1 of Row 2',
+  matGrid(28,22,[['2','1','−1','8'],['−3','−1','2','−11']],['0,0','1,0'])+
+  `<text x="285" y="54" font-family="var(--f-mono)" font-size="12" fill="var(--accent)">m₂₁ = a₂₁ / a₁₁ = −3 / 2 = −1.5</text>
+  <text x="285" y="80" font-family="var(--f-mono)" font-size="11.5" fill="var(--good)">New Row 2: [0, 0.5, 0.5 | 1]</text>`));
+V['e7']=()=>card('Sub-Diagonal Count in n×n','n(n−1)/2 = 3+2+1 = 6',svgWrap(640,130,'Lower triangle multipliers inside 4×4 matrix',
+  matGrid(180,16,[['•','·','·','·'],['m₂₁','•','·','·'],['m₃₁','m₃₂','•','·'],['m₄₁','m₄₂','m₄₃','•']],['1,0','2,0','2,1','3,0','3,1','3,2'])+
+  `<text x="440" y="70" font-family="var(--f-mono)" font-size="12" fill="var(--accent)">6 highlighted entries</text>`));
+V['e9']=()=>card('Column-1 Magnitude Search','max(|0|, |1|, |2|) = 2 in Row 3',svgWrap(640,120,'Selecting Row 3 as pivot before R1↔R3 swap',
+  matGrid(36,20,[['0','2','1','7'],['1','1','1','6'],['2','1','3','13']],['2,0'])+
+  `<text x="290" y="64" font-family="var(--f-mono)" font-size="12" fill="var(--good)">Largest col-1 entry is 2 (Row 3) → Swap R1 ↔ R3!</text>`));
+V['e10']=V['w2-pivot-stability'];
+V['e11']=()=>card('3-Sig-Fig Catastrophic Absorption','-9999 rounds to −10 000',svgWrap(640,105,'Loss of lower equation information at 3 significant digits',`
+  <g font-family="var(--f-mono)" font-size="12" fill="var(--ink)">
+    <rect x="24" y="20" width="592" height="65" fill="var(--paper2)" stroke="var(--bad)" stroke-width="2"/>
+    <text x="320" y="45" text-anchor="middle">Exact a'₂₂ = 1 − 10 000(1) = −9 999</text>
+    <text x="320" y="70" text-anchor="middle" fill="var(--bad)">3-sig-fig float rounds −9 999 → −1.00 × 10⁴ = −10 000 (the "+1" completely vanishes!)</text>
+  </g>`));
+V['i6']=()=>card('Jacobi Iteration Error εa','0.5 → 0.9107 gives 45.1%',svgWrap(640,105,'Jacobi convergence step change on x₁',`
+  <line x1="80" y1="48" x2="560" y2="48" stroke="var(--line)" stroke-width="2"/>
+  <circle cx="190" cy="48" r="6" fill="var(--qe)"/><text x="190" y="32" text-anchor="middle" font-family="var(--f-mono)" font-size="12" fill="var(--ink)">Iter 1: 0.5000</text>
+  <circle cx="430" cy="48" r="6" fill="var(--good)"/><text x="430" y="32" text-anchor="middle" font-family="var(--f-mono)" font-size="12" fill="var(--good)">Iter 2: 0.9107</text>
+  <text x="320" y="84" text-anchor="middle" font-family="var(--f-mono)" font-size="12" fill="var(--accent)">ε_a = |0.9107 − 0.5| / 0.9107 × 100% = 45.1%</text>`));
+V['l10']=()=>card('Crout Pivot l₂₂ = 0.5','Matches Gauss U₂₂ = 0.5',svgWrap(640,115,'Crout dot product for diagonal entry l₂₂',
+  matGrid(32,20,[['2','0.5','u₁₃'],['−3','l₂₂','u₂₃'],['−2','l₃₂','l₃₃']],['1,1'])+
+  `<text x="240" y="64" font-family="var(--f-mono)" font-size="12" fill="var(--good)">l₂₂ = a₂₂ − l₂₁·u₁₂ = −1 − (−3)(0.5) = 0.5 ✓</text>`));
+V['l13']=V['w2-det-area'];
+V['l14']=()=>card('3×3 Cofactor Expansion','det(A) = −8 + 2 + 5 = −1',svgWrap(640,125,'Cofactor expansion along Row 1 matching product of LU pivots',
+  matGrid(28,22,[['2','1','−1'],['−3','−1','2'],['−2','1','2']],['0,0','0,1','0,2'])+
+  `<g font-family="var(--f-mono)" font-size="11.5" fill="var(--ink)">
+    <text x="225" y="42">+2·(−2−2) = −8</text><text x="225" y="66">−1·(−6+4) = +2</text><text x="225" y="90">+(−1)·(−3−2) = +5</text>
+    <text x="440" y="66" font-weight="700" fill="var(--good)">Σ = −1 = Π pivots (2·0.5·−1)!</text>
+  </g>`));
+V['l15']=()=>card('2×2 Adjoint Matrix Inverse','K⁻¹ = (1/det) Adj(K)',svgWrap(640,125,'Swap main diagonal, negate off-diagonal, divide by det=20',
+  matGrid(26,26,[['4','−2'],['−2','6']],['0,0','1,1'],'K (det=20)')+
+  `<text x="165" y="66" font-family="var(--f-mono)" font-size="12" fill="var(--accent)">→ (1/20) →</text>`+
+  matGrid(268,26,[['0.30','0.10'],['0.10','0.20']],['0,0','1,1'],'K⁻¹ (flexibility)')));
+
+/* ---- Boss W2 (k2-k6) ---- */
+V['k2']=()=>card('Beam Elimination Stage 1','m₂₁ = 6/24 = 0.25',svgWrap(640,120,'Eliminating sub-diagonal 6 in Row 2 of three-moment system',
+  matGrid(20,22,[['24','6','0','−1080'],['6','24','6','−1080'],['0','6','24','−1080']],['1,0'])+
+  `<text x="275" y="50" font-family="var(--f-mono)" font-size="11.5" fill="var(--accent)">m₂₁ = 6/24 = 0.25</text>
+  <text x="275" y="74" font-family="var(--f-mono)" font-size="11.5" fill="var(--good)">Row 2 → [0, 22.5, 6 | −810]</text>`));
+V['k3']=()=>card('Beam Stage 2 & Back-Sub','M_D = −38.571 kN·m',svgWrap(640,120,'Eliminating Row 3 and solving backward',
+  matGrid(20,22,[['24','6','0','−1080'],['0','22.5','6','−810'],['0','0','22.4','−864']],['2,2','2,3'])+
+  `<text x="275" y="48" font-family="var(--f-mono)" font-size="11.5" fill="var(--ink)">m₃₂ = 6/22.5 = 0.2667, a'₃₃ = 22.4</text>
+  <text x="275" y="72" font-family="var(--f-mono)" font-size="11.5" fill="var(--good)">M = (−38.571, −25.714, −38.571) kN·m</text>`));
+V['k4']=()=>card('Beam Jacobi Iter 1 → 2','(−45,−45,−45) → (−33.75,−22.5,−33.75)',svgWrap(640,105,'Jacobi update using stale iter-1 vector',`
+  <g font-family="var(--f-mono)" font-size="11.5" fill="var(--ink)">
+    <rect x="20" y="18" width="600" height="72" fill="var(--paper2)" stroke="var(--c2)" stroke-width="2"/>
+    <text x="38" y="43">M_B = (−1080 − 6(−45)) / 24 = −33.75 kN·m</text>
+    <text x="38" y="65">M_C = (−1080 − 6(−45) − 6(−45)) / 24 = −22.50 kN·m  |  M_D = −33.75</text>
+  </g>`));
+V['k5']=()=>card('Beam Gauss-Seidel Pass 1','(0,0,0) → (−45, −33.75, −36.5625)',svgWrap(640,105,'Immediate in-place substitution from B to D',`
+  <g font-family="var(--f-mono)" font-size="11.5" fill="var(--ink)">
+    <rect x="20" y="18" width="600" height="72" fill="var(--paper2)" stroke="var(--good)" stroke-width="2"/>
+    <text x="38" y="42">1) M_B = −1080/24 = −45.0   →   2) M_C = (−1080 − 6(−45))/24 = −33.75</text>
+    <text x="38" y="66" fill="var(--good)">3) M_D = (−1080 − 6(−33.75))/24 = −36.5625 (already near exact −38.571!)</text>
+  </g>`));
+V['k6']=()=>card('LC2 Forward Sweep [L]{d}=b','b = (−540, 0, 0) → y = (−540, 135, −36)',svgWrap(640,115,'Fast forward+back solve reusing beam L and U factors',`
+  <g font-family="var(--f-mono)" font-size="11.5" fill="var(--ink)">
+    <rect x="20" y="18" width="600" height="78" fill="var(--paper2)" stroke="var(--line)" stroke-width="2"/>
+    <text x="38" y="42">[L]{y} = (−540, 0, 0)  ⇒  y₁=−540,  y₂=−0.25(−540)=135,  y₃=−0.2667(135)=−36</text>
+    <text x="38" y="66" fill="var(--good)">[U]{M} = {y}  ⇒  M_D = −36 / 22.4 = −1.6071,  M = (−24.107, +6.429, −1.607) kN·m</text>
+  </g>`));
+})();
+
+'use strict';
+/* =====================================================================
+   NumQuest Shared Engine — core2.js (grading, labs, navigation, embed, audio)
+   ===================================================================== */
+function gradeEx(e,root){
+  if(e.type==='mcq'||e.type==='tf'){const s=$('.opt.sel',root);if(!s)return null;return {ok:+s.dataset.j===e.a,sel:s}}
+  if(e.type==='num'){const v=numParse($('input',root).value);if(v==null)return null;const tol=e.t!=null?e.t:(e.tol!=null?e.tol:0.01);return {ok:Math.abs(v-e.a)<=tol+1e-12}}
+  if(e.type==='fill'){const ins=$$('.fld input',root),marks=[];let ok=true;
+    for(const i of ins){const v=numParse(i.value);if(v==null)return null;const f=e.fields[+i.dataset.j];const tol=f.t!=null?f.t:(f.tol!=null?f.tol:0.01);const g=Math.abs(v-f.a)<=tol+1e-12;marks.push([i,g]);ok=ok&&g}
+    return {ok,marks}}
+  if(e.type==='classify'){const rows=$$('.row',root),marks=[];let ok=true;
+    for(const r of rows){const s=$('.seg .sel',r);if(!s)return null;const g=+s.dataset.k===e.items[+r.dataset.j][1];marks.push([r,g]);ok=ok&&g}
+    return {ok,marks}}
+  if(e.type==='order'){const idx=$$('[data-idx]',root).map(r=>+r.dataset.idx);return {ok:idx.every((v,i)=>v===i)}}
+}
+function lockEx(e,root,state){
+  $$('input,.opt,.seg button,.mv button,[data-act=check],[data-act=show]',root).forEach(n=>{n.disabled=true});
+  root.classList.add('done');$('.ex-state',root).textContent=state;$('.sol',root).classList.add('show');$('.fb',root).classList.remove('show');
+  mountViz($('.sol',root));
+}
+function fillAnswer(e,root){
+  if(e.type==='mcq'||e.type==='tf'){$$('.opt',root).forEach(o=>{o.classList.remove('sel','wrong');o.classList.toggle('right',+o.dataset.j===e.a)})}
+  if(e.type==='num'){$('input',root).value=minus(e.a)}
+  if(e.type==='fill'){$$('.fld input',root).forEach(i=>{i.value=minus(e.fields[+i.dataset.j].a);i.classList.remove('wrong');i.classList.add('right')})}
+  if(e.type==='classify'){$$('.row',root).forEach(r=>{r.classList.remove('wrong');r.classList.add('right');$$('.seg button',r).forEach(b=>{b.classList.remove('sel');b.classList.toggle('ans',+b.dataset.k===e.items[+r.dataset.j][1])})})}
+  if(e.type==='order'){const box=$('[data-order]',root);const rows=$$('[data-idx]',box).sort((a,b)=>a.dataset.idx-b.dataset.idx);rows.forEach(r=>box.appendChild(r));renumber(box)}
+}
+const renumber=box=>$$('.pos',box).forEach((p,i)=>p.textContent=i+1);
+function restoreEx(e){
+  const root=$('#ex-'+e.id);if(!root)return;const r=S.ex[e.id];
+  fillAnswer(e,root);lockEx(e,root,r.st==='ok'?'Cleared':'Revealed');
+}
+function checkEx(e,root,anchor){
+  if(root.classList.contains('done'))return;
+  const g=gradeEx(e,root),fb=$('.fb',root);
+  if(!g){fb.innerHTML='Answer every part first.';fb.classList.add('show');return}
+  const r=S.ex[e.id]=S.ex[e.id]||{att:0,st:'open'};r.att++;
+  if(g.ok){
+    const first=r.att===1,xp=first?e.xp:Math.ceil(e.xp/2);
+    r.st='ok';r.xp=xp;
+    if(g.marks)g.marks.forEach(([n])=>n.classList.add('right'));
+    if(g.sel)g.sel.classList.add('right');
+    lockEx(e,root,'Cleared · +'+xp+' XP');
+    root.classList.add('win');setTimeout(()=>root.classList.remove('win'),800);
+    sfx.ok();
+    if(first){S.streak++;S.best=Math.max(S.best,S.streak);
+      const bonus={3:5,5:10,10:20}[S.streak];
+      if(bonus){banner('Combo x'+S.streak,'+'+bonus+' bonus XP');award(bonus,$('#comboChip'))}}
+    award(xp,anchor||root);
+    if(S.ex[e.id].xp)grant('coin');
+    if(S.best>=3)grant('c3');if(S.best>=5)grant('c5');if(S.best>=10)grant('c10');
+    afterProgress(e,root);
+  }else{
+    S.streak=0;sfx.no();floatText('Combo lost',$('#comboChip'),'red');
+    if(g.sel){g.sel.classList.remove('sel');g.sel.classList.add('wrong')}
+    if(g.marks)g.marks.forEach(([n,ok])=>{n.classList.toggle('wrong',!ok);n.classList.toggle('right',ok)});
+    fb.innerHTML=`<b>Not quite.</b> ${e.hint}`;fb.classList.add('show');
+    if(r.att>=2)root.classList.add('canshow');
+    save();hud();
+  }
+}
+function showSolution(e,root){
+  if(root.classList.contains('done'))return;
+  const r=S.ex[e.id]=S.ex[e.id]||{att:0,st:'open'};r.st='rev';r.xp=0;
+  fillAnswer(e,root);lockEx(e,root,'Revealed · no XP');save();afterProgress(e,root);
+}
+function stageOf(id){for(const k in EX)if(EX[k].some(e=>e.id===id))return k}
+function stageStats(k){
+  const list=EX[k],done=list.filter(e=>S.ex[e.id]&&S.ex[e.id].st!=='open').length;
+  const first=list.filter(e=>S.ex[e.id]&&S.ex[e.id].st==='ok'&&S.ex[e.id].att===1).length;
+  const st=STAGES.find(s=>s.id===k);const labs=st?st.labs.filter(l=>S.labs[l]).length:0;
+  let stars=0;
+  if(done===list.length){stars=1;if(first/list.length>=.8)stars=2;if(first===list.length&&labs===st.labs.length)stars=3}
+  return {done,total:list.length,first,labs,stars};
+}
+function afterProgress(e,root){
+  const k=stageOf(e.id);
+  if(k!=='boss'){
+    const s=stageStats(k);
+    if(s.done===s.total&&!S.clear[k]){S.clear[k]=true;sfx.clear();banner('Stage clear!',STAGES.find(x=>x.id===k).title);award(STAGE_BONUS,root)}
+    if(s.stars===3)grant('star3');
+  }else{
+    const hit=EX.boss.filter(x=>S.ex[x.id]&&S.ex[x.id].st==='ok').length;
+    const bb=$('#bossbar');if(bb){bb.classList.add('hit');setTimeout(()=>bb.classList.remove('hit'),350)}
+    if(hit===EX.boss.length&&!S.bossBonus){S.bossBonus=true;grant('boss');sfx.clear();banner(WORLD.boss.winTitle,WORLD.boss.winSub);award(BOSS_BONUS,root)}
+  }
+  save();refreshAll();
+}
+function refreshAll(){
+  hud();
+  const starStr=n=>'★'.repeat(n)+'<span class="off">'+'★'.repeat(3-n)+'</span>';
+  STAGES.forEach(st=>{
+    const s=stageStats(st.id),el=$('#tr-'+st.id);
+    if(el)el.innerHTML=`<div class="tile"><span>Checkpoints</span><b>${s.done} / ${s.total}</b></div><div class="tile"><span>First try</span><b>${s.first} / ${s.total}</b></div><div class="tile"><span>Labs played</span><b>${s.labs} / ${st.labs.length}</b></div><div class="tile"><span>Stars</span><b class="stars">${starStr(s.stars)}</b></div>`;
+    const hs=$('#hs-'+st.id);if(hs)hs.innerHTML=starStr(s.stars);
+    const ns=$('#ns-'+st.id);if(ns)ns.innerHTML=starStr(s.stars);
+    const a=$(`.nav a[data-v="${st.id}"]`);if(a)a.classList.toggle('done',!!S.clear[st.id]);
+  });
+  const exped=$('#exped');if(exped)exped.innerHTML=expedHTML();
+  const hit=EX.boss.filter(x=>S.ex[x.id]&&S.ex[x.id].st==='ok').length;
+  const dead=hit===EX.boss.length;
+  const hp=Math.round(100*(1-hit/EX.boss.length));
+  $('#hpFill').style.width=hp+'%';$('#hpTxt').textContent=`HP ${hp}% · ${hit} of ${EX.boss.length} hits landed`;
+  $('#bossbar').classList.toggle('dead',dead);
+  $('#ns-boss').innerHTML=dead?'<span class="st">★ defeated</span>':'';
+  const ba=$(`.nav a[data-v="boss"]`);if(ba)ba.classList.toggle('done',dead);
+  const okN=k=>EX[k].filter(e=>S.ex[e.id]&&S.ex[e.id].st==='ok').length;
+  const have=STAGES.reduce((a,s)=>a+okN(s.id),0),total=STAGES.reduce((a,s)=>a+EX[s.id].length,0),need=Math.ceil((WORLD.boss.needPct||.67)*total);
+  const open=S.teacher||have>=need;
+  $('#bossLock').hidden=open;$('#bossBody').hidden=!open;
+  $('#lockTxt').textContent=WORLD.boss.lockMsg?WORLD.boss.lockMsg(need,have):`Clear at least ${need} checkpoints across Stages ${STAGES[0].no} to ${STAGES[STAGES.length-1].no} correctly (${Math.round((WORLD.boss.needPct||.67)*100)}%) to open the gate. You have ${have}.`;
+  const bi=$('#bossIntro'),bw=$('#bossWin');
+  if(bi){bi.hidden=!open||dead;if(open&&!dead)bi.innerHTML=bossCard('intro')}
+  if(bw){bw.hidden=!dead;if(dead)bw.innerHTML=bossCard('win')}
+  $('#homeXp').textContent=S.xp;renderMap();renderBadges();
+}
+
+/* ---------- shared lab helpers ---------- */
+function labDone(id){
+  if(S.labs[id])return;S.labs[id]=1;
+  sfx.ok();toast('Lab complete',(LABNAMES[id]||id)+' · +'+(LABXP[id]||0)+' XP');award(LABXP[id]||0,null);grant(id);
+  save();refreshAll();setGoal(id,true);
+}
+function setGoal(id,d){const g=$('#goal-'+id);if(g){g.classList.toggle('done',d);g.firstElementChild.textContent=d?'✔':'○'}}
+function labHead(id,title,goal){
+  return `<div class="lab-head"><span class="lab-tag">Lab</span><span class="lab-title">${title}</span><span class="lab-goal ${S.labs[id]?'done':''}" id="goal-${id}"><span>${S.labs[id]?'✔':'○'}</span> Goal: ${goal}</span></div>`;
+}
+const tile=(k,v,id)=>`<div class="tile"><span>${k}</span><b ${id?`id="${id}"`:''}>${v}</b></div>`;
+
+/* ---------- UI event listeners ---------- */
 document.addEventListener('click',ev=>{
   const t=ev.target;
+  const go=t.closest('[data-go]');
+  if(go){location.hash=go.dataset.go;return}
   const opt=t.closest('.opt');
   if(opt&&!opt.disabled){$$('.opt',opt.parentNode).forEach(o=>o.classList.remove('sel','wrong'));opt.classList.add('sel');return}
   const seg=t.closest('.seg button');
@@ -1267,9 +1918,16 @@ document.addEventListener('click',ev=>{
   if(act&&act.closest('.ex')){const root=act.closest('.ex'),e=findEx(root.dataset.id);
     if(act.dataset.act==='check')checkEx(e,root,act);
     if(act.dataset.act==='show')showSolution(e,root);return}
+  const tg=$('#navToggle'),nv=$('#nav');
+  if(tg&&nv){
+    if(t.closest('#navToggle')){const op=!nv.classList.contains('open');nv.classList.toggle('open',op);tg.setAttribute('aria-expanded',op);return}
+    if(nv.classList.contains('open')&&(!t.closest('.rail')||t.closest('.nav a'))){nv.classList.remove('open');tg.setAttribute('aria-expanded','false')}
+  }
 });
 document.addEventListener('keydown',ev=>{
   if(ev.key==='Enter'&&ev.target.matches('.ex input')){const root=ev.target.closest('.ex');checkEx(findEx(root.dataset.id),root,ev.target)}
+  if(ev.key==='Enter'&&ev.target.matches('[data-go]')){ev.preventDefault();location.hash=ev.target.dataset.go}
+  if(ev.key==='Escape'){const nv=$('#nav'),tg=$('#navToggle');if(nv&&nv.classList.contains('open')){nv.classList.remove('open');if(tg)tg.setAttribute('aria-expanded','false')}}
 });
 $('#sfxBtn').addEventListener('click',()=>{S.sfx=!S.sfx;save();hud();if(S.sfx)sfx.ok()});
 $('#teachBtn').addEventListener('click',()=>{S.teacher=!S.teacher;save();refreshAll()});
@@ -1277,6 +1935,7 @@ function applyTheme(){if(S.theme)document.documentElement.dataset.theme=S.theme;
 $('#themeBtn').addEventListener('click',()=>{
   const dark=S.theme?S.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;
   S.theme=dark?'light':'dark';applyTheme();save();
+  if(window.name==='nq-embed'){try{parent.postMessage({nq:'theme',t:S.theme},'*')}catch(e){}}
 });
 let armT=null;
 $('#resetBtn').addEventListener('click',e=>{
@@ -1287,16 +1946,23 @@ $('#resetBtn').addEventListener('click',e=>{
 });
 
 function route(){
-  let h=(location.hash||'#home').slice(1);if(!VIEWS.includes(h))h='home';
+  let h=(location.hash||'#home').slice(1);if(!VIEWS().includes(h))h='home';
   $$('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+h));
   $$('.nav a[data-v]').forEach(a=>a.classList.toggle('on',a.dataset.v===h));
+  const cur=$('#navCur');
+  if(cur){
+    if(h==='home')cur.textContent='Overview';
+    else if(h==='boss')cur.textContent='Boss · '+WORLD.boss.title;
+    else{const st=STAGES.find(s=>s.id===h);cur.textContent=st?`${st.no} · ${st.title}`:h}
+  }
+  const nv=$('#nav'),tg=$('#navToggle');
+  if(nv&&tg){nv.classList.remove('open');tg.setAttribute('aria-expanded','false')}
   window.scrollTo(0,0);
 }
 window.addEventListener('hashchange',route);
-window.addEventListener('resize',()=>{document.documentElement.style.setProperty('--hudh',$('#hud').offsetHeight+'px')});
+window.addEventListener('resize',()=>{const h=$('#hud');if(h)document.documentElement.style.setProperty('--hudh',h.offsetHeight+'px')});
 
-
-/* ---------- LaTeX rendering: author with $...$ and $$...$$, rendered by KaTeX ---------- */
+/* ---------- LaTeX rendering ---------- */
 const KT={delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false,strict:false,
   ignoredClasses:['katex'],trust:c=>c.command==='\\htmlClass'};
 function renderMath(el){if(window.renderMathInElement){try{window.renderMathInElement(el,KT)}catch(e){}}}
@@ -1306,67 +1972,68 @@ function initMath(){
   const mo=new MutationObserver(muts=>{
     for(const m of muts)m.addedNodes.forEach(n=>{
       const host=n.nodeType===1?n:(n.nodeType===3?n.parentElement:null);
-      if(host&&!host.closest('.katex')&&(n.nodeType===1||n.data.indexOf('$')>=0))mathPend.add(host);
+      if(host&&!host.closest('.katex')&&(n.nodeType===1||(n.data&&n.data.indexOf('$')>=0)))mathPend.add(host);
     });
     if(mathPend.size&&!mathQ){mathQ=Promise.resolve().then(()=>{mathQ=null;mo.disconnect();mathPend.forEach(h=>{if(h.isConnected)renderMath(h)});mathPend.clear();mo.observe(document.body,{childList:true,subtree:true})})}
   });
   mo.observe(document.body,{childList:true,subtree:true});
 }
 
-/* ---------- NQ-INTRO: welcome screen + generated chiptune music (no audio files) ---------- */
-(function(){
-  const WN=(KEY.match(/w(\d)$/)||[0,1])[1]|0||1;
-  const WORLD={1:['Root Hunters','Close in on the zeros of nonlinear equations.'],2:['Matrix Fortress','Break open linear systems, direct and iterative.'],3:['Data Valley','Fit, connect and differentiate your data.'],4:['Integration Peaks','Turn curves into areas, from trapezoids to Gauss.']}[WN];
-  if(window.name==='nq-embed'){embed();return}                    // hosted inside NumQuest.html: the shell owns welcome + music
-  function embed(){
+/* ---------- NQ-INTRO: embed sync OR welcome screen + per-world chiptune synthesizer ---------- */
+(function initIntroAndEmbed(){
+  const WN=WORLD.no||1;
+  if(window.name==='nq-embed'){
+    document.documentElement.classList.add('nq-embed');
     const post=()=>{try{parent.postMessage({nq:'progress',w:WN,S:S},'*')}catch(e){}};
-    try{const _s=save;save=function(){_s();post()}}catch(e){}
+    const _s=save;save=function(){_s();post()};
     post();
-    ['click','touchend'].forEach(ev=>document.addEventListener(ev,()=>{try{parent.__nqShell.unlock()}catch(e){}},true));
+    ['click','touchend'].forEach(ev=>document.addEventListener(ev,()=>{try{parent.__nqShell&&parent.__nqShell.unlock()}catch(e){}},true));
     document.addEventListener('click',e=>{const a=e.target.closest&&e.target.closest('a[href]');if(!a)return;
       const m=(a.getAttribute('href')||'').match(/NumQuest-World(\d)\.html/);if(m){e.preventDefault();parent.postMessage({nq:'goto',w:+m[1]},'*')}},true);
     window.addEventListener('message',e=>{const d=e.data||{};
-      if(d.nq==='hash')location.hash='#'+d.h;
+      if(d.nq==='hash'){if(d.h)location.hash='#'+d.h;else location.hash='#home'}
       if(d.nq==='musicState'){const b=document.getElementById('musicBtn');if(b)b.setAttribute('aria-pressed',d.on)}
-      if(d.nq==='theme'){if(d.t)document.documentElement.dataset.theme=d.t;else delete document.documentElement.dataset.theme}});
+      if(d.nq==='theme'){S.theme=d.t||'';applyTheme();_s()}
+      if(d.nq==='active'){const b=document.getElementById('hud');if(b)document.documentElement.style.setProperty('--hudh',b.offsetHeight+'px')}
+    });
     const addMap=()=>{const nav=document.getElementById('nav');if(!nav||document.getElementById('navMapLink'))return;
-      const a=document.createElement('a');a.id='navMapLink';a.href='#';a.innerHTML='<span class="sn">MAP</span><span class="nt">Course map<br><span class="hint">all 4 worlds</span></span>';
+      const a=document.createElement('a');a.id='navMapLink';a.href='#';a.innerHTML='<span class="sn">MAP</span><span class="nt">Course map<br><span class="hint">all '+(WORLD.worlds?WORLD.worlds.length:5)+' worlds</span></span>';
       a.addEventListener('click',ev=>{ev.preventDefault();parent.postMessage({nq:'goto',w:0},'*')});nav.insertBefore(a,nav.firstChild)};
     const sb=document.getElementById('sfxBtn');
-    if(sb&&!document.getElementById('musicBtn')){const b=document.createElement('button');b.className='ctl-btn';b.id='musicBtn';b.type='button';b.textContent='Music';b.title='Background music on or off';b.setAttribute('aria-pressed','true');
+    if(sb&&sb.parentNode&&!document.getElementById('musicBtn')){const b=document.createElement('button');b.className='ctl-btn';b.id='musicBtn';b.type='button';b.textContent='Music';b.title='Background music on or off';b.setAttribute('aria-pressed','true');
       b.addEventListener('click',()=>parent.postMessage({nq:'music'},'*'));sb.parentNode.insertBefore(b,sb.nextSibling)}
     addMap();const nv=document.getElementById('nav');if(nv)new MutationObserver(addMap).observe(nv,{childList:true});
     try{parent.postMessage({nq:'ready',w:WN},'*')}catch(e){}
+    return;
   }
+
+  /* Standalone music engine reading WORLD.music */
   const MK='numquest-music';
   let musicOn=true;try{musicOn=localStorage.getItem(MK)!=='off'}catch(e){}
   const saveM=()=>{try{localStorage.setItem(MK,musicOn?'on':'off')}catch(e){}};
-  /* ---- music engine ---- */
-  const TEMPO=[0,100,108,96,116][WN],ROOT=[0,57,55,52,50][WN];
-  const PROG=[[0,3,7],[-4,-1,3],[3,7,10],[-2,2,5]];             // i - VI - III - VII (minor)
-  const ARP=[0,1,2,1,0,1,2,1],MEL=[[7,0,5,0,3,0,2,0],[0,0,3,5,7,0,5,0],[10,0,7,0,5,0,3,0],[2,5,0,7,5,0,2,0]];
+  const cfg=WORLD.music||{bpm:104,root:57,chords:[[0,3,7],[-4,-1,3],[3,7,10],[-2,2,5]],arp:[0,1,2,1,0,1,2,1],mel:[[7,0,5,0,3,0,2,0],[0,0,3,5,7,0,5,0],[10,0,7,0,5,0,3,0],[2,5,0,7,5,0,2,0]],lead:'triangle',bass:'triangle',pad:'sine',accent:'square'};
   const mtof=m=>440*Math.pow(2,(m-69)/12);
   let MC=null,master=null,timer=null,nextT=0,step=0,playing=false;
   function note(f,t,d,type,v){
     const o=MC.createOscillator(),g=MC.createGain();o.type=type;o.frequency.value=f;
-    g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(v,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+d);
-    o.connect(g);g.connect(master);o.start(t);o.stop(t+d+.02);
+    g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(v,t+.012);g.gain.exponentialRampToValueAtTime(.0001,t+d);
+    o.connect(g);g.connect(master);o.start(t);o.stop(t+d+.03);
   }
   function sched(){
-    const e=60/TEMPO/2;                                           // eighth note
+    const e=60/cfg.bpm/2;
     while(nextT<MC.currentTime+.25){
-      const bar=Math.floor(step/8)%4,i=step%8,ch=PROG[bar];
-      const bv=i%4===0?.22:i%2===0?.1:0;if(bv)note(mtof(ROOT-12+ch[0]),nextT,e*1.8,'triangle',bv);
-      note(mtof(ROOT+12+ch[ARP[i]]),nextT,e*.9,'square',.05);
-      const m=MEL[bar][i];if(m&&step>=32)note(mtof(ROOT+24+m),nextT,e*1.4,'triangle',.11);
+      const bar=Math.floor(step/8)%cfg.chords.length,i=step%8,ch=cfg.chords[bar];
+      const bv=i%4===0?.20:i%2===0?.09:0;
+      if(bv)note(mtof(cfg.root-12+ch[0]),nextT,e*1.85,cfg.bass||'triangle',bv);
+      if(i===0&&cfg.pad)note(mtof(cfg.root+ch[1]),nextT,e*7.2,cfg.pad,.035);
+      note(mtof(cfg.root+12+ch[cfg.arp[i%cfg.arp.length]]),nextT,e*.88,cfg.accent||'square',.042);
+      const m=cfg.mel[bar][i];if(m&&step>=16)note(mtof(cfg.root+24+m),nextT,e*1.35,cfg.lead||'triangle',.095);
       nextT+=e;step++;
     }
   }
   function start(){
-    try{
-      if(!MC){MC=new (window.AudioContext||window.webkitAudioContext)();master=MC.createGain();master.gain.value=.5;master.connect(MC.destination)}
-      MC.resume();if(playing)return;playing=true;nextT=MC.currentTime+.08;step=0;timer=setInterval(sched,80);
-    }catch(e){}
+    try{if(!MC){MC=new (window.AudioContext||window.webkitAudioContext)();master=MC.createGain();master.gain.value=.5;master.connect(MC.destination)}
+      MC.resume();if(playing)return;playing=true;nextT=MC.currentTime+.08;step=0;timer=setInterval(sched,80);}catch(e){}
   }
   let silent=null;
   function unlock(){
@@ -1374,63 +2041,42 @@ function initMath(){
     try{if(!MC){MC=new (window.AudioContext||window.webkitAudioContext)();master=MC.createGain();master.gain.value=.5;master.connect(MC.destination)}
       if(MC.state!=='running')MC.resume();
       const b=MC.createBuffer(1,1,22050),s=MC.createBufferSource();s.buffer=b;s.connect(MC.destination);s.start(0)}catch(e){}
-    if(!navigator.audioSession&&!silent){try{silent=new Audio('data:audio/wav;base64,UklGRkQDAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YSADAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgA==');silent.loop=true;silent.play().catch(()=>{})}catch(e){}}
+    if(!navigator.audioSession&&!silent){try{silent=new Audio('data:audio/wav;base64,UklGRkQDAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YSADAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgA==');silent.loop=true;silent.play().catch(()=>{})}catch(e){}}
   }
   ['click','touchend','keydown'].forEach(ev=>document.addEventListener(ev,()=>{if(window.__nqIntro&&window.__nqIntro.music().on&&!document.getElementById('nqWelcome')){unlock();start()}else unlock()},true));
-  function stop(){playing=false;clearInterval(timer);if(master){master.gain.cancelScheduledValues(0);}if(MC)MC.suspend()}
+  function stop(){playing=false;clearInterval(timer);if(master)master.gain.cancelScheduledValues(0);if(MC)MC.suspend()}
   function sync(){musicOn?start():stop();const b=document.getElementById('musicBtn');if(b)b.setAttribute('aria-pressed',musicOn)}
   document.addEventListener('visibilitychange',()=>{if(!MC)return;if(document.hidden)MC.suspend();else if(musicOn&&playing)MC.resume()});
-  /* ---- HUD button ---- */
   const sb=document.getElementById('sfxBtn');
-  if(sb){const b=document.createElement('button');b.className='ctl-btn';b.id='musicBtn';b.type='button';b.textContent='Music';b.title='Background music on or off';b.setAttribute('aria-pressed',musicOn);
+  if(sb&&sb.parentNode&&!document.getElementById('musicBtn')){const b=document.createElement('button');b.className='ctl-btn';b.id='musicBtn';b.type='button';b.textContent='Music';b.title='Background music on or off';b.setAttribute('aria-pressed',musicOn);
     sb.parentNode.insertBefore(b,sb.nextSibling);
-    b.addEventListener('click',()=>{musicOn=!musicOn;saveM();playing=playing&&musicOn;sync()});}
-  /* ---- welcome screen ---- */
-  const css=document.createElement('style');css.textContent=`
-  #nqWelcome{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px;background:var(--bg);
-    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:32px 32px;transition:opacity .45s,transform .45s}
-  #nqWelcome.out{opacity:0;transform:scale(1.03);pointer-events:none}
-  #nqWelcome .card{max-width:620px;width:100%;background:var(--paper);border:3px solid var(--ink);box-shadow:8px 8px 0 var(--shadow);padding:clamp(18px,4vw,36px);text-align:left;animation:nqIn .6s ease both}
-  #nqWelcome .eb{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
-  #nqWelcome h1{font-family:var(--f-disp);font-weight:700;font-size:clamp(3rem,13vw,5.4rem);line-height:.95;margin:6px 0 2px;color:var(--ink);text-transform:uppercase;letter-spacing:.02em}
-  #nqWelcome .wn{display:inline-block;background:var(--gold);color:var(--on-gold);font-family:var(--f-disp);font-weight:700;font-size:1.35rem;letter-spacing:.06em;text-transform:uppercase;padding:2px 12px;margin:6px 0 10px}
-  #nqWelcome p{color:var(--muted);margin:0 0 16px;font-size:1.02rem;line-height:1.5}
-  #nqWelcome .row2{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-  #nqWelcome .go{font-family:var(--f-disp);font-weight:700;font-size:1.5rem;letter-spacing:.08em;text-transform:uppercase;background:var(--accent);color:var(--on-accent);border:3px solid var(--ink);padding:8px 28px;cursor:pointer;animation:nqPulse 1.8s ease-in-out infinite}
-  #nqWelcome .go:focus-visible,#nqWelcome .tg:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
-  #nqWelcome .tg{font-family:var(--f-mono);font-size:.85rem;background:var(--paper2);color:var(--ink);border:2px solid var(--line);padding:8px 12px;cursor:pointer}
-  #nqWelcome .tg[aria-pressed="true"]{background:var(--line);color:var(--paper)}
-  #nqWelcome .sv{font-family:var(--f-mono);font-size:.82rem;color:var(--muted);margin-top:14px}
-  @keyframes nqIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-  @keyframes nqPulse{50%{box-shadow:0 0 0 6px color-mix(in srgb,var(--accent) 30%,transparent)}}
-  @media (prefers-reduced-motion:reduce){#nqWelcome,#nqWelcome .card,#nqWelcome .go{animation:none;transition:none}}`;
-  document.head.appendChild(css);
+    b.addEventListener('click',()=>{musicOn=!musicOn;saveM();playing=playing&&musicOn;sync()})}
+
   let seen=false;try{seen=sessionStorage.getItem('nq-welcome-w'+WN)==='1'}catch(e){}
-  if(location.hash&&location.hash!=='#home')seen=true;           // deep links skip the intro
+  if(location.hash&&location.hash!=='#home')seen=true;
   function showWelcome(){
     const lv=level(S.xp),cont=S.xp>0;
-    const w=document.createElement('div');w.id='nqWelcome';w.setAttribute('role','dialog');w.setAttribute('aria-modal','true');w.setAttribute('aria-label','Welcome to NumQuest');
-    w.innerHTML=`<div class="card"><div class="eb">CENSCP33Z · Numerical Solutions to CE Problems</div><h1>NumQuest</h1>
-      <div class="wn">World ${WN} · ${WORLD[0]}</div><p>${WORLD[1]} Read the stages, play the labs, clear the checkpoints and beat the boss.</p>
-      <div class="row2"><button type="button" class="go" id="nqGo">${cont?'Continue':'Start'}</button>
-      <button type="button" class="tg" id="nqMus" aria-pressed="${musicOn}">Music</button><button type="button" class="tg" id="nqSfx" aria-pressed="${S.sfx}">Sound effects</button></div>
-      ${cont?`<div class="sv">Saved: level ${lv+1}, ${LEVELS[lv][1]}, ${S.xp} XP</div>`:''}</div>`;
+    const guideHtml=(typeof ART!=='undefined'&&ART.guide)?`<div class="chiefline" style="margin:12px 0"><img class="chiefface" src="${ART.guide}" alt="${ART.guideName}"><div><b>${ART.guideName}</b> <span class="hint">(${ART.guideTitle||'Faculty advisor'})</span><br>${WORLD.mission}</div></div>`:`<p>${WORLD.mission}</p>`;
+    const w=document.createElement('div');w.id='nqWelcome';w.className='open';w.setAttribute('role','dialog');w.setAttribute('aria-modal','true');w.setAttribute('aria-label','Welcome to NumQuest');
+    w.innerHTML=`<div class="wl-card"><div class="wl-ey">CENSCP33Z · Numerical Solutions to CE Problems</div><h2>${WORLD.subtitle}</h2>${guideHtml}
+      <div class="wl-act"><button type="button" class="btn" id="nqMus">${musicOn?'Music: ON':'Music: OFF'}</button><button type="button" class="btn" id="nqSfx">${S.sfx?'SFX: ON':'SFX: OFF'}</button><button type="button" class="btn primary" id="nqGo">${cont?'Continue ('+S.xp+' XP)':'Start World '+WN}</button></div>
+      ${cont?`<div class="hint mono" style="margin-top:10px">Saved rank: Level ${lv+1} · ${LEVELS[lv][1]}</div>`:''}</div>`;
     document.body.appendChild(w);
-    const go=w.querySelector('#nqGo');go.focus();
-    w.querySelector('#nqMus').addEventListener('click',e=>{musicOn=!musicOn;saveM();e.currentTarget.setAttribute('aria-pressed',musicOn);playing=playing&&musicOn;sync()});
-    w.querySelector('#nqSfx').addEventListener('click',e=>{S.sfx=!S.sfx;save();hud();e.currentTarget.setAttribute('aria-pressed',S.sfx)});
+    const go=w.querySelector('#nqGo');if(go)go.focus();
+    const musBtn=w.querySelector('#nqMus'),sfxBtn=w.querySelector('#nqSfx');
+    if(musBtn)musBtn.addEventListener('click',e=>{musicOn=!musicOn;saveM();e.currentTarget.textContent=musicOn?'Music: ON':'Music: OFF';playing=playing&&musicOn;sync()});
+    if(sfxBtn)sfxBtn.addEventListener('click',e=>{S.sfx=!S.sfx;save();hud();e.currentTarget.textContent=S.sfx?'SFX: ON':'SFX: OFF'});
     const done=()=>{try{sessionStorage.setItem('nq-welcome-w'+WN,'1')}catch(e){}
-      if(musicOn)sync();if(S.sfx)sfx.ok();w.classList.add('out');setTimeout(()=>w.remove(),500);document.removeEventListener('keydown',kd)};
-    const kd=e=>{if(e.target.closest&&e.target.closest('button'))return;if(e.key==='Enter'){e.preventDefault();done()}};
-    go.addEventListener('click',done);document.addEventListener('keydown',kd);
+      if(musicOn)sync();if(S.sfx)sfx.ok();w.remove();document.removeEventListener('keydown',kd)};
+    const kd=e=>{if(e.target.closest&&e.target.closest('button'))return;if(e.key==='Enter'||e.key==='Escape'){e.preventDefault();done()}};
+    if(go)go.addEventListener('click',done);document.addEventListener('keydown',kd);
   }
   window.__nqIntro={show:showWelcome,music:()=>({on:musicOn,playing})};
-  if(seen){ // returning in the same session: music starts on the first click anywhere
-    /* music starts from the global click/touchend unlock handler above */
-  }else showWelcome();
+  if(!seen)showWelcome();
 })();
 
 load();applyTheme();initMath();build();route();renderMath(document.body);
-window.__nq={S:()=>S,total:totalXP,EX,STAGES};
+window.__nq=Object.assign({S:()=>S,total:totalXP,EX,STAGES},WORLD.expose?WORLD.expose():{});
+
 })();
 </script>
