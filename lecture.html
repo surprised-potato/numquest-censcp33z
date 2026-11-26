@@ -66,6 +66,15 @@ tr.hl td{background:color-mix(in srgb,var(--accent) 14%,transparent)}
 pre{margin:0;background:var(--code-bg);border:1px solid var(--line);border-radius:6px;padding:.8em 1em;overflow-x:auto;font-family:var(--f-mono);font-size:.7em;line-height:1.55}
 pre .cm{color:var(--muted)} pre .kw{color:var(--c4);font-weight:600} pre .fn{color:var(--c1)}
 code{font-family:var(--f-mono);font-size:.85em;background:var(--code-bg);padding:.05em .3em;border-radius:3px}
+/* MATLAB slides: code cells, each followed by what the Command Window prints */
+.mcode{column-gap:1.4em}
+@media (min-width:900px){.mcode{columns:2}}
+.mcell{break-inside:avoid;display:flex;flex-direction:column;margin-bottom:.6em}
+.mcell pre{font-size:.78em;line-height:1.45;padding:.45em .8em;white-space:pre}
+.mcell pre.code{border-radius:6px}
+.mcell pre.code:has(+ pre.out){border-radius:6px 6px 0 0}
+.mcell pre.out{margin:0;border-top:none;border-left:4px solid var(--c3);border-radius:0 0 6px 6px;background:var(--panel);color:var(--ink);font-size:.72em;position:relative;padding-top:1.35em}
+.mcell pre.out::before{content:"Command Window";position:absolute;top:.3em;left:.8em;font-size:.72em;letter-spacing:.06em;text-transform:uppercase;color:var(--c3);font-weight:600}
 aside.notes{display:none}
 /* figures from the feasibility study; sized in em so the slide fit scales them with the text */
 figure{margin:0;display:flex;flex-direction:column;gap:.25em;min-width:0}
@@ -359,25 +368,21 @@ nav.bar .count{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-
 <div class="inner">
   <div class="tag">MATLAB · Linear regression</div>
   <h2><code>polyfit</code> and <code>polyval</code></h2>
-  <div class="cols">
-<pre><span class="cm">% Spring test data</span>
-x = [10 20 30 40 50 60 70];          <span class="cm">% force, N</span>
-y = [2.1 3.9 6.2 7.8 10.1 12.2 13.8]; <span class="cm">% extension, mm</span>
-
-p = <span class="fn">polyfit</span>(x, y, 1)   <span class="cm">% p = [a1 a0] = [0.1986 0.0714]</span>
-yhat = <span class="fn">polyval</span>(p, x);    <span class="cm">% fitted values</span>
-
+  <div class="mcode">
+<div class="mcell"><pre class="code">x = [10 20 30 40 50 60 70];        <span class="cm">% force, N</span>
+y = [2.1 3.9 6.2 7.8 10.1 12.2 13.8]; <span class="cm">% mm</span></pre></div>
+<div class="mcell step"><pre class="code">p = <span class="fn">polyfit</span>(x, y, 1)</pre><pre class="out">p =
+    0.1986    0.0714</pre></div>
+<div class="mcell step"><pre class="code">yhat = <span class="fn">polyval</span>(p, x);
 St = <span class="fn">sum</span>((y - <span class="fn">mean</span>(y)).^2);
 Sr = <span class="fn">sum</span>((y - yhat).^2);
-r2 = (St - Sr)/St           <span class="cm">% 0.9983</span>
-
-<span class="fn">polyval</span>(p, 45)             <span class="cm">% 9.007 mm at 45 N</span>
-<span class="fn">plot</span>(x, y, <span class="kw">'o'</span>, x, yhat, <span class="kw">'-'</span>)</pre>
-    <div class="key step">
-      <p><code>polyfit</code> returns coefficients from the <strong>highest power down</strong>: <code>p(1)</code> is $a_1$, <code>p(2)</code> is $a_0$.</p>
-      <p>The third argument is the degree. Degree 1 is a straight line; the same function does polynomial regression next.</p>
-    </div>
+r2 = (St - Sr)/St</pre><pre class="out">r2 =
+    0.9983</pre></div>
+<div class="mcell step"><pre class="code"><span class="fn">polyval</span>(p, 45)</pre><pre class="out">ans =
+    9.0071</pre></div>
+<div class="mcell step"><pre class="code"><span class="fn">plot</span>(x, y, <span class=\"kw\">'o'</span>, x, yhat, <span class=\"kw\">'-'</span>)</pre><pre class="out">(opens a figure: data points and the fitted line)</pre></div>
   </div>
+  <div class="key step"><p><code>polyfit</code> lists coefficients from the <strong>highest power down</strong>: <code>p(1)</code> is $a_1$, <code>p(2)</code> is $a_0$. The third argument is the degree.</p></div>
 </div>
 <aside class="notes"><ul>
   <li>Walk through line by line; if MATLAB is open, run it live and compare with the hand result.</li>
@@ -475,24 +480,23 @@ r2 = (St - Sr)/St           <span class="cm">% 0.9983</span>
 <div class="inner">
   <div class="tag">MATLAB · Polynomial regression</div>
   <h2>Normal equations, or one call</h2>
-  <div class="cols">
-<pre>v = [20 30 40 50 60 70 80];               <span class="cm">% km/h</span>
-d = [6.1 11.2 18.5 26.0 36.4 46.7 60.2];  <span class="cm">% m</span>
-
-<span class="cm">% 1) Build and solve the normal equations</span>
-A = [<span class="fn">numel</span>(v)    <span class="fn">sum</span>(v)     <span class="fn">sum</span>(v.^2);
-     <span class="fn">sum</span>(v)      <span class="fn">sum</span>(v.^2)  <span class="fn">sum</span>(v.^3);
-     <span class="fn">sum</span>(v.^2)   <span class="fn">sum</span>(v.^3)  <span class="fn">sum</span>(v.^4)];
+  <div class="mcode">
+<div class="mcell"><pre class="code">v = [20 30 40 50 60 70 80];               <span class="cm">% km/h</span>
+d = [6.1 11.2 18.5 26.0 36.4 46.7 60.2];  <span class="cm">% m</span></pre></div>
+<div class="mcell step"><pre class="code">A = [<span class="fn">numel</span>(v)   <span class="fn">sum</span>(v)     <span class="fn">sum</span>(v.^2);
+     <span class="fn">sum</span>(v)     <span class="fn">sum</span>(v.^2)  <span class="fn">sum</span>(v.^3);
+     <span class="fn">sum</span>(v.^2)  <span class="fn">sum</span>(v.^3)  <span class="fn">sum</span>(v.^4)];
 b = [<span class="fn">sum</span>(d); <span class="fn">sum</span>(v.*d); <span class="fn">sum</span>(v.^2.*d)];
-a = A\b          <span class="cm">% [a0; a1; a2] = [0.1429; 0.1495; 0.007476]</span>
-
-<span class="cm">% 2) Same answer, highest power first</span>
-p = <span class="fn">polyfit</span>(v, d, 2)  <span class="cm">% [0.007476 0.1495 0.1429]</span>
-<span class="fn">polyval</span>(p, 100)         <span class="cm">% 89.86 m</span></pre>
-    <div class="key step">
-      <p><code>A\b</code> solves the linear system (Gaussian elimination inside). Note the order: your vector <code>a</code> is lowest power first, <code>polyfit</code> is highest power first.</p>
-    </div>
+a = A\b</pre><pre class="out">a =
+    0.1429
+    0.1495
+    0.0075</pre></div>
+<div class="mcell step"><pre class="code">p = <span class="fn">polyfit</span>(v, d, 2)</pre><pre class="out">p =
+    0.0075    0.1495    0.1429</pre></div>
+<div class="mcell step"><pre class="code"><span class="fn">polyval</span>(p, 100)</pre><pre class="out">ans =
+   89.8571</pre></div>
   </div>
+  <div class="key step"><p><code>A\b</code> solves the normal equations; its answer is lowest power first ($a_0,a_1,a_2$). <code>polyfit</code> gives the same numbers, highest power first.</p></div>
 </div>
 <aside class="notes"><ul>
   <li>Version 1 mirrors the hand method exactly; good for checking homework.</li>
@@ -593,24 +597,19 @@ p = <span class="fn">polyfit</span>(v, d, 2)  <span class="cm">% [0.007476 0.149
 <div class="inner">
   <div class="tag">MATLAB · Interpolation</div>
   <h2>Degree $n-1$ with <code>polyfit</code></h2>
-  <div class="cols">
-<pre>T   = [0 10 20 30];
-rho = [999.84 999.70 998.21 995.65];
-
-<span class="cm">% Exact interpolation: degree n-1 passes through all points</span>
-p3 = <span class="fn">polyfit</span>(T, rho, <span class="fn">numel</span>(T)-1);
-<span class="fn">polyval</span>(p3, 25)     <span class="cm">% 997.046</span>
-
-<span class="cm">% Regression first, then evaluate</span>
-p2 = <span class="fn">polyfit</span>(T, rho, 2);
-<span class="fn">polyval</span>(p2, 25)     <span class="cm">% 997.095</span>
-
-<span class="cm">% Check: exact fit leaves no residual</span>
-<span class="fn">max</span>(<span class="fn">abs</span>(<span class="fn">polyval</span>(p3, T) - rho))   <span class="cm">% ~1e-12</span></pre>
-    <div class="key step">
-      <p>When the degree equals $n-1$, <code>polyfit</code> is doing interpolation. With many points MATLAB may warn that the polynomial is badly conditioned; that warning is the Runge problem showing up in the numbers.</p>
-    </div>
+  <div class="mcode">
+<div class="mcell"><pre class="code">T   = [0 10 20 30];
+rho = [999.84 999.70 998.21 995.65];</pre></div>
+<div class="mcell step"><pre class="code">p3 = <span class="fn">polyfit</span>(T, rho, <span class="fn">numel</span>(T)-1);
+<span class="fn">polyval</span>(p3, 25)</pre><pre class="out">ans =
+  997.0463</pre></div>
+<div class="mcell step"><pre class="code">p2 = <span class="fn">polyfit</span>(T, rho, 2);
+<span class="fn">polyval</span>(p2, 25)</pre><pre class="out">ans =
+  997.0952</pre></div>
+<div class="mcell step"><pre class="code"><span class="fn">max</span>(<span class="fn">abs</span>(<span class="fn">polyval</span>(p3, T) - rho))</pre><pre class="out">ans =
+   (a tiny number, around 1e-13: round-off only)</pre></div>
   </div>
+  <div class="key step"><p>Degree $n-1$ makes <code>polyfit</code> interpolate: the curve passes through every point. With many points MATLAB may warn the polynomial is badly conditioned, which is Runge's problem showing up in the numbers.</p></div>
 </div>
 <aside class="notes"><ul>
   <li>Same function, one argument changes the meaning: degree $n-1$ = interpolation, lower degree = regression.</li>
@@ -973,24 +972,20 @@ p2 = <span class="fn">polyfit</span>(T, rho, 2);
 <div class="inner">
   <div class="tag">MATLAB · Finite differences</div>
   <h2><code>diff</code> does the subtraction</h2>
-  <div class="cols">
-<pre>t = 0:2:10;  h = 2;
-s = [0 11 40 87 150 228];
-
-<span class="fn">diff</span>(s)          <span class="cm">% [11 29 47 63 78]  successive differences</span>
-
-fwd = <span class="fn">diff</span>(s)/h    <span class="cm">% forward at t(1:end-1): 5.5 14.5 23.5 31.5 39</span>
-bwd = <span class="fn">diff</span>(s)/h    <span class="cm">% same numbers, but belong to t(2:end)</span>
-
-cen = (s(3:end) - s(1:end-2))/(2*h)
-                   <span class="cm">% central at t(2:end-1): 10 19 27.5 35.25</span>
-
-v = [fwd(1), cen, bwd(end)]
-                   <span class="cm">% 5.5 10 19 27.5 35.25 39</span></pre>
-    <div class="key step">
-      <p><code>diff(s)</code> is one element shorter than <code>s</code>. Divided by $h$, the same vector is the forward difference at the left point of each pair <em>and</em> the backward difference at the right point. Which one it is depends only on where you assign it.</p>
-    </div>
+  <div class="mcode">
+<div class="mcell"><pre class="code"><span class="fn">format</span> short g
+t = 0:2:10;  h = 2;
+s = [0 11 40 87 150 228];</pre></div>
+<div class="mcell step"><pre class="code"><span class="fn">diff</span>(s)</pre><pre class="out">ans =
+    11    29    47    63    78</pre></div>
+<div class="mcell step"><pre class="code">fwd = <span class="fn">diff</span>(s)/h</pre><pre class="out">fwd =
+    5.5   14.5   23.5   31.5     39</pre></div>
+<div class="mcell step"><pre class="code">cen = (s(3:end) - s(1:end-2))/(2*h)</pre><pre class="out">cen =
+     10     19   27.5  35.25</pre></div>
+<div class="mcell step"><pre class="code">v = [fwd(1), cen, fwd(end)]</pre><pre class="out">v =
+    5.5     10     19   27.5  35.25     39</pre></div>
   </div>
+  <div class="key step"><p><code>diff(s)/h</code> is forward differences at <code>t(1:end-1)</code>, and the same numbers are backward differences at <code>t(2:end)</code>. So <code>fwd(end)</code> is the backward difference at the last point.</p></div>
 </div>
 <aside class="notes"><ul>
   <li>The whole table from the last slide in four lines.</li>
@@ -1227,26 +1222,22 @@ v = [fwd(1), cen, bwd(end)]
 <div class="inner">
   <div class="tag">MATLAB · Trapezoids</div>
   <h2><code>trapz</code> for the total, <code>cumtrapz</code> for the running sum</h2>
-  <div class="cols">
-<pre>t = 0:6;                               <span class="cm">% min</span>
-Q = [2.0 3.5 5.2 6.1 5.4 3.8 2.5];     <span class="cm">% m^3/min</span>
-
-V  = <span class="fn">trapz</span>(t, Q)       <span class="cm">% 26.25 m^3 in total</span>
-Vc = <span class="fn">cumtrapz</span>(t, Q)    <span class="cm">% 0 2.75 7.10 12.75 18.50 23.10 26.25</span>
-<span class="fn">plot</span>(t, Vc, <span class="kw">'-o'</span>)
-
-<span class="cm">% A function: composite rule with N = 4</span>
-x = <span class="fn">linspace</span>(0, pi, 5);   <span class="cm">% N+1 points</span>
-<span class="fn">trapz</span>(x, <span class="fn">sin</span>(x))         <span class="cm">% 1.8961</span>
-
-<span class="cm">% The composite formula written out</span>
-h = x(2) - x(1);  f = <span class="fn">sin</span>(x);
-h/2*(f(1) + 2*<span class="fn">sum</span>(f(2:end-1)) + f(end))   <span class="cm">% 1.8961</span></pre>
-    <div class="key step">
-      <p>Always pass the $x$ (or $t$) vector. <code>trapz(Q)</code> alone assumes $h=1$, which is only right here by coincidence.</p>
-      <p><code>cumtrapz</code> returns a vector as long as the data, starting at 0. Its last entry equals <code>trapz</code>.</p>
-    </div>
+  <div class="mcode">
+<div class="mcell"><pre class="code"><span class="fn">format</span> short g
+t = 0:6;                            <span class="cm">% min</span>
+Q = [2.0 3.5 5.2 6.1 5.4 3.8 2.5];  <span class="cm">% m^3/min</span></pre></div>
+<div class="mcell step"><pre class="code">V = <span class="fn">trapz</span>(t, Q)</pre><pre class="out">V =
+   26.25</pre></div>
+<div class="mcell step"><pre class="code">Vc = <span class="fn">cumtrapz</span>(t, Q)</pre><pre class="out">Vc =
+      0   2.75    7.1  12.75   18.5   23.1  26.25</pre></div>
+<div class="mcell step"><pre class="code">x = <span class="fn">linspace</span>(0, pi, 5);
+<span class="fn">trapz</span>(x, <span class="fn">sin</span>(x))</pre><pre class="out">ans =
+   1.8961</pre></div>
+<div class="mcell step"><pre class="code">h = x(2) - x(1);  f = <span class="fn">sin</span>(x);
+h/2*(f(1) + 2*<span class="fn">sum</span>(f(2:end-1)) + f(end))</pre><pre class="out">ans =
+   1.8961</pre></div>
   </div>
+  <div class="key step"><p>Always pass the $x$ (or $t$) vector: <code>trapz(Q)</code> alone assumes $h=1$. <code>cumtrapz</code> starts at 0 and its last entry equals <code>trapz</code>.</p></div>
 </div>
 <aside class="notes"><ul>
   <li><code>linspace(0, pi, 5)</code> gives 5 points = 4 subintervals. Off-by-one between points and subintervals is the classic error.</li>
