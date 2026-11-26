@@ -1298,8 +1298,8 @@ h/2*(f(1) + 2*<span class="fn">sum</span>(f(2:end-1)) + f(end))</pre><pre class=
     <div class="box step">
       <h3>Required</h3>
       <ol>
-        <li><strong>Mean flow</strong> of the river: area under the curve by trapezoids, divided by 100%. The spacing is uneven, so each trapezoid uses its own width.</li>
-        <li><strong>Usable mean flow</strong>: the same area, but with every flow above $Q_d$ cut down to $Q_d$, i.e. under $\min(Q,\,Q_d)$.</li>
+        <li><strong>Average flow</strong> of the river over the year: the area under the curve (by trapezoids) ÷ 100. The spacing is uneven, so each trapezoid uses its own width.</li>
+        <li><strong>Usable average flow</strong>: the same area, but with the flood part cut off at $Q_d$, because the turbine can't take more.</li>
         <li><strong>Capacity</strong> $P=9.81\,Q_d\,H_n\,\eta$ with $H_n=213.69$ m, $\eta=0.80$, and the share of full output the river can supply, usable flow ÷ $Q_d$.</li>
       </ol>
     </div>
@@ -1312,37 +1312,59 @@ h/2*(f(1) + 2*<span class="fn">sum</span>(f(2:end-1)) + f(end))</pre><pre class=
 </ul></aside>
 </section>
 
-<section class="slide" data-part="Case study · Ch. 3 · Integration">
+<section class="slide demo-slide" data-part="Case study · Ch. 3 · Integration" data-demo="sol1">
 <div class="inner">
-  <div class="tag">Chapter 3 · Solution</div>
-  <h2>Add up the trapezoids</h2>
-  <div class="cols">
-    <div>
-      <p class="small">$A_k=\dfrac{(P_{k}-P_{k-1})}{2}\left[Q_{k-1}+Q_k\right]$, keeping a running total:</p>
-      <div class="tw"><table>
-        <tr><th>Interval (%)</th><th>Trapezoid</th><th>Running total</th></tr>
-        <tr class="step"><td>0 – 2</td><td>2 × (1.90+1.45)/2 = 3.35</td><td>3.35</td></tr>
-        <tr class="step"><td>2 – 5</td><td>3 × (1.45+1.15)/2 = 3.90</td><td>7.25</td></tr>
-        <tr class="step"><td>5 – 8</td><td>3 × (1.15+0.95)/2 = 3.15</td><td>10.40</td></tr>
-        <tr class="step"><td>8 – 10</td><td>2 × (0.95+0.85)/2 = 1.80</td><td>12.20</td></tr>
-        <tr class="step"><td>… 33 intervals …</td><td></td><td>…</td></tr>
-        <tr class="hl step"><td>to 100</td><td></td><td>50.17</td></tr>
+  <div class="tag">Chapter 3 · Solution · Step 1</div>
+  <h2>The river's average flow is the area under the curve</h2>
+  <div class="demo wide-ctl">
+    <div class="plots"><div class="plot"><canvas id="cvSol1" aria-label="Flow duration curve with the area under it split into trapezoid strips"></canvas></div>
+      <div class="legend"><span><i style="background:var(--c1)"></i>area under the curve, cut into trapezoid strips</span></div></div>
+    <div class="ctl">
+      <p class="step">Each strip is <strong>flow × share of days</strong>. Adding every strip gives a time-weighted average, like averaging the flow over the whole year.</p>
+      <div class="tw step"><table>
+        <tr><th>% of days</th><th>Strip area</th><th>Running total</th></tr>
+        <tr><td>0 – 2</td><td>2 × (1.90+1.45)/2 = 3.35</td><td>3.35</td></tr>
+        <tr><td>2 – 5</td><td>3 × (1.45+1.15)/2 = 3.90</td><td>7.25</td></tr>
+        <tr><td>5 – 8</td><td>3 × (1.15+0.95)/2 = 3.15</td><td>10.40</td></tr>
+        <tr><td colspan="2" class="l">… keep going, 33 strips in all …</td><td></td></tr>
+        <tr class="hl"><td>0 – 100</td><td></td><td>50.17</td></tr>
       </table></div>
+      <div class="key step"><p>The horizontal axis is in %, so divide by 100:</p>
+      $$\bar Q=\frac{50.17}{100}=0.502\ \text{m}^3/\text{s}$$
+      <p>On an average day, the river carries about half a cubic metre per second.</p></div>
     </div>
-    <div>
-      <div class="step">$$\bar Q=\frac{50.17}{100}=0.502\ \text{m}^3/\text{s}$$</div>
-      <div class="step"><p>Usable flow: from 0 to 19% the turbine takes only 0.67, a rectangle $0.67\times19=12.73$. From 19% to 100% the river is below $Q_d$: trapezoid area 31.30.</p>
-      $$\bar Q_{\text{usable}}=\frac{12.73+31.30}{100}=0.440\ \text{m}^3/\text{s}$$</div>
-      <div class="key step">$$\frac{\bar Q_{\text{usable}}}{Q_d}=\frac{0.440}{0.67}=65.7\%$$
+  </div>
+</div>
+<aside class="notes"><ul>
+  <li>Strip widths are uneven (2, 3, 3, 2, …): each trapezoid uses its own width, which is fine for the cumulative trapezoid rule.</li>
+  <li>Why the area is an average: a strip 2% wide at about 1.7 m³/s means "1.7 m³/s for 2% of the year". Adding flow × time-share over the whole year is exactly the yearly average.</li>
+  <li>The full 33-strip total (50.17) was checked in Python.</li>
+</ul></aside>
+</section>
+
+<section class="slide demo-slide" data-part="Case study · Ch. 3 · Integration" data-demo="sol2">
+<div class="inner">
+  <div class="tag">Chapter 3 · Solution · Steps 2–4</div>
+  <h2>Only the blue water reaches the turbine</h2>
+  <div class="demo wide-ctl">
+    <div class="plots"><div class="plot"><canvas id="cvSol2" aria-label="Flow duration curve: water the turbine uses shaded blue, spilled flood water shaded orange"></canvas></div>
+      <div class="legend"><span><i style="background:var(--c1)"></i>water the turbine uses</span><span><i style="background:var(--c2)"></i>flood water spilled over the weir</span><span><i style="background:var(--bad)"></i>turbine limit $Q_d=0.67$</span></div></div>
+    <div class="ctl">
+      <p class="step"><strong>Days 0–19%:</strong> the river carries more than 0.67, but the turbine takes only 0.67. The rest spills (orange). Blue rectangle: $0.67\times19=12.73$.</p>
+      <p class="step"><strong>Days 19–100%:</strong> the river carries less than 0.67, so the turbine takes all of it. Trapezoid strips under the curve: $31.30$.</p>
+      <div class="step">$$\bar Q_{\text{usable}}=\frac{12.73+31.30}{100}=0.440\ \text{m}^3/\text{s}$$</div>
+      <div class="key step"><p>The turbine can pass up to 0.67 m³/s but gets 0.440 on average:</p>
+      $$\frac{0.440}{0.67}=65.7\%\ \text{of its maximum}$$</div>
+      <div class="step"><p>Power rating, using the formula from the project slides:</p>
       $$P=9.81(0.67)(213.69)(0.80)=1{,}124\ \text{kW}$$</div>
     </div>
   </div>
 </div>
 <aside class="notes"><ul>
-  <li>Units: % × m³/s; dividing by 100% gives m³/s. The full 34-point sum (50.17) was checked in Python with numpy.trapz.</li>
-  <li>Usable area: min(Q, 0.67) at each point, then trapezoids. 12.73 + 31.30 = 44.03.</li>
-  <li>65.7% is the hydraulic share: the turbine gets 65.7% of the water it could use running flat out all year.</li>
-  <li>1,124 kW matches the study's 1,120 kW.</li>
+  <li>Point at the picture before any numbers: blue is what the turbine gets, orange is wasted flood water.</li>
+  <li>The 12.73 rectangle: on the wettest 19% of days the turbine runs flat out at 0.67.</li>
+  <li>The 31.30: on the other 81% of days it runs part-loaded, taking whatever the river has.</li>
+  <li>65.7% means the 1,124 kW plant delivers, on average, about two-thirds of full power, before losses and shutdowns (next slide).</li>
 </ul></aside>
 </section>
 
@@ -1835,7 +1857,35 @@ function drawFdcRead() {
   g.fillStyle = P.muted; g.textAlign = "left"; g.textBaseline = "top"; g.font = Math.round(Math.max(11, Math.min(16, P.h / 26))) + "px " + tok("--f-body");
   g.fillText("← floods (rare)", P.X(3), P.Y(1.6)); g.textAlign = "right"; g.fillText("dry season (almost always) at the right end →", P.X(99), P.Y(1.0));
 }
-const DEMOS = { lin: drawLin, poly: drawPoly, interp: drawInterp, diff: drawDiff, integ: drawTr, rate: drawRate, sens: drawSens, fdc: drawFdc, fdcread: drawFdcRead };
+function fdcAxes(cv) { return makePlot(cv, { x0: 0, x1: 100, y0: 0, y1: 2, xl: "% of days the flow is reached or exceeded", yl: "Q (m³/s)" }); }
+function areaPath(P, ys) { const g = P.g; g.beginPath(); g.moveTo(P.X(0), P.Y(0)); FDC.P.forEach((p, i) => g.lineTo(P.X(p), P.Y(ys[i]))); g.lineTo(P.X(100), P.Y(0)); g.closePath(); }
+function drawSol1() {
+  const P = fdcAxes($("cvSol1")), g = P.g, c1 = tok("--c1");
+  areaPath(P, FDC.Q); g.fillStyle = alpha(c1, .22); g.fill();
+  g.strokeStyle = alpha(c1, .9); g.lineWidth = 1;
+  FDC.P.forEach((p, i) => { g.beginPath(); g.moveTo(P.X(p), P.Y(0)); g.lineTo(P.X(p), P.Y(FDC.Q[i])); g.stroke(); });
+  [[0, 1], [1, 2], [2, 3]].forEach(([i, j], k) => { g.beginPath(); g.moveTo(P.X(FDC.P[i]), P.Y(0)); g.lineTo(P.X(FDC.P[i]), P.Y(FDC.Q[i])); g.lineTo(P.X(FDC.P[j]), P.Y(FDC.Q[j])); g.lineTo(P.X(FDC.P[j]), P.Y(0)); g.closePath();
+    g.fillStyle = alpha(c1, k % 2 ? .45 : .6); g.fill(); });
+  P.poly(FDC.P, FDC.Q, P.ink, 2.5); FDC.P.forEach((p, i) => P.dot(p, FDC.Q[i], P.ink, 3));
+  const fs = Math.round(Math.max(12, Math.min(20, P.h / 20)));
+  g.font = "600 " + fs + "px " + tok("--f-body"); g.fillStyle = P.ink; g.textAlign = "center"; g.textBaseline = "middle";
+  g.fillText("total area = 50.17", P.X(45), P.Y(0.2));
+  g.textAlign = "left"; g.fillStyle = c1; g.fillText("← first three strips", P.X(9), P.Y(1.3));
+}
+function drawSol2() {
+  const P = fdcAxes($("cvSol2")), g = P.g, qd = 0.67, use = FDC.Q.map(q => Math.min(q, qd));
+  g.beginPath(); FDC.P.forEach((p, i) => i ? g.lineTo(P.X(p), P.Y(FDC.Q[i])) : g.moveTo(P.X(p), P.Y(FDC.Q[i]))); for (let i = FDC.P.length - 1; i >= 0; i--) g.lineTo(P.X(FDC.P[i]), P.Y(use[i])); g.closePath(); g.fillStyle = alpha(tok("--c2"), .4); g.fill();
+  areaPath(P, use); g.fillStyle = alpha(tok("--c1"), .3); g.fill();
+  g.strokeStyle = tok("--c1"); g.lineWidth = 1.5; g.setLineDash([4, 4]); g.beginPath(); g.moveTo(P.X(19), P.Y(0)); g.lineTo(P.X(19), P.Y(qd)); g.stroke(); g.setLineDash([]);
+  P.poly(FDC.P, FDC.Q, P.ink, 2.5); FDC.P.forEach((p, i) => P.dot(p, FDC.Q[i], P.ink, 3));
+  P.fn(() => qd, tok("--bad"), 2, [7, 5]);
+  const fs = Math.round(Math.max(12, Math.min(20, P.h / 20)));
+  g.font = "600 " + fs + "px " + tok("--f-body"); g.textAlign = "center"; g.textBaseline = "middle";
+  g.fillStyle = P.ink; g.fillText("12.73", P.X(9.5), P.Y(0.33)); g.fillText("31.30", P.X(55), P.Y(0.2));
+  g.fillStyle = tok("--c2"); g.textAlign = "left"; g.fillText("← spilled", P.X(9), P.Y(1.2));
+  g.fillStyle = tok("--bad"); g.textAlign = "right"; g.fillText("turbine limit 0.67", P.X(98), P.Y(qd) - fs);
+}
+const DEMOS = { lin: drawLin, poly: drawPoly, interp: drawInterp, diff: drawDiff, integ: drawTr, rate: drawRate, sens: drawSens, fdc: drawFdc, fdcread: drawFdcRead, sol1: drawSol1, sol2: drawSol2 };
 
 /* ---------- fit text slides to the screen ---------- */
 const slides = [...document.querySelectorAll(".slide")];
