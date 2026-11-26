@@ -622,11 +622,11 @@ rho = [999.84 999.70 998.21 995.65];</pre></div>
 <section class="slide" data-part="Case study · The project">
 <div class="inner">
   <div class="tag">Case study · A real engineering problem</div>
-  <h2>Maragandang 2 Mini-Hydro Power Project</h2>
+  <h2>Project X Mini-Hydro Power Project</h2>
   <div class="cols">
-    <figure class="map"><img src="lecture-img/location.jpg" alt="Map of the Philippines with the project site marked in Negros Occidental"><figcaption><b>Project site</b>: Brgy. Mailum, Bago City, Negros Occidental</figcaption></figure>
+    <figure class="map"><img src="lecture-img/location.jpg" alt="Map of the Philippines with the project site marked in Negros Occidental"><figcaption><b>Project site</b>: Negros Occidental</figcaption></figure>
     <div>
-      <p>A small hydroelectric plant is proposed on the <strong>Maragandang River</strong>, high on the slopes of Canlaon Volcano.</p>
+      <p>A small hydroelectric plant is proposed on <strong>River X</strong>, high on the slopes of Canlaon Volcano.</p>
       <p class="step">Before anyone builds it, a <strong>feasibility study</strong> must answer one question: <em>how big a power plant can this river support?</em></p>
       <div class="key step"><p>You are the <strong>hydrology engineer</strong> on that study. Over three chapters you will use today's three methods on the project's real data to answer it.</p></div>
       <p class="hint step">All data in this case study come from the project's feasibility study.</p>
@@ -675,7 +675,7 @@ rho = [999.84 999.70 998.21 995.65];</pre></div>
   <div class="tag">Case study · Measuring a river</div>
   <h2>We need years of flow data, and we don't have them</h2>
   <div class="cols">
-    <figure class="map step"><img src="lecture-img/gauges.jpg" alt="Map of Negros Island showing river gauging stations, including Imbang, Bago and the Maragandang weir"><figcaption><b>River gauging stations on Negros Island.</b> "Marag 1 Weir" marks the project's river.</figcaption></figure>
+    <figure class="map step"><img src="lecture-img/gauges.jpg" alt="Map of Negros Island showing river gauging stations, including Imbang, Bago and River X"><figcaption><b>River gauging stations on Negros Island.</b> "River X" marks the project's river.</figcaption></figure>
     <div>
       <p>A <strong>gauging station</strong> measures a river in two ways:</p>
       <ul>
@@ -683,7 +683,7 @@ rho = [999.84 999.70 998.21 995.65];</pre></div>
         <li class="step"><strong>A few times a year</strong>: a field crew measures the actual flow $Q$ (water speed × cross-section area).</li>
         <li class="step">A <strong>rating curve</strong> $Q(H)$ is fitted to those measurements, then used to turn every daily height into a daily flow.</li>
       </ul>
-      <div class="key step"><p>Maragandang's own gauge only started in December 2016: far too short. The study must <strong>borrow the long record of a nearby gauged river</strong>, scaled down to Maragandang's smaller watershed (about 10 km²).</p></div>
+      <div class="key step"><p>River X's own gauge only started in December 2016: far too short. The study must <strong>borrow the long record of a nearby gauged river</strong>, scaled down to River X's smaller watershed (about 10 km²).</p></div>
     </div>
   </div>
 </div>
@@ -779,7 +779,7 @@ rho = [999.84 999.70 998.21 995.65];</pre></div>
 </div>
 <aside class="notes"><ul>
   <li>Solution of the 3×3: a₀ = 57.880, a₁ = −70.084, a₂ = 21.739. Verified independently in Python (numpy.polyfit).</li>
-  <li>Compare S_y/x: Bago's typical miss (12 m³/s) is about 18 times the whole Maragandang design flow.</li>
+  <li>Compare S_y/x: Bago's typical miss (12 m³/s) is about 18 times the whole Project X design flow.</li>
   <li>The study reports R² ≈ 0.95 (Imbang) and ≈ 0.50 (Bago) for its power-curve fits; our polynomial numbers differ but point the same way.</li>
   <li>Ask who guessed Bago earlier. Closer is not better if the data can't be trusted.</li>
 </ul></aside>
@@ -998,7 +998,7 @@ s = [0 11 40 87 150 228];</pre></div>
 <!-- ============ CASE STUDY · CHAPTER 2 ============ -->
 <section class="slide" data-part="Case study · Ch. 2 · Differentiation">
 <div class="inner">
-  <div class="tag">Case study · Maragandang 2 · Chapter 2 of 3</div>
+  <div class="tag">Case study · Project X · Chapter 2 of 3</div>
   <h2>How careful must the gauge reader be?</h2>
   <div class="cols">
     <div>
@@ -1011,7 +1011,7 @@ s = [0 11 40 87 150 228];</pre></div>
       <ol>
         <li>Using the Imbang curve from Chapter 1, $Q=21.739H^2-70.084H+57.880$, estimate $dQ/dH$ at a normal stage $H=1.7$ m and a flood stage $H=3.0$ m.</li>
         <li>Use forward, backward and central differences with $h=0.05$ m.</li>
-        <li>Estimate the flow error from a 1 cm misread at each stage. For scale, the Maragandang turbine will be designed for about 0.67 m³/s (you'll see why in Chapter 3).</li>
+        <li>Estimate the flow error from a 1 cm misread at each stage. For scale, the Project X turbine will be designed for about 0.67 m³/s (you'll see why in Chapter 3).</li>
       </ol>
     </div>
   </div>
@@ -1055,7 +1055,7 @@ s = [0 11 40 87 150 228];</pre></div>
   <li>Reveal the two value rows, then ask the class to compute forward/backward/central before showing the slope table.</li>
   <li>Forward and backward bracket the central value, the same pattern as the ln x example.</li>
   <li>Why central is exact here: for a quadratic the h² error term of the central formula is multiplied by the third derivative, which is zero.</li>
-  <li>The 90% figure compares an Imbang flow error with Maragandang's design flow; it's a scale comparison, not the same river.</li>
+  <li>The 90% figure compares an Imbang flow error with Project X's design flow; it's a scale comparison, not the same river.</li>
 </ul></aside>
 </section>
 
@@ -1252,10 +1252,10 @@ h/2*(f(1) + 2*<span class="fn">sum</span>(f(2:end-1)) + f(end))</pre><pre class=
   <div class="tag">Case study · Chapter 3 of 3 · Integration</div>
   <h2>How big should the plant be? First, read the river</h2>
   <div class="demo wide-ctl">
-    <div class="plots"><div class="plot"><canvas id="cvFdcRead" aria-label="Flow duration curve of Maragandang River with two readings marked"></canvas></div>
-      <div class="legend"><span><i style="background:var(--ink)"></i>Maragandang flow duration curve</span><span><i style="background:var(--c2)"></i>example readings</span></div></div>
+    <div class="plots"><div class="plot"><canvas id="cvFdcRead" aria-label="Flow duration curve of River X with two readings marked"></canvas></div>
+      <div class="legend"><span><i style="background:var(--ink)"></i>River X flow duration curve</span><span><i style="background:var(--c2)"></i>example readings</span></div></div>
     <div class="ctl">
-      <p>The borrowed record, scaled to Maragandang, is summarised as a <strong>flow duration curve</strong>:</p>
+      <p>The borrowed record, scaled to River X, is summarised as a <strong>flow duration curve</strong>:</p>
       <ol>
         <li class="step">Take every daily flow in the record.</li>
         <li class="step">Sort them from highest to lowest.</li>
@@ -1270,7 +1270,7 @@ h/2*(f(1) + 2*<span class="fn">sum</span>(f(2:end-1)) + f(end))</pre><pre class=
   <li>This is the most important new idea in Chapter 3; spend time here.</li>
   <li>It throws away dates and keeps only "how often". For sizing a plant, how often a flow occurs matters more than when.</li>
   <li>Ask: what does the 100% point (0.11 m³/s) mean? The flow the river never dropped below in the record.</li>
-  <li>The curve is Imbang's record scaled per km² of watershed down to Maragandang's 10 km².</li>
+  <li>The curve is Imbang's record scaled per km² of watershed down to River X's 10 km².</li>
 </ul></aside>
 </section>
 
@@ -1280,7 +1280,7 @@ h/2*(f(1) + 2*<span class="fn">sum</span>(f(2:end-1)) + f(end))</pre><pre class=
   <h2>Size the turbine from the curve</h2>
   <div class="cols">
     <div>
-      <p class="small">Maragandang flow duration curve: $Q$ (m³/s) reached or exceeded on the given % of days.</p>
+      <p class="small">River X flow duration curve: $Q$ (m³/s) reached or exceeded on the given % of days.</p>
       <div class="tw"><table>
         <tr><th>% days</th><td>0</td><td>2</td><td>5</td><td>8</td><td>10</td><td>12</td><td>14</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td></tr>
         <tr><th>Q</th><td>1.90</td><td>1.45</td><td>1.15</td><td>0.95</td><td>0.85</td><td>0.78</td><td>0.74</td><td>0.71</td><td>0.70</td><td>0.68</td><td>0.67</td><td>0.65</td></tr>
@@ -1748,7 +1748,7 @@ $("trPlay").addEventListener("click", () => {
   trTimer = setInterval(() => { N++; $("trN").value = N; drawTr(); if (N >= 16) clearInterval(trTimer); }, 450);
 });
 
-/* ---------- case study: Maragandang 2 (data from the feasibility study, Ch. 5) ---------- */
+/* ---------- case study: Project X (data from the project's feasibility study) ---------- */
 const RIVERS = {
   imbang: { H: [1.3, 1.35, 1.45, 1.52, 1.55, 1.58, 1.61, 1.68, 1.71, 1.73, 1.82, 1.85, 2.10, 3.05, 3.10, 3.10, 3.30, 3.60],
             Q: [0.7, 0.9, 1.2, 2.5, 1.6, 2.0, 1.4, 2.6, 3.3, 2.5, 2.3, 2.4, 11.8, 44.0, 42.5, 50.8, 60.5, 93.6],
