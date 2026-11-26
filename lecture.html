@@ -281,6 +281,7 @@ nav.bar .count{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-
 <div class="inner">
   <div class="tag">Linear regression · Worked example</div>
   <h2>Spring test: extension vs. force</h2>
+  <p><strong>Given:</strong> seven load readings $x_i$ (N) and the measured extensions $y_i$ (mm). <strong>Required:</strong> (a) the least-squares line $y=a_1x+a_0$; (b) the extension $y$ at a force of <strong>45 N</strong>.</p>
   <div class="cols">
     <div class="tw"><table>
       <tr><th>$i$</th><th>$x_i$ force (N)</th><th>$y_i$ ext. (mm)</th><th>$x_iy_i$</th><th>$x_i^2$</th></tr>
@@ -296,7 +297,8 @@ nav.bar .count{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-
     <div>
       <div class="step">$$a_1=\frac{7(2800)-(280)(56.1)}{7(14000)-280^2}=\frac{3892}{19600}=0.19857$$</div>
       <div class="step">$$a_0=\frac{56.1}{7}-0.19857\cdot\frac{280}{7}=8.01429-7.94286=0.07143$$</div>
-      <div class="key step">$$y=0.19857\,x+0.07143$$<p>At 45 N the model predicts $y=9.007$ mm. The slope is the spring's compliance, about 0.199 mm per N.</p></div>
+      <div class="step">$$\text{(a)}\quad y=0.19857\,x+0.07143$$</div>
+      <div class="key step">$$\text{(b)}\quad y(45)=0.19857(45)+0.07143=9.007\ \text{mm}$$<p>The slope is the spring's compliance, about 0.199 mm per N.</p></div>
     </div>
   </div>
 </div>
@@ -423,6 +425,7 @@ r2 = (St - Sr)/St</pre><pre class="out">r2 =
 <div class="inner">
   <div class="tag">Polynomial regression · Worked example</div>
   <h2>Braking distance vs. speed</h2>
+  <p><strong>Given:</strong> braking distances $d$ (m) measured at seven speeds $v$ (km/h). <strong>Required:</strong> (a) the least-squares quadratic $d=a_2v^2+a_1v+a_0$; (b) compare it with a straight-line fit using $S_r$, $S_{y/x}$ and $r^2$; (c) the braking distance at <strong>100 km/h</strong> from each model.</p>
   <div class="cols">
     <div>
       <div class="tw"><table>
@@ -433,14 +436,15 @@ r2 = (St - Sr)/St</pre><pre class="out">r2 =
       <div class="step">$$\begin{bmatrix} 7 & 350 & 20300\\ 350 & 20300 & 1295000\\ 20300 & 1295000 & 87710000\end{bmatrix}\begin{bmatrix}a_0\\a_1\\a_2\end{bmatrix}=\begin{bmatrix}205.1\\ 12767\\ 852270\end{bmatrix}$$</div>
     </div>
     <div>
-      <div class="key step">$$d=0.007476\,v^2+0.14952\,v+0.14286$$</div>
+      <div class="key step">$$\text{(a)}\quad d=0.007476\,v^2+0.14952\,v+0.14286$$</div>
       <div class="tw step"><table>
-        <tr><th class="l"></th><th>Linear</th><th>Quadratic</th></tr>
+        <tr><th class="l">(b), (c)</th><th>Linear</th><th>Quadratic</th></tr>
         <tr><td class="l">$S_r$</td><td>47.74</td><td>0.787</td></tr>
         <tr><td class="l">$S_{y/x}$</td><td>3.090</td><td>0.443</td></tr>
         <tr><td class="l">$r^2$</td><td>0.9793</td><td>0.9997</td></tr>
         <tr class="hl"><td class="l">$d$ at 100 km/h</td><td>74.2 m</td><td>89.9 m</td></tr>
       </table></div>
+      <div class="step">$$\text{(c)}\quad d(100)=0.007476(100)^2+0.14952(100)+0.14286=89.9\ \text{m}$$</div>
       <p class="small step">The line's $r^2$ looks excellent, yet it under-predicts braking at 100 km/h by about 16 m. Physics says $d\propto v^2$; plot the residuals before trusting $r^2$.</p>
     </div>
   </div>
