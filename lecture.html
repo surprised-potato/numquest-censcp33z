@@ -67,6 +67,17 @@ pre{margin:0;background:var(--code-bg);border:1px solid var(--line);border-radiu
 pre .cm{color:var(--muted)} pre .kw{color:var(--c4);font-weight:600} pre .fn{color:var(--c1)}
 code{font-family:var(--f-mono);font-size:.85em;background:var(--code-bg);padding:.05em .3em;border-radius:3px}
 aside.notes{display:none}
+/* figures from the feasibility study; sized in em so the slide fit scales them with the text */
+figure{margin:0;display:flex;flex-direction:column;gap:.25em;min-width:0}
+figure img{display:block;width:100%;border-radius:6px;border:1px solid var(--line);background:var(--panel)}
+figure.map img{height:13em;object-fit:contain}
+figure.photo img{height:6.2em;object-fit:cover}
+figcaption{font-size:.68em;color:var(--muted);line-height:1.3}
+figcaption b{color:var(--ink)}
+.strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.6em}
+@media (max-width:760px){.strip{grid-template-columns:repeat(2,minmax(0,1fr))}figure.map img{height:auto}}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:.15em .8em;font-size:.9em}
+.facts b{color:var(--muted);font-weight:600}
 /* step-by-step reveals */
 .js .step{opacity:0;transform:translateY(.5em);transition:opacity .35s ease,transform .35s ease}
 .js .step.shown{opacity:1;transform:none}
@@ -100,6 +111,9 @@ button{cursor:pointer}
 button:hover{border-color:var(--accent)}
 :focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .btns{display:flex;flex-wrap:wrap;gap:.4em}
+.demo.wide-ctl{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr)}
+.demo.wide-ctl .ctl{font-size:1em;gap:.55em}
+@media (max-width:760px){.demo.wide-ctl{grid-template-columns:minmax(0,1fr)}}
 .read{font-family:var(--f-mono);font-size:.8em;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.6em .8em;display:grid;grid-template-columns:auto 1fr;gap:.15em .8em;font-variant-numeric:tabular-nums}
 .read b{font-weight:600;color:var(--muted)}
 .legend{display:flex;flex-wrap:wrap;gap:.3em 1em;font-size:.72em;color:var(--muted)}
@@ -606,29 +620,97 @@ p2 = <span class="fn">polyfit</span>(T, rho, 2);
 </section>
 
 <!-- ============ CASE STUDY · CHAPTER 1 ============ -->
-<section class="slide" data-part="Case study · Ch. 1 · Fitting">
+<section class="slide" data-part="Case study · The project">
 <div class="inner">
-  <div class="tag">Case study · Maragandang 2 Mini-Hydro · Chapter 1 of 3</div>
-  <h2>Which river can we trust?</h2>
+  <div class="tag">Case study · A real engineering problem</div>
+  <h2>Maragandang 2 Mini-Hydro Power Project</h2>
   <div class="cols">
+    <figure class="map"><img src="lecture-img/location.jpg" alt="Map of the Philippines with the project site marked in Negros Occidental"><figcaption><b>Project site</b>: Brgy. Mailum, Bago City, Negros Occidental</figcaption></figure>
     <div>
-      <p>You are the hydrology engineer on the feasibility study for the <strong>Maragandang 2 Mini-Hydro Power Project</strong> in Brgy. Mailum, Bago City, Negros Occidental.</p>
-      <p class="step">The plant will drop water through a net head of <strong>213.69 m</strong>. Its size depends on one thing you don't have: years of daily flow records. Maragandang River has no long-term gauge.</p>
-      <p class="step">So you must borrow the record of a nearby <em>gauged</em> river. Two candidates:</p>
-    </div>
-    <div class="cols" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,9em),1fr))">
-      <div class="box step"><h3>Bago River</h3><p class="small">About 12 km away. Watershed about 402 km². Wide bed of boulders, gravel and fines.</p></div>
-      <div class="box step"><h3>Imbang River</h3><p class="small">About 32 km away. Watershed about 32 km². Bed mostly bedrock.</p></div>
+      <p>A small hydroelectric plant is proposed on the <strong>Maragandang River</strong>, high on the slopes of Canlaon Volcano.</p>
+      <p class="step">Before anyone builds it, a <strong>feasibility study</strong> must answer one question: <em>how big a power plant can this river support?</em></p>
+      <div class="key step"><p>You are the <strong>hydrology engineer</strong> on that study. Over three chapters you will use today's three methods on the project's real data to answer it.</p></div>
+      <p class="hint step">All data in this case study come from the project's feasibility study.</p>
     </div>
   </div>
-  <div class="key step"><p>A gauge records water <em>height</em> $H$. Flow $Q$ comes from a <strong>rating curve</strong> fitted to field measurements. If the rating curve is poor, every flow in the record is poor. <strong>Your call: whose record do we borrow?</strong></p></div>
-  <p class="hint">Source: Maragandang 2 Mini-Hydro Power Project Feasibility Study, Chapter 5 (Hydrology).</p>
 </div>
 <aside class="notes"><ul>
-  <li>This is a real project in Negros Occidental: the study recommends 1,120 kW from a design flow of 0.67 m³/s.</li>
-  <li>Set up the stakes: a hydro plant sized on a bad flow record either wastes money (too big) or wastes water (too small).</li>
-  <li>Ask the class to guess before any maths: closer river (Bago) or smaller, farther river (Imbang)? Most pick Bago because it's closer.</li>
-  <li>Explain a staff gauge: a painted ruler in the river. Readers record height daily; flow is measured only occasionally, by current meter.</li>
+  <li>Frame it: this is a real, documented project in Negros, not a textbook exercise. Every number they'll see comes from its feasibility study.</li>
+  <li>A feasibility study decides whether a project is worth building and how big it should be, before money is spent on construction.</li>
+  <li>Don't reveal the answer (the recommended size); students will work it out in Chapter 3.</li>
+</ul></aside>
+</section>
+
+<section class="slide" data-part="Case study · The project">
+<div class="inner">
+  <div class="tag">Case study · How a run-of-river plant works</div>
+  <h2>Borrow the water, drop it, give it back</h2>
+  <div class="strip">
+    <figure class="photo step"><img src="lecture-img/weir.jpg" alt="Site of the proposed weir in a forested river channel"><figcaption><b>1 · Weir</b>: a 2 m high wall across the river diverts part of the flow into the intake.</figcaption></figure>
+    <figure class="photo step"><img src="lecture-img/headrace.jpg" alt="Route of the headrace along the river valley"><figcaption><b>2 · Headrace</b>: an 857 m pipe carries the water at a gentle slope.</figcaption></figure>
+    <figure class="photo step"><img src="lecture-img/penstock.jpg" alt="Surveyors on the planned penstock route"><figcaption><b>3 · Penstock</b>: a 2,223 m steel pipe drops the water steeply to the plant.</figcaption></figure>
+    <figure class="photo step"><img src="lecture-img/powerhouse.jpg" alt="Field where the powerhouse will stand"><figcaption><b>4 · Powerhouse</b>: the water spins a turbine and generator, then returns to the river.</figcaption></figure>
+  </div>
+  <div class="cols">
+    <div class="step">
+      <p>Power from falling water:</p>
+      $$P=9.81\,Q\,H_n\,\eta\quad(\text{kW})$$
+      <p class="small">$Q$ flow through the turbine (m³/s), $H_n$ net head (m), $\eta$ overall efficiency, about 0.80.</p>
+    </div>
+    <div class="key step">
+      <p>The survey fixes the head: 225.89 m drop minus 12.2 m lost to pipe friction gives $H_n=213.69$ m.</p>
+      <p><strong>The unknown is $Q$</strong>: how much water the river carries, and how often. Rivers rise and fall with the seasons.</p>
+    </div>
+  </div>
+</div>
+<aside class="notes"><ul>
+  <li>Run-of-river means no big dam or reservoir: the plant uses whatever the river carries that day. When the river is low, output drops.</li>
+  <li>Walk through the four photos in order; they are the actual sites surveyed for the study.</li>
+  <li>9.81 = ρg/1000 for water (1000 kg/m³ × 9.81 m/s², divided by 1000 to give kW).</li>
+  <li>Quick feel: 1 m³/s through 213.69 m at 80% efficiency is 9.81 × 1 × 213.69 × 0.8 ≈ 1,680 kW.</li>
+</ul></aside>
+</section>
+
+<section class="slide" data-part="Case study · The project">
+<div class="inner">
+  <div class="tag">Case study · Measuring a river</div>
+  <h2>We need years of flow data, and we don't have them</h2>
+  <div class="cols">
+    <figure class="map step"><img src="lecture-img/gauges.jpg" alt="Map of Negros Island showing river gauging stations, including Imbang, Bago and the Maragandang weir"><figcaption><b>River gauging stations on Negros Island.</b> "Marag 1 Weir" marks the project's river.</figcaption></figure>
+    <div>
+      <p>A <strong>gauging station</strong> measures a river in two ways:</p>
+      <ul>
+        <li class="step"><strong>Every day</strong>: a reader notes the water height $H$ on a <em>staff gauge</em>, a ruler fixed in the river.</li>
+        <li class="step"><strong>A few times a year</strong>: a field crew measures the actual flow $Q$ (water speed × cross-section area).</li>
+        <li class="step">A <strong>rating curve</strong> $Q(H)$ is fitted to those measurements, then used to turn every daily height into a daily flow.</li>
+      </ul>
+      <div class="key step"><p>Maragandang's own gauge only started in December 2016: far too short. The study must <strong>borrow the long record of a nearby gauged river</strong>, scaled down to Maragandang's smaller watershed (about 10 km²).</p></div>
+    </div>
+  </div>
+</div>
+<aside class="notes"><ul>
+  <li>Why daily heights but rare flow measurements: reading a ruler takes a minute; measuring flow means wading across with a current meter at many points.</li>
+  <li>The government (DPWH) has kept daily records at several Negros rivers for decades. Those long records are what a hydro study needs.</li>
+  <li>Scaling by watershed: a river draining 10 km² carries roughly 10/32 of what a similar river draining 32 km² carries. The study did this, noting it is conservative.</li>
+  <li>Point to Imbang and Bago on the map: they are next.</li>
+</ul></aside>
+</section>
+
+<section class="slide" data-part="Case study · Ch. 1 · Fitting">
+<div class="inner">
+  <div class="tag">Case study · Chapter 1 of 3 · Curve fitting</div>
+  <h2>Which river can we trust?</h2>
+  <p>Two gauged rivers are candidates for the borrowed record:</p>
+  <div class="cols">
+    <div class="box step"><h3>Bago River</h3><p class="small">About 12 km from the site. Large watershed, about 402 km². Wide riverbed of boulders, gravel and sand.</p></div>
+    <div class="box step"><h3>Imbang River</h3><p class="small">About 32 km from the site. Small watershed, about 32 km². Riverbed mostly solid bedrock.</p></div>
+  </div>
+  <div class="key step"><p>The borrowed record is only as good as that river's <strong>rating curve</strong>. If height does not predict flow reliably, every one of thousands of daily flows is unreliable. <strong>Your call: whose record do we borrow?</strong></p></div>
+</div>
+<aside class="notes"><ul>
+  <li>Stakes: a plant sized on a bad flow record either wastes money (too big) or wastes water (too small).</li>
+  <li>Ask the class to vote before any maths. Most pick Bago because it's closer.</li>
+  <li>Plant the hint without explaining it yet: what happens to a gravel riverbed in a flood?</li>
 </ul></aside>
 </section>
 
@@ -654,7 +736,7 @@ p2 = <span class="fn">polyfit</span>(T, rho, 2);
         <tr><th>H</th><td>1.22</td><td>1.26</td><td>1.30</td><td>1.46</td><td>1.50</td><td>1.60</td><td>1.70</td><td>1.70</td></tr>
         <tr><th>Q</th><td>41</td><td>46</td><td>47</td><td>55</td><td>59</td><td>107</td><td>89</td><td>138</td></tr>
       </table></div>
-      <p class="hint">Points digitized from the study's Figures 5-4 and 5-5.</p>
+      <p class="hint">Field measurements from each river's gauging station, as charted in the feasibility study.</p>
     </div>
     <div class="box step">
       <h3>Required</h3>
@@ -692,7 +774,7 @@ p2 = <span class="fn">polyfit</span>(T, rho, 2);
         <tr class="hl"><td class="l">$r^2$</td><td>0.9885</td><td>0.8453</td></tr>
       </table></div>
       <p class="step">At the <strong>same</strong> Bago reading, $H=1.04$ m, the field crews measured <strong>12</strong> and <strong>49</strong> m³/s. No curve can pass near both.</p>
-      <div class="key step"><p><strong>Decision: borrow Imbang.</strong> Bago's gravel bed reshapes after every flood, so the same height means a different flow from month to month. The study reached the same conclusion.</p></div>
+      <div class="key step"><p><strong>Decision: borrow Imbang.</strong> Bago's gravel bed reshapes after every flood, so the same height means a different flow from month to month. The feasibility study made the same choice.</p></div>
     </div>
   </div>
 </div>
@@ -719,7 +801,7 @@ p2 = <span class="fn">polyfit</span>(T, rho, 2);
     </div>
     <div class="key step">
       <p>A real rating curve can only go up: more height, more flow. The quadratic earns $r^2=0.9885$ from the big flood points and bends the wrong way where the low-flow points sit.</p>
-      <p>For a mini-hydro plant, <strong>low flows are the whole business</strong>. That is why the study fitted a power law, $Q=0.1506\,H^{5.0678}$, which always increases.</p>
+      <p>For a mini-hydro plant, <strong>low flows are the whole business</strong>. The feasibility study's engineers instead fitted a power law, $Q=0.1506\,H^{5.0678}$, which always increases.</p>
       <p>Lesson from Part 1 again: a high $r^2$ does not mean the curve is right everywhere. Check the shape, especially near the ends.</p>
     </div>
   </div>
@@ -738,11 +820,11 @@ p2 = <span class="fn">polyfit</span>(T, rho, 2);
   <h2>Fit the rating curves yourself</h2>
   <div class="demo">
     <div class="plots"><div class="plot"><canvas id="cvRate" aria-label="Rating curve fit on real gauging data"></canvas></div>
-      <div class="legend"><span><i style="background:var(--c1)"></i>your polynomial fit</span><span><i style="background:var(--muted)"></i>study's power curve</span><span><i style="background:var(--bad)"></i>where the fit runs downhill</span></div></div>
+      <div class="legend"><span><i style="background:var(--c1)"></i>your polynomial fit</span><span><i style="background:var(--muted)"></i>feasibility study's power law</span><span><i style="background:var(--bad)"></i>where the fit runs downhill</span></div></div>
     <div class="ctl">
       <label for="rtR"><span>River</span> <select id="rtR"><option value="imbang">Imbang (n = 18)</option><option value="bago">Bago (n = 24)</option></select></label>
       <label for="rtM"><span>Degree $m$ <output id="rtMo">2</output></span><input type="range" id="rtM" min="1" max="4" value="2"></label>
-      <label class="row"><input type="checkbox" id="rtPow" checked> Show the study's power curve</label>
+      <label class="row"><input type="checkbox" id="rtPow" checked> Show the feasibility study's power law</label>
       <div class="read" id="rdRate"></div>
       <p class="hint">Red marks stages where $Q$ decreases as $H$ rises, which a river cannot do.</p>
     </div>
@@ -925,7 +1007,7 @@ v = [fwd(1), cen, bwd(end)]
   <h2>How careful must the gauge reader be?</h2>
   <div class="cols">
     <div>
-      <p>Imbang's record is thousands of daily staff-gauge readings, each converted to flow with the rating curve. The flow duration curve for Maragandang is built from those flows.</p>
+      <p>Imbang's borrowed record is decades of daily staff-gauge heights. Each one becomes a flow through your Chapter 1 rating curve, and the plant will be sized from those flows.</p>
       <p class="step">A reader wades out each morning and reads the painted staff to the nearest centimetre. Rain, current and glare make a 1 cm slip easy.</p>
       <p class="step">How much flow does one centimetre cost? That is the <strong>slope</strong> of the rating curve, $dQ/dH$.</p>
     </div>
@@ -934,7 +1016,7 @@ v = [fwd(1), cen, bwd(end)]
       <ol>
         <li>Using the Imbang curve from Chapter 1, $Q=21.739H^2-70.084H+57.880$, estimate $dQ/dH$ at a normal stage $H=1.7$ m and a flood stage $H=3.0$ m.</li>
         <li>Use forward, backward and central differences with $h=0.05$ m.</li>
-        <li>Estimate the flow error from a 1 cm misread at each stage, and compare it with the plant's design flow of 0.67 m³/s.</li>
+        <li>Estimate the flow error from a 1 cm misread at each stage. For scale, the Maragandang turbine will be designed for about 0.67 m³/s (you'll see why in Chapter 3).</li>
       </ol>
     </div>
   </div>
@@ -992,12 +1074,12 @@ v = [fwd(1), cen, bwd(end)]
       <p>At normal stages a 1 cm slip costs only about 0.04 m³/s, which is why the daily low-flow record can still be trusted.</p>
     </div>
     <div class="box step">
-      <h3>Check against the study's curve</h3>
-      <p>The study's power law $Q=0.1506H^{5.0678}$ has slope $dQ/dH=0.763\,H^{4.0678}$:</p>
+      <h3>Check against the power-law curve</h3>
+      <p>The feasibility study's power law $Q=0.1506H^{5.0678}$ has slope $dQ/dH=0.763\,H^{4.0678}$:</p>
       <div class="tw"><table>
         <tr><th class="l"></th><th>at 1.7 m</th><th>at 3.0 m</th></tr>
         <tr><td class="l">Our quadratic</td><td>3.83</td><td>60.35</td></tr>
-        <tr><td class="l">Study's power law</td><td>6.61</td><td>66.60</td></tr>
+        <tr><td class="l">Power law</td><td>6.61</td><td>66.60</td></tr>
       </table></div>
       <p class="small">The two curves give similar <em>flows</em> but their <em>slopes</em> at 1.7 m differ by 70%. Differentiating a fitted curve magnifies its shape errors.</p>
     </div>
@@ -1018,7 +1100,7 @@ v = [fwd(1), cen, bwd(end)]
     <div class="plots"><div class="plot"><canvas id="cvSens" aria-label="Rating curve with tangent at the chosen gauge reading"></canvas></div>
       <div class="legend"><span><i style="background:var(--c1)"></i>rating curve</span><span><i style="background:var(--c3)"></i>tangent (central difference)</span><span><i style="background:var(--c2)"></i>flow error from the misread</span></div></div>
     <div class="ctl">
-      <label for="snC"><span>Rating curve</span> <select id="snC"><option value="quad">Quadratic fit (Chapter 1)</option><option value="pow">Study's power law</option></select></label>
+      <label for="snC"><span>Rating curve</span> <select id="snC"><option value="quad">Quadratic fit (Chapter 1)</option><option value="pow">Power law (feasibility study)</option></select></label>
       <label for="snH"><span>Gauge reading $H$ <output id="snHo"></output></span><input type="range" id="snH" min="1.3" max="3.6" step="0.01" value="3"></label>
       <label for="snE"><span>Misread <output id="snEo"></output></span><input type="range" id="snE" min="0.5" max="5" step="0.5" value="1"></label>
       <div class="read" id="rdSens"></div>
@@ -1174,37 +1256,64 @@ h/2*(f(1) + 2*<span class="fn">sum</span>(f(2:end-1)) + f(end))   <span class="c
 </section>
 
 <!-- ============ CASE STUDY · CHAPTER 3 ============ -->
+<section class="slide demo-slide" data-part="Case study · Ch. 3 · Integration" data-demo="fdcread">
+<div class="inner">
+  <div class="tag">Case study · Chapter 3 of 3 · Integration</div>
+  <h2>How big should the plant be? First, read the river</h2>
+  <div class="demo wide-ctl">
+    <div class="plots"><div class="plot"><canvas id="cvFdcRead" aria-label="Flow duration curve of Maragandang River with two readings marked"></canvas></div>
+      <div class="legend"><span><i style="background:var(--ink)"></i>Maragandang flow duration curve</span><span><i style="background:var(--c2)"></i>example readings</span></div></div>
+    <div class="ctl">
+      <p>The borrowed record, scaled to Maragandang, is summarised as a <strong>flow duration curve</strong>:</p>
+      <ol>
+        <li class="step">Take every daily flow in the record.</li>
+        <li class="step">Sort them from highest to lowest.</li>
+        <li class="step">Plot each flow against the <strong>% of days</strong> the river reached at least that much.</li>
+      </ol>
+      <div class="key step"><p>Reading it: at 19% the curve shows 0.67 m³/s, so the river carries <strong>0.67 m³/s or more on 19% of days</strong>, about 69 days a year. It carries at least 0.28 m³/s on 80% of days.</p></div>
+      <p class="step">The left end is floods (rare); the right end is the dry season (almost always available).</p>
+    </div>
+  </div>
+</div>
+<aside class="notes"><ul>
+  <li>This is the most important new idea in Chapter 3; spend time here.</li>
+  <li>It throws away dates and keeps only "how often". For sizing a plant, how often a flow occurs matters more than when.</li>
+  <li>Ask: what does the 100% point (0.11 m³/s) mean? The flow the river never dropped below in the record.</li>
+  <li>The curve is Imbang's record scaled per km² of watershed down to Maragandang's 10 km².</li>
+</ul></aside>
+</section>
+
 <section class="slide" data-part="Case study · Ch. 3 · Integration">
 <div class="inner">
-  <div class="tag">Case study · Maragandang 2 · Chapter 3 of 3</div>
-  <h2>How big should the plant be?</h2>
+  <div class="tag">Chapter 3 · Required</div>
+  <h2>Size the turbine from the curve</h2>
   <div class="cols">
     <div>
-      <p>From Imbang's record, scaled to Maragandang's watershed, the study built a <strong>flow duration curve</strong> (FDC): the percentage of time the river flow is at least $Q$.</p>
-      <div class="tw step"><table>
-        <tr><th>% time</th><td>0</td><td>2</td><td>5</td><td>8</td><td>10</td><td>12</td><td>14</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td></tr>
+      <p class="small">Maragandang flow duration curve: $Q$ (m³/s) reached or exceeded on the given % of days.</p>
+      <div class="tw"><table>
+        <tr><th>% days</th><td>0</td><td>2</td><td>5</td><td>8</td><td>10</td><td>12</td><td>14</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td></tr>
         <tr><th>Q</th><td>1.90</td><td>1.45</td><td>1.15</td><td>0.95</td><td>0.85</td><td>0.78</td><td>0.74</td><td>0.71</td><td>0.70</td><td>0.68</td><td>0.67</td><td>0.65</td></tr>
-        <tr><th>% time</th><td>22</td><td>24</td><td>26</td><td>28</td><td>30</td><td>32</td><td>34</td><td>36</td><td>38</td><td>40</td><td>45</td><td>50</td></tr>
+        <tr><th>% days</th><td>22</td><td>24</td><td>26</td><td>28</td><td>30</td><td>32</td><td>34</td><td>36</td><td>38</td><td>40</td><td>45</td><td>50</td></tr>
         <tr><th>Q</th><td>0.63</td><td>0.61</td><td>0.60</td><td>0.58</td><td>0.57</td><td>0.55</td><td>0.53</td><td>0.53</td><td>0.50</td><td>0.49</td><td>0.46</td><td>0.43</td></tr>
-        <tr><th>% time</th><td>55</td><td>60</td><td>65</td><td>70</td><td>75</td><td>80</td><td>85</td><td>90</td><td>95</td><td>100</td><td></td><td></td></tr>
+        <tr><th>% days</th><td>55</td><td>60</td><td>65</td><td>70</td><td>75</td><td>80</td><td>85</td><td>90</td><td>95</td><td>100</td><td></td><td></td></tr>
         <tr><th>Q</th><td>0.40</td><td>0.38</td><td>0.36</td><td>0.33</td><td>0.30</td><td>0.28</td><td>0.24</td><td>0.21</td><td>0.17</td><td>0.11</td><td></td><td></td></tr>
       </table></div>
-      <p class="hint">$Q$ in m³/s. Values from the study's Figure 5-6.</p>
+      <p class="small step">A turbine is built for one <strong>design flow</strong> $Q_d$. On days the river carries more, the extra spills over the weir unused. The design team proposes $Q_d=0.67$ m³/s, the flow reached on 19% of days.</p>
     </div>
     <div class="box step">
       <h3>Required</h3>
       <ol>
-        <li>Mean flow: area under the FDC by trapezoids, divided by 100%. The spacing is uneven, so each trapezoid uses its own width.</li>
-        <li>The turbine is designed for $Q_d=0.67$ m³/s (flow equalled 19% of the time) and cannot use more. Find the <em>usable</em> mean flow, the area under $\min(Q,\,Q_d)$.</li>
-        <li>Capacity $P=9.81\,Q_d\,H_n\,\eta$ with $H_n=213.69$ m and $\eta=0.80$; and the share of full output the river can supply.</li>
+        <li><strong>Mean flow</strong> of the river: area under the curve by trapezoids, divided by 100%. The spacing is uneven, so each trapezoid uses its own width.</li>
+        <li><strong>Usable mean flow</strong>: the same area, but with every flow above $Q_d$ cut down to $Q_d$, i.e. under $\min(Q,\,Q_d)$.</li>
+        <li><strong>Capacity</strong> $P=9.81\,Q_d\,H_n\,\eta$ with $H_n=213.69$ m, $\eta=0.80$, and the share of full output the river can supply, usable flow ÷ $Q_d$.</li>
       </ol>
     </div>
   </div>
 </div>
 <aside class="notes"><ul>
-  <li>Read an FDC: at 19% exceedance the flow is 0.67 m³/s, so the river carries 0.67 or more about 70 days a year.</li>
-  <li>The area under the FDC is "flow × fraction of time" summed up: that is the mean flow. Cumulative trapezoid from Part 3, with uneven widths.</li>
-  <li>η = 0.80 is the efficiency implied by the study's capacity table (1,120 kW at 0.67 m³/s); the study text quotes 76% turbine efficiency, so mention both if asked.</li>
+  <li>Why is the area the mean flow? Each strip is (flow) × (fraction of days at that flow); adding them is a time-weighted average, like ∫Q dt / T.</li>
+  <li>Why cap at Q_d: the turbine physically cannot pass more than its design flow; flood water goes over the weir.</li>
+  <li>η = 0.80 is the efficiency implied by the design team's options table (1,120 kW at 0.67 m³/s). The study text quotes 76% for the turbine alone; mention both if asked.</li>
 </ul></aside>
 </section>
 
@@ -1229,7 +1338,8 @@ h/2*(f(1) + 2*<span class="fn">sum</span>(f(2:end-1)) + f(end))   <span class="c
       <div class="step">$$\bar Q=\frac{50.17}{100}=0.502\ \text{m}^3/\text{s}$$</div>
       <div class="step"><p>Usable flow: from 0 to 19% the turbine takes only 0.67, a rectangle $0.67\times19=12.73$. From 19% to 100% the river is below $Q_d$: trapezoid area 31.30.</p>
       $$\bar Q_{\text{usable}}=\frac{12.73+31.30}{100}=0.440\ \text{m}^3/\text{s}$$</div>
-      <div class="key step">$$\frac{\bar Q_{\text{usable}}}{Q_d}=\frac{0.440}{0.67}=65.7\%\qquad P=9.81(0.67)(213.69)(0.80)=1{,}124\ \text{kW}$$</div>
+      <div class="key step">$$\frac{\bar Q_{\text{usable}}}{Q_d}=\frac{0.440}{0.67}=65.7\%$$
+      $$P=9.81(0.67)(213.69)(0.80)=1{,}124\ \text{kW}$$</div>
     </div>
   </div>
 </div>
@@ -1247,12 +1357,13 @@ h/2*(f(1) + 2*<span class="fn">sum</span>(f(2:end-1)) + f(end))   <span class="c
   <h2>Bigger turbine, emptier pipe</h2>
   <div class="cols">
     <div>
-      <p class="step">The study then allows for lower turbine efficiency below $Q_d$ and about 15 days of shutdowns a year. That brings 65.7% down to a <strong>plant factor of 58%</strong>.</p>
+      <p class="step"><strong>Plant factor</strong> = energy actually produced in a year ÷ energy if the plant ran at full capacity all 8,760 hours.</p>
+      <p class="step">The river supplies 65.7% of full flow. The design team then allowed for the turbine running less efficiently when below $Q_d$ (about 10% lower) and about 15 days a year of maintenance and typhoon shutdowns. Result: a <strong>plant factor of 58%</strong>.</p>
       <div class="step">$$E\approx1{,}120\ \text{kW}\times8{,}760\ \text{h}\times0.58\approx5{,}690\ \text{MWh/yr}$$
-      <p class="small muted">Study's table: 5,678 MWh/yr.</p></div>
+      <p class="small muted">The feasibility study reports 5,678 MWh/yr.</p></div>
     </div>
     <div class="box step">
-      <h3>The trade-off in the study's table</h3>
+      <h3>The design team's options</h3>
       <div class="tw"><table>
         <tr><th>$Q_d$ (m³/s)</th><th>Capacity</th><th>Plant factor</th><th>Energy (MWh)</th></tr>
         <tr><td>0.71</td><td>1,200 kW</td><td>55%</td><td>5,769</td></tr>
@@ -1260,7 +1371,7 @@ h/2*(f(1) + 2*<span class="fn">sum</span>(f(2:end-1)) + f(end))   <span class="c
         <tr><td>0.60</td><td>1,010 kW</td><td>62%</td><td>5,527</td></tr>
         <tr><td>0.49</td><td>820 kW</td><td>71%</td><td>5,130</td></tr>
       </table></div>
-      <p class="small">A bigger turbine catches more flood water but sits part-empty more of the year. The study chose 1,120 kW at 58% as the best financial balance.</p>
+      <p class="small">A bigger turbine catches more flood water but sits part-empty more of the year. The team chose 1,120 kW at 58% as the best financial balance.</p>
     </div>
   </div>
   <div class="key step"><p>Three chapters, one river: <strong>fit</strong> a trustworthy rating curve, <strong>differentiate</strong> it to know how much to trust each reading, <strong>integrate</strong> the resulting flow record to size the plant.</p></div>
@@ -1285,7 +1396,7 @@ h/2*(f(1) + 2*<span class="fn">sum</span>(f(2:end-1)) + f(end))   <span class="c
     <div class="ctl">
       <label for="fdQ"><span>Design flow $Q_d$ <output id="fdQo"></output></span><input type="range" id="fdQ" min="0.2" max="1.5" step="0.01" value="0.67"></label>
       <div class="read" id="rdFdc"></div>
-      <p class="hint">Plant factor here is 0.88 × the usable share, the ratio implied by the study's capacity table. Capacity uses $H_n=213.69$ m and $\eta=0.80$.</p>
+      <p class="hint">Plant factor here is 0.88 × the usable share, the ratio implied by the design team's options table. Capacity uses $H_n=213.69$ m and $\eta=0.80$.</p>
     </div>
   </div>
 </div>
@@ -1704,7 +1815,7 @@ function drawFdc() {
   let exc = 100; for (let i = 1; i < FDC.P.length; i++) if (FDC.Q[i] <= qd && FDC.Q[i - 1] >= qd) { exc = FDC.P[i - 1] + (FDC.Q[i - 1] - qd) / (FDC.Q[i - 1] - FDC.Q[i] || 1) * (FDC.P[i] - FDC.P[i - 1]); break; }
   if (qd > FDC.Q[0]) exc = 0;
   const kW = 9.81 * qd * HN * ETA, pf = PF_RATIO * share, mwh = kW * 8760 * pf / 1000;
-  const P = makePlot($("cvFdc"), { x0: 0, x1: 100, y0: 0, y1: 2, xl: "% of time flow is equalled or exceeded", yl: "Q (m³/s)" });
+  const P = makePlot($("cvFdc"), { x0: 0, x1: 100, y0: 0, y1: 2, xl: "% of days the flow is reached or exceeded", yl: "Q (m³/s)" });
   const g = P.g;
   g.beginPath(); FDC.P.forEach((p, i) => i ? g.lineTo(P.X(p), P.Y(FDC.Q[i])) : g.moveTo(P.X(p), P.Y(FDC.Q[i]))); for (let i = FDC.P.length - 1; i >= 0; i--) g.lineTo(P.X(FDC.P[i]), P.Y(use[i])); g.closePath(); g.fillStyle = alpha(tok("--c2"), .35); g.fill();
   g.beginPath(); g.moveTo(P.X(0), P.Y(0)); FDC.P.forEach((p, i) => g.lineTo(P.X(p), P.Y(use[i]))); g.lineTo(P.X(100), P.Y(0)); g.closePath(); g.fillStyle = alpha(tok("--c1"), .3); g.fill();
@@ -1717,7 +1828,19 @@ function drawFdc() {
 }
 $("fdQ").addEventListener("input", drawFdc);
 
-const DEMOS = { lin: drawLin, poly: drawPoly, interp: drawInterp, diff: drawDiff, integ: drawTr, rate: drawRate, sens: drawSens, fdc: drawFdc };
+function drawFdcRead() {
+  const P = makePlot($("cvFdcRead"), { x0: 0, x1: 100, y0: 0, y1: 2, xl: "% of days the flow is reached or exceeded", yl: "Q (m³/s)" });
+  const g = P.g, c2 = tok("--c2");
+  P.poly(FDC.P, FDC.Q, P.ink, 3); FDC.P.forEach((p, i) => P.dot(p, FDC.Q[i], P.ink, 3.5));
+  [[19, 0.67, "19% of days: ≥ 0.67 m³/s", "left"], [80, 0.28, "80% of days: ≥ 0.28 m³/s", "right"]].forEach(([x, y, t, al]) => {
+    P.clip(); g.strokeStyle = c2; g.lineWidth = 1.8; g.setLineDash([5, 4]); g.beginPath(); g.moveTo(P.X(x), P.Y(0)); g.lineTo(P.X(x), P.Y(y)); g.lineTo(P.X(0), P.Y(y)); g.stroke(); g.setLineDash([]); g.restore();
+    P.dot(x, y, c2, 7, tok("--panel"));
+    g.font = "600 " + Math.round(Math.max(12, Math.min(18, P.h / 22))) + "px " + tok("--f-body"); g.fillStyle = c2; g.textAlign = al; g.textBaseline = "bottom"; g.fillText(t, P.X(x) + (al === "left" ? 10 : -10), P.Y(y) - (al === "left" ? 8 : 34));
+  });
+  g.fillStyle = P.muted; g.textAlign = "left"; g.textBaseline = "top"; g.font = Math.round(Math.max(11, Math.min(16, P.h / 26))) + "px " + tok("--f-body");
+  g.fillText("← floods (rare)", P.X(3), P.Y(1.6)); g.textAlign = "right"; g.fillText("dry season (almost always) at the right end →", P.X(99), P.Y(1.0));
+}
+const DEMOS = { lin: drawLin, poly: drawPoly, interp: drawInterp, diff: drawDiff, integ: drawTr, rate: drawRate, sens: drawSens, fdc: drawFdc, fdcread: drawFdcRead };
 
 /* ---------- fit text slides to the screen ---------- */
 const slides = [...document.querySelectorAll(".slide")];
