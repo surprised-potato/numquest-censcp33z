@@ -1,0 +1,1102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Fitting, Differentiation &amp; Integration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<style>
+/* Layout: one slide per screen, graph-paper ground, header strip names the part of the lecture; demos sit in a plot + controls split */
+:root{
+  --bg:#f6f8fa; --grid:#e3e9ef; --panel:#ffffff; --ink:#14202b; --muted:#566676; --line:#c9d3dd;
+  --accent:#0b6e8a; --on-accent:#fff;
+  --c1:#2563c9; --c2:#d0650a; --c3:#2b8a4e; --c4:#8a47b8; --bad:#b3261e;
+  --code-bg:#eef2f6;
+  --f-display:"Archivo","Segoe UI",system-ui,sans-serif;
+  --f-body:"Source Sans 3","Segoe UI",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f161d; --grid:#18222c; --panel:#16202a; --ink:#e4ebf1; --muted:#93a4b4; --line:#2d3b48;
+  --accent:#3fb2d1; --on-accent:#08141a;
+  --c1:#6aa0ff; --c2:#f39a4a; --c3:#5cc485; --c4:#c08ae8; --bad:#ff7a70; --code-bg:#1b2733; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f161d; --grid:#18222c; --panel:#16202a; --ink:#e4ebf1; --muted:#93a4b4; --line:#2d3b48;
+  --accent:#3fb2d1; --on-accent:#08141a;
+  --c1:#6aa0ff; --c2:#f39a4a; --c3:#5cc485; --c4:#c08ae8; --bad:#ff7a70; --code-bg:#1b2733; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:clamp(16px,1.25vw + 6px,24px);line-height:1.45;overflow:hidden;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:32px 32px}
+.deck{position:fixed;inset:0 0 52px 0}
+.slide{position:absolute;inset:0;display:none;overflow-y:auto;overflow-x:hidden;
+  padding-block:clamp(14px,3vh,40px);padding-left:max(16px,env(safe-area-inset-left,0px),4vw);padding-right:max(16px,env(safe-area-inset-right,0px),4vw)}
+.slide.on{display:block}
+.inner{max-width:1280px;margin:0 auto;display:flex;flex-direction:column;gap:.8em;min-height:100%}
+.tag{font-family:var(--f-mono);font-size:.62em;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600}
+h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance;line-height:1.12}
+h1{font-size:2.6em;font-weight:800}
+h2{font-size:1.65em;font-weight:700}
+h3{font-size:1.05em;font-weight:700}
+p{margin:0;max-width:62ch}
+ul,ol{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:.3em}
+.muted{color:var(--muted)}
+.small{font-size:.8em}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,22em),1fr));gap:1.2em 2em;align-items:start}
+.cols>*{min-width:0}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.8em 1em;min-width:0}
+.key{border-left:4px solid var(--accent);background:var(--panel);padding:.6em 1em;border-radius:0 6px 6px 0}
+.katex-display{margin:.4em 0;overflow-x:auto;overflow-y:hidden;padding:.15em 0}
+.katex{font-size:1.08em}
+table{border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:.85em}
+.tw{overflow-x:auto;max-width:100%}
+th,td{border:1px solid var(--line);padding:.2em .6em;text-align:right}
+th{background:var(--code-bg);font-weight:600}
+td.l,th.l{text-align:left}
+tr.hl td{background:color-mix(in srgb,var(--accent) 14%,transparent)}
+pre{margin:0;background:var(--code-bg);border:1px solid var(--line);border-radius:6px;padding:.8em 1em;overflow-x:auto;font-family:var(--f-mono);font-size:.72em;line-height:1.55}
+pre .cm{color:var(--muted)} pre .kw{color:var(--c4);font-weight:600} pre .fn{color:var(--c1)}
+code{font-family:var(--f-mono);font-size:.85em;background:var(--code-bg);padding:.05em .3em;border-radius:3px}
+/* title slide */
+.title .inner{justify-content:center;gap:1.2em}
+.title h1 span{color:var(--accent)}
+.parts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,13em),1fr));gap:1em;margin-top:.6em}
+.parts .box h3{color:var(--accent)}
+.section .inner{justify-content:center}
+.section h1{font-size:3em}
+.section .num{font-family:var(--f-mono);color:var(--accent);font-size:1em}
+/* demos */
+.demo{display:grid;grid-template-columns:minmax(0,1fr) minmax(15em,20em);gap:1.2em;align-items:start}
+.demo.stack{grid-template-columns:minmax(0,1fr)}
+@media (max-width:820px){.demo{grid-template-columns:minmax(0,1fr)}}
+canvas{width:100%;display:block;background:var(--panel);border:1px solid var(--line);border-radius:6px;touch-action:none}
+.cv-main{height:min(58vh,520px)} .cv-half{height:min(30vh,270px)}
+.ctl{display:flex;flex-direction:column;gap:.7em;font-size:.82em}
+.ctl label{display:flex;flex-direction:column;gap:.2em;font-weight:600}
+.ctl label.row{flex-direction:row;align-items:center;gap:.5em;font-weight:400}
+.ctl output{font-family:var(--f-mono);font-weight:400;color:var(--accent)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+select,button{font:inherit;font-size:.95em;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:5px;padding:.3em .6em}
+button{cursor:pointer}
+button:hover{border-color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.btns{display:flex;flex-wrap:wrap;gap:.4em}
+.read{font-family:var(--f-mono);font-size:.78em;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.6em .8em;display:grid;grid-template-columns:auto 1fr;gap:.15em .8em;font-variant-numeric:tabular-nums}
+.read b{font-weight:600;color:var(--muted)}
+.legend{display:flex;flex-wrap:wrap;gap:.3em 1em;font-size:.75em;color:var(--muted)}
+.legend i{display:inline-block;width:1.4em;height:.25em;vertical-align:middle;margin-right:.35em;border-radius:2px}
+.hint{font-size:.72em;color:var(--muted)}
+/* practice */
+details{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:.6em 1em}
+details summary{cursor:pointer;font-weight:600;color:var(--accent)}
+details[open] summary{margin-bottom:.4em}
+.prob{display:flex;flex-direction:column;gap:.4em}
+/* nav */
+nav.bar{position:fixed;left:0;right:0;bottom:0;height:52px;display:flex;align-items:center;gap:.6em;background:var(--panel);border-top:1px solid var(--line);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));font-size:15px;z-index:5}
+nav.bar .where{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--muted);font-family:var(--f-mono);font-size:13px}
+nav.bar .count{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:13px}
+.prog{position:fixed;left:0;bottom:52px;height:3px;background:var(--accent);transition:width .25s;z-index:6}
+@media (prefers-reduced-motion:reduce){.prog{transition:none}}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+<!-- ============ TITLE ============ -->
+<section class="slide title" data-part="Introduction">
+<div class="inner">
+  <div class="tag">Numerical Methods · Lecture</div>
+  <h1>Curve Fitting, <span>Differentiation</span> &amp; Integration</h1>
+  <p class="muted">Working with data that comes as points, not formulas: fit a curve through it, find its slope, add up the area under it.</p>
+  <div class="parts">
+    <div class="box"><h3>1 · Curve fitting</h3><p class="small">Linear regression, polynomial regression, interpolation with polynomials</p></div>
+    <div class="box"><h3>2 · Differentiation</h3><p class="small">2-point forward, backward and central differences</p></div>
+    <div class="box"><h3>3 · Integration</h3><p class="small">Single trapezoid → composite → cumulative trapezoid</p></div>
+  </div>
+  <p class="hint">→ / Space: next · ←: back · F: fullscreen · T: light/dark · drag the points in the demos</p>
+</div>
+</section>
+
+<!-- ============ PART 1 ============ -->
+<section class="slide section" data-part="Part 1 · Curve fitting">
+<div class="inner">
+  <div class="num">Part 1</div>
+  <h1>Curve fitting</h1>
+  <p class="muted">Lab data has scatter. We want one equation that describes it, so we can predict values we never measured.</p>
+</div>
+</section>
+
+<section class="slide" data-part="Part 1 · Curve fitting">
+<div class="inner">
+  <div class="tag">Curve fitting · Two different goals</div>
+  <h2>Fit the trend, or hit every point?</h2>
+  <div class="cols">
+    <div class="box">
+      <h3 style="color:var(--c1)">Regression (best fit)</h3>
+      <ul>
+        <li>Data has measurement error.</li>
+        <li>The curve passes <em>near</em> the points and follows the trend.</li>
+        <li>Chosen to make the total squared error as small as possible.</li>
+        <li>Few coefficients, many points.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3 style="color:var(--c2)">Interpolation (exact fit)</h3>
+      <ul>
+        <li>Data is precise (tables, computed values).</li>
+        <li>The curve passes <em>through every</em> point.</li>
+        <li>Used to estimate values <em>between</em> known points.</li>
+        <li>$n$ points → polynomial of degree $n-1$.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="key">Both use the same family of curves, polynomials $y=a_nx^n+\dots+a_1x+a_0$. The difference is how many coefficients we use and what we ask them to do.</div>
+</div>
+</section>
+
+<section class="slide" data-part="Part 1 · Linear regression">
+<div class="inner">
+  <div class="tag">Linear regression · The criterion</div>
+  <h2>What does "best" line mean?</h2>
+  <div class="cols">
+    <div>
+      <p>We look for the line $y=a_1x+a_0$. At each data point the <strong>residual</strong> is the vertical miss:</p>
+      $$e_i = y_i - (a_1x_i + a_0)$$
+      <p>Summing raw residuals fails (positive and negative misses cancel). Summing $|e_i|$ does not give a unique line. Least squares minimises the <strong>sum of the squared residuals</strong>:</p>
+      $$S_r=\sum_{i=1}^{n} e_i^2=\sum_{i=1}^{n}\left(y_i-a_0-a_1x_i\right)^2$$
+    </div>
+    <div class="key">
+      <p>$S_r$ is a function of the two unknowns $a_0$ and $a_1$ only. The $x_i$ and $y_i$ are numbers from the data.</p>
+      <p style="margin-top:.5em">So "best line" becomes a calculus problem: find the minimum of $S_r(a_0,a_1)$.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="slide" data-part="Part 1 · Linear regression">
+<div class="inner">
+  <div class="tag">Linear regression · Normal equations</div>
+  <h2>Set both partial derivatives to zero</h2>
+  <div class="cols">
+    <div>
+      $$\frac{\partial S_r}{\partial a_0}=-2\sum\left(y_i-a_0-a_1x_i\right)=0$$
+      $$\frac{\partial S_r}{\partial a_1}=-2\sum\left(y_i-a_0-a_1x_i\right)x_i=0$$
+      <p>Divide by $-2$, split the sums, and use $\sum a_0 = n\,a_0$:</p>
+      $$\begin{aligned} n\,a_0 + \left(\textstyle\sum x_i\right)a_1 &= \textstyle\sum y_i\\ \left(\textstyle\sum x_i\right)a_0 + \left(\textstyle\sum x_i^2\right)a_1 &= \textstyle\sum x_iy_i \end{aligned}$$
+    </div>
+    <div class="box">
+      <h3>Solve the 2×2 system</h3>
+      $$a_1=\frac{n\sum x_iy_i-\sum x_i\sum y_i}{n\sum x_i^2-\left(\sum x_i\right)^2}$$
+      $$a_0=\bar y-a_1\bar x$$
+      <p class="small muted">Only four sums are needed: $\sum x_i,\ \sum y_i,\ \sum x_iy_i,\ \sum x_i^2$. Compute them in a table first.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="slide" data-part="Part 1 · Linear regression">
+<div class="inner">
+  <div class="tag">Linear regression · Worked example</div>
+  <h2>Spring test: extension vs. force</h2>
+  <div class="cols">
+    <div class="tw"><table>
+      <tr><th>$i$</th><th>$x_i$ force (N)</th><th>$y_i$ ext. (mm)</th><th>$x_iy_i$</th><th>$x_i^2$</th></tr>
+      <tr><td>1</td><td>10</td><td>2.1</td><td>21</td><td>100</td></tr>
+      <tr><td>2</td><td>20</td><td>3.9</td><td>78</td><td>400</td></tr>
+      <tr><td>3</td><td>30</td><td>6.2</td><td>186</td><td>900</td></tr>
+      <tr><td>4</td><td>40</td><td>7.8</td><td>312</td><td>1600</td></tr>
+      <tr><td>5</td><td>50</td><td>10.1</td><td>505</td><td>2500</td></tr>
+      <tr><td>6</td><td>60</td><td>12.2</td><td>732</td><td>3600</td></tr>
+      <tr><td>7</td><td>70</td><td>13.8</td><td>966</td><td>4900</td></tr>
+      <tr class="hl"><td class="l">Σ</td><td>280</td><td>56.1</td><td>2800</td><td>14000</td></tr>
+    </table></div>
+    <div>
+      $$a_1=\frac{7(2800)-(280)(56.1)}{7(14000)-280^2}=\frac{3892}{19600}=0.19857$$
+      $$a_0=\frac{56.1}{7}-0.19857\cdot\frac{280}{7}=8.01429-7.94286=0.07143$$
+      <div class="key">$$y=0.19857\,x+0.07143$$ At 45 N the model predicts $y=9.007$ mm. The slope is the spring's compliance, about 0.199 mm per N.</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="slide" data-part="Part 1 · Linear regression">
+<div class="inner">
+  <div class="tag">Linear regression · Quantifying the fit</div>
+  <h2>How good is the line?</h2>
+  <div class="cols">
+    <div>
+      <p>Compare the spread around the <strong>mean</strong> with the spread around the <strong>line</strong>:</p>
+      $$S_t=\sum\left(y_i-\bar y\right)^2\qquad S_r=\sum\left(y_i-a_0-a_1x_i\right)^2$$
+      $$S_y=\sqrt{\frac{S_t}{n-1}}\qquad S_{y/x}=\sqrt{\frac{S_r}{n-2}}$$
+      <p>If $S_{y/x}<S_y$ the regression has merit. The coefficient of determination:</p>
+      $$r^2=\frac{S_t-S_r}{S_t}\qquad r=\sqrt{r^2}$$
+    </div>
+    <div class="box">
+      <h3>Spring test</h3>
+      <div class="tw"><table>
+        <tr><td class="l">$S_t$</td><td>110.589</td></tr>
+        <tr><td class="l">$S_r$</td><td>0.1829</td></tr>
+        <tr><td class="l">$S_y$ (std. deviation)</td><td>4.293</td></tr>
+        <tr><td class="l">$S_{y/x}$ (std. error of estimate)</td><td>0.1912</td></tr>
+        <tr class="hl"><td class="l">$r^2$</td><td>0.9983</td></tr>
+      </table></div>
+      <p class="small" style="margin-top:.5em">$S_{y/x}\ll S_y$ and the line explains 99.83% of the variation in extension.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="slide" data-part="Part 1 · Linear regression" data-demo="lin">
+<div class="inner">
+  <div class="tag">Demo · Least squares, live</div>
+  <h2>Drag the points; watch the squares</h2>
+  <div class="demo">
+    <div><canvas id="cvLin" class="cv-main" aria-label="Linear regression demo: draggable data points with fitted line"></canvas>
+      <div class="legend"><span><i style="background:var(--c1)"></i>least-squares line</span><span><i style="background:var(--c2)"></i>squared residuals (their total area is $S_r$)</span></div></div>
+    <div class="ctl">
+      <div class="read" id="rdLin"></div>
+      <label class="row"><input type="checkbox" id="linSq" checked> Show squared residuals</label>
+      <div class="btns"><button id="linOut" type="button">Add an outlier</button><button id="linReset" type="button">Reset data</button></div>
+      <p class="hint">Drag any point. Click empty space to add one; right-click or double-click a point to remove it. One outlier can pull the line a long way because its error is squared.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="slide" data-part="Part 1 · Linear regression">
+<div class="inner">
+  <div class="tag">MATLAB · Linear regression</div>
+  <h2><code>polyfit</code> and <code>polyval</code></h2>
+  <div class="cols">
+<pre><span class="cm">% Spring test data</span>
+x = [10 20 30 40 50 60 70];          <span class="cm">% force, N</span>
+y = [2.1 3.9 6.2 7.8 10.1 12.2 13.8]; <span class="cm">% extension, mm</span>
+
+p = <span class="fn">polyfit</span>(x, y, 1)   <span class="cm">% p = [a1 a0] = [0.1986 0.0714]</span>
+yhat = <span class="fn">polyval</span>(p, x);    <span class="cm">% fitted values</span>
+
+St = <span class="fn">sum</span>((y - <span class="fn">mean</span>(y)).^2);
+Sr = <span class="fn">sum</span>((y - yhat).^2);
+r2 = (St - Sr)/St           <span class="cm">% 0.9983</span>
+
+<span class="fn">polyval</span>(p, 45)             <span class="cm">% 9.007 mm at 45 N</span>
+<span class="fn">plot</span>(x, y, <span class="kw">'o'</span>, x, yhat, <span class="kw">'-'</span>)</pre>
+    <div class="key">
+      <p><code>polyfit</code> returns coefficients from the <strong>highest power down</strong>: <code>p(1)</code> is $a_1$, <code>p(2)</code> is $a_0$.</p>
+      <p style="margin-top:.5em">The third argument is the degree. Degree 1 is a straight line; the same function does polynomial regression next.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="slide" data-part="Part 1 · Polynomial regression">
+<div class="inner">
+  <div class="tag">Polynomial regression · Normal equations</div>
+  <h2>When a line is not enough</h2>
+  <div class="cols">
+    <div>
+      <p>Fit $y=a_2x^2+a_1x+a_0$ by the same idea: minimise</p>
+      $$S_r=\sum\left(y_i-a_0-a_1x_i-a_2x_i^2\right)^2$$
+      <p>Setting $\partial S_r/\partial a_0$, $\partial S_r/\partial a_1$, $\partial S_r/\partial a_2$ to zero gives three linear equations:</p>
+      $$\begin{bmatrix} n & \sum x_i & \sum x_i^2\\ \sum x_i & \sum x_i^2 & \sum x_i^3\\ \sum x_i^2 & \sum x_i^3 & \sum x_i^4\end{bmatrix}\begin{bmatrix}a_0\\a_1\\a_2\end{bmatrix}=\begin{bmatrix}\sum y_i\\ \sum x_iy_i\\ \sum x_i^2y_i\end{bmatrix}$$
+    </div>
+    <div class="box">
+      <h3>Degree $m$ in general</h3>
+      <p>Row $j$, column $k$ of the matrix is $\sum x_i^{\,j+k}$; the right side is $\sum x_i^{\,j}y_i$ ($j,k=0\dots m$).</p>
+      <p style="margin-top:.5em">Solve with Gaussian elimination, LU, or your calculator's matrix mode (methods from the earlier chapters).</p>
+      $$S_{y/x}=\sqrt{\frac{S_r}{n-(m+1)}}$$
+      <p class="small muted">$m+1$ coefficients were estimated, so $m+1$ degrees of freedom are used up.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="slide" data-part="Part 1 · Polynomial regression">
+<div class="inner">
+  <div class="tag">Polynomial regression · Worked example</div>
+  <h2>Braking distance vs. speed</h2>
+  <div class="cols">
+    <div>
+      <div class="tw"><table>
+        <tr><th class="l">$v$ (km/h)</th><td>20</td><td>30</td><td>40</td><td>50</td><td>60</td><td>70</td><td>80</td></tr>
+        <tr><th class="l">$d$ (m)</th><td>6.1</td><td>11.2</td><td>18.5</td><td>26.0</td><td>36.4</td><td>46.7</td><td>60.2</td></tr>
+      </table></div>
+      <p class="small" style="margin-top:.5em">Sums: $n=7$, $\sum v=350$, $\sum v^2=20\,300$, $\sum v^3=1\,295\,000$, $\sum v^4=87\,710\,000$, $\sum d=205.1$, $\sum vd=12\,767$, $\sum v^2d=852\,270$.</p>
+      $$\begin{bmatrix} 7 & 350 & 20300\\ 350 & 20300 & 1295000\\ 20300 & 1295000 & 87710000\end{bmatrix}\begin{bmatrix}a_0\\a_1\\a_2\end{bmatrix}=\begin{bmatrix}205.1\\ 12767\\ 852270\end{bmatrix}$$
+    </div>
+    <div>
+      <div class="key">$$d=0.007476\,v^2+0.14952\,v+0.14286$$</div>
+      <div class="tw" style="margin-top:.6em"><table>
+        <tr><th class="l"></th><th>Linear</th><th>Quadratic</th></tr>
+        <tr><td class="l">$S_r$</td><td>47.74</td><td>0.787</td></tr>
+        <tr><td class="l">$S_{y/x}$</td><td>3.090</td><td>0.443</td></tr>
+        <tr><td class="l">$r^2$</td><td>0.9793</td><td>0.9997</td></tr>
+        <tr class="hl"><td class="l">$d$ at 100 km/h</td><td>74.2 m</td><td>89.9 m</td></tr>
+      </table></div>
+      <p class="small" style="margin-top:.5em">The line's $r^2$ looks excellent, yet it under-predicts braking at 100 km/h by about 16 m. Physics says $d\propto v^2$; plot the residuals before trusting $r^2$.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="slide" data-part="Part 1 · Polynomial regression" data-demo="poly">
+<div class="inner">
+  <div class="tag">Demo · Choosing the degree</div>
+  <h2>Raise the degree, watch $r^2$ and the ends</h2>
+  <div class="demo">
+    <div><canvas id="cvPoly" class="cv-main" aria-label="Polynomial regression demo with degree slider"></canvas>
+      <div class="legend"><span><i style="background:var(--c1)"></i>fitted polynomial</span><span><i style="background:var(--muted)"></i>data (drag)</span></div></div>
+    <div class="ctl">
+      <label for="polyM"><span>Degree $m$ <output id="polyMo">2</output></span><input type="range" id="polyM" min="1" max="6" value="2"></label>
+      <div class="read" id="rdPoly"></div>
+      <div class="btns"><button id="polyReset" type="button">Reset data</button></div>
+      <p class="hint">Degree 2 matches the physics. Higher degrees push $r^2$ toward 1 but bend wildly beyond the data (the plot runs past 80 km/h). Watch $S_{y/x}$: it stops improving once extra terms only chase noise.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="slide" data-part="Part 1 · Polynomial regression">
+<div class="inner">
+  <div class="tag">MATLAB · Polynomial regression</div>
+  <h2>Normal equations, or one call</h2>
+  <div class="cols">
+<pre>v = [20 30 40 50 60 70 80];               <span class="cm">% km/h</span>
+d = [6.1 11.2 18.5 26.0 36.4 46.7 60.2];  <span class="cm">% m</span>
+
+<span class="cm">% 1) Build and solve the normal equations</span>
+A = [<span class="fn">numel</span>(v)    <span class="fn">sum</span>(v)     <span class="fn">sum</span>(v.^2);
+     <span class="fn">sum</span>(v)      <span class="fn">sum</span>(v.^2)  <span class="fn">sum</span>(v.^3);
+     <span class="fn">sum</span>(v.^2)   <span class="fn">sum</span>(v.^3)  <span class="fn">sum</span>(v.^4)];
+b = [<span class="fn">sum</span>(d); <span class="fn">sum</span>(v.*d); <span class="fn">sum</span>(v.^2.*d)];
+a = A\b          <span class="cm">% [a0; a1; a2] = [0.1429; 0.1495; 0.007476]</span>
+
+<span class="cm">% 2) Same answer, highest power first</span>
+p = <span class="fn">polyfit</span>(v, d, 2)  <span class="cm">% [0.007476 0.1495 0.1429]</span>
+<span class="fn">polyval</span>(p, 100)         <span class="cm">% 89.86 m</span></pre>
+    <div class="key">
+      <p><code>A\b</code> solves the linear system (Gaussian elimination inside). Note the order: your vector <code>a</code> is lowest power first, <code>polyfit</code> is highest power first.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="slide" data-part="Part 1 · Interpolation">
+<div class="inner">
+  <div class="tag">Interpolation with polynomials</div>
+  <h2>$n$ points, degree $n-1$: the fit becomes exact</h2>
+  <div class="cols">
+    <div>
+      <p>With $n$ points and a polynomial of degree $m=n-1$ there are as many coefficients as points. The least-squares fit then has $S_r=0$: the curve passes through every point.</p>
+      <p style="margin-top:.5em">Same polynomial, written in Newton's form (easier by hand):</p>
+      $$f(x)=b_1+b_2(x-x_1)+b_3(x-x_1)(x-x_2)+b_4(x-x_1)(x-x_2)(x-x_3)$$
+      <p class="small muted">The $b$'s are divided differences. Lagrange's form gives the same polynomial again; there is only one polynomial of degree $n-1$ through $n$ points.</p>
+    </div>
+    <div class="box">
+      <h3>Two ways to estimate between points</h3>
+      <ol>
+        <li><strong>Exact interpolation</strong>: degree $n-1$ through all points. Best for precise, tabulated data.</li>
+        <li><strong>Regression, then evaluate</strong>: fit a low degree by least squares, then <code>polyval</code> at the new $x$. Best for noisy data.</li>
+      </ol>
+      <p class="small" style="margin-top:.5em">Many equally spaced points + high degree → large wiggles near the ends (Runge's phenomenon). The demo shows it.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="slide" data-part="Part 1 · Interpolation">
+<div class="inner">
+  <div class="tag">Interpolation · Worked example</div>
+  <h2>Density of water at 25 °C</h2>
+  <div class="cols">
+    <div>
+      <div class="tw"><table>
+        <tr><th class="l">$T$ (°C)</th><td>0</td><td>10</td><td>20</td><td>30</td></tr>
+        <tr><th class="l">$\rho$ (kg/m³)</th><td>999.84</td><td>999.70</td><td>998.21</td><td>995.65</td></tr>
+      </table></div>
+      <p style="margin-top:.5em">4 precise table values → cubic through all four. Newton divided differences:</p>
+      $$b_1=999.84,\ b_2=-0.014,\ b_3=-0.00675,\ b_4=4.6667\times10^{-5}$$
+      $$\begin{aligned}\rho(25)&=999.84-0.014(25)-0.00675(25)(15)\\&\quad+4.6667\times10^{-5}(25)(15)(5)\\&=997.046\ \text{kg/m}^3\end{aligned}$$
+    </div>
+    <div>
+      <div class="tw"><table>
+        <tr><th class="l">Method</th><th>$\rho(25)$</th></tr>
+        <tr class="hl"><td class="l">Exact cubic (degree $n-1=3$)</td><td>997.046</td></tr>
+        <tr><td class="l">Least-squares quadratic, then evaluate</td><td>997.095</td></tr>
+        <tr><td class="l">Published table value</td><td>≈ 997.05</td></tr>
+      </table></div>
+      <p class="small" style="margin-top:.5em">The data is precise, so passing through every point wins here. With noisy lab data, the regression route would be the safer choice.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="slide" data-part="Part 1 · Interpolation" data-demo="interp">
+<div class="inner">
+  <div class="tag">Demo · Interpolation vs. regression</div>
+  <h2>More points is not always better</h2>
+  <div class="demo">
+    <div><canvas id="cvInt" class="cv-main" aria-label="Interpolation versus regression demo"></canvas>
+      <div class="legend"><span><i style="background:var(--muted)"></i>true function</span><span><i style="background:var(--c2)"></i>interpolating polynomial, degree $n-1$</span><span><i style="background:var(--c1)"></i>least-squares, degree $m$</span></div></div>
+    <div class="ctl">
+      <label for="intF"><span>Function</span> <select id="intF"><option value="runge">Runge: 1/(1+25x²)</option><option value="sin">Smooth: sin(2x)+0.5x</option></select></label>
+      <label for="intN"><span>Points $n$ <output id="intNo">7</output></span><input type="range" id="intN" min="3" max="15" value="7"></label>
+      <label for="intM"><span>Regression degree $m$ <output id="intMo">4</output></span><input type="range" id="intM" min="1" max="8" value="4"></label>
+      <label class="row"><input type="checkbox" id="intNoise"> Add measurement noise</label>
+      <div class="read" id="rdInt"></div>
+      <p class="hint">Runge: push $n$ to 11–15 and the exact polynomial swings at the ends. Turn on noise with the smooth function: the interpolant chases every error, the low-degree fit does not.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="slide" data-part="Part 1 · Interpolation">
+<div class="inner">
+  <div class="tag">MATLAB · Interpolation</div>
+  <h2>Degree $n-1$ with <code>polyfit</code></h2>
+  <div class="cols">
+<pre>T   = [0 10 20 30];
+rho = [999.84 999.70 998.21 995.65];
+
+<span class="cm">% Exact interpolation: degree n-1 passes through all points</span>
+p3 = <span class="fn">polyfit</span>(T, rho, <span class="fn">numel</span>(T)-1);
+<span class="fn">polyval</span>(p3, 25)     <span class="cm">% 997.046</span>
+
+<span class="cm">% Regression first, then evaluate</span>
+p2 = <span class="fn">polyfit</span>(T, rho, 2);
+<span class="fn">polyval</span>(p2, 25)     <span class="cm">% 997.095</span>
+
+<span class="cm">% Check: exact fit leaves no residual</span>
+<span class="fn">max</span>(<span class="fn">abs</span>(<span class="fn">polyval</span>(p3, T) - rho))   <span class="cm">% ~1e-12</span></pre>
+    <div class="key">
+      <p>When the degree equals $n-1$, <code>polyfit</code> is doing interpolation. With many points MATLAB may warn that the polynomial is badly conditioned; that warning is the Runge problem showing up in the numbers.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============ PART 2 ============ -->
+<section class="slide section" data-part="Part 2 · Differentiation">
+<div class="inner">
+  <div class="num">Part 2</div>
+  <h1>Numerical differentiation</h1>
+  <p class="muted">Velocity from position readings, strain rate from a data logger: the slope must come from the points themselves.</p>
+</div>
+</section>
+
+<section class="slide" data-part="Part 2 · Differentiation">
+<div class="inner">
+  <div class="tag">Finite differences · 2-point formulas</div>
+  <h2>A derivative is a slope; use a nearby secant</h2>
+  <p>For equally spaced data with step $h=x_{i+1}-x_i$:</p>
+  <div class="cols">
+    <div class="box"><h3 style="color:var(--c1)">Forward</h3>
+      $$\left.\frac{dF}{dx}\right|_{x_i}\approx\frac{f(x_{i+1})-f(x_i)}{h}$$
+      <p class="small">Uses the point to the right. Works at the <strong>first</strong> data point.</p></div>
+    <div class="box"><h3 style="color:var(--c2)">Backward</h3>
+      $$\left.\frac{dF}{dx}\right|_{x_i}\approx\frac{f(x_i)-f(x_{i-1})}{h}$$
+      <p class="small">Uses the point to the left. Works at the <strong>last</strong> data point.</p></div>
+    <div class="box"><h3 style="color:var(--c3)">Central</h3>
+      $$\left.\frac{dF}{dx}\right|_{x_i}\approx\frac{f(x_{i+1})-f(x_{i-1})}{2h}$$
+      <p class="small">Uses both neighbours. Needs a point on each side, so <strong>interior</strong> points only.</p></div>
+  </div>
+  <div class="key">Central is usually far more accurate for the same $h$: its errors from the left and right sides largely cancel.</div>
+</div>
+</section>
+
+<section class="slide" data-part="Part 2 · Differentiation">
+<div class="inner">
+  <div class="tag">Differentiation · Worked example</div>
+  <h2>$f(x)=\ln x$ at $x=2$ (exact: $f'(2)=0.5$)</h2>
+  <div class="cols">
+    <div>
+      <p>With $h=0.1$: $f(1.9)=0.641854$, $f(2)=0.693147$, $f(2.1)=0.741937$</p>
+      <div class="tw"><table>
+        <tr><th class="l">Method</th><th>Estimate</th><th>Error</th><th>% error</th></tr>
+        <tr><td class="l">Forward</td><td>0.487902</td><td>−0.012098</td><td>2.42%</td></tr>
+        <tr><td class="l">Backward</td><td>0.512933</td><td>+0.012933</td><td>2.59%</td></tr>
+        <tr class="hl"><td class="l">Central</td><td>0.500417</td><td>+0.000417</td><td>0.083%</td></tr>
+      </table></div>
+    </div>
+    <div>
+      <p>Now halve $h$ again and again:</p>
+      <div class="tw"><table>
+        <tr><th>$h$</th><th>Forward error</th><th>Central error</th></tr>
+        <tr><td>0.1</td><td>0.012098</td><td>0.000417</td></tr>
+        <tr><td>0.05</td><td>0.006148</td><td>0.000104</td></tr>
+        <tr><td>0.025</td><td>0.003099</td><td>0.000026</td></tr>
+      </table></div>
+      <p class="small" style="margin-top:.5em">Halving $h$ <strong>halves</strong> the forward error but <strong>quarters</strong> the central error. Forward/backward error shrinks like $h$; central like $h^2$.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="slide" data-part="Part 2 · Differentiation" data-demo="diff">
+<div class="inner">
+  <div class="tag">Demo · Secants and step size</div>
+  <h2>Shrink $h$ and see which secant hugs the tangent</h2>
+  <div class="demo">
+    <div style="display:flex;flex-direction:column;gap:.5em">
+      <canvas id="cvDiff" class="cv-half" aria-label="Function with tangent and three secant lines"></canvas>
+      <canvas id="cvDiffE" class="cv-half" aria-label="Log-log plot of error versus step size"></canvas>
+      <div class="legend"><span><i style="background:var(--ink)"></i>true tangent</span><span><i style="background:var(--c1)"></i>forward</span><span><i style="background:var(--c2)"></i>backward</span><span><i style="background:var(--c3)"></i>central</span></div>
+    </div>
+    <div class="ctl">
+      <label for="dfF"><span>Function</span> <select id="dfF"><option value="ln">ln x</option><option value="sin">sin x</option><option value="exp">eˣ</option><option value="cube">x³</option></select></label>
+      <label for="dfX"><span>Point $x_i$ <output id="dfXo"></output></span><input type="range" id="dfX" min="0" max="1000" value="500"></label>
+      <label for="dfH"><span>Step $h$ <output id="dfHo"></output></span><input type="range" id="dfH" min="-200" max="0" value="-100"></label>
+      <div class="read" id="rdDiff"></div>
+      <p class="hint">Bottom plot: error vs. $h$ on log scales, down to $h=10^{-13}$. Central falls twice as steeply. At tiny $h$ both errors climb again: subtracting two nearly equal numbers loses digits (round-off).</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="slide" data-part="Part 2 · Differentiation">
+<div class="inner">
+  <div class="tag">Differentiation · Data example</div>
+  <h2>Velocity from position readings</h2>
+  <div class="cols">
+    <div>
+      <p>A car's position is logged every $h=2$ s. Estimate $v=ds/dt$ at every time, using the best formula each point allows.</p>
+      <div class="tw"><table>
+        <tr><th>$t$ (s)</th><th>$s$ (m)</th><th class="l">Formula</th><th>$v$ (m/s)</th></tr>
+        <tr><td>0</td><td>0</td><td class="l" style="color:var(--c1)">forward</td><td>(11−0)/2 = 5.5</td></tr>
+        <tr><td>2</td><td>11</td><td class="l" style="color:var(--c3)">central</td><td>(40−0)/4 = 10.0</td></tr>
+        <tr><td>4</td><td>40</td><td class="l" style="color:var(--c3)">central</td><td>(87−11)/4 = 19.0</td></tr>
+        <tr><td>6</td><td>87</td><td class="l" style="color:var(--c3)">central</td><td>(150−40)/4 = 27.5</td></tr>
+        <tr><td>8</td><td>150</td><td class="l" style="color:var(--c3)">central</td><td>(228−87)/4 = 35.25</td></tr>
+        <tr><td>10</td><td>228</td><td class="l" style="color:var(--c2)">backward</td><td>(228−150)/2 = 39.0</td></tr>
+      </table></div>
+    </div>
+    <div class="key">
+      <p>Endpoints have only one neighbour, so they must use forward (first) or backward (last).</p>
+      <p style="margin-top:.5em">Interior points get central differences: note the denominator is $2h=4$ s, not $h$.</p>
+      <p style="margin-top:.5em">If the data is noisy, differentiating amplifies the noise. Fit a regression curve first (Part 1), then differentiate the fit.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="slide" data-part="Part 2 · Differentiation">
+<div class="inner">
+  <div class="tag">MATLAB · Finite differences</div>
+  <h2><code>diff</code> does the subtraction</h2>
+  <div class="cols">
+<pre>t = 0:2:10;  h = 2;
+s = [0 11 40 87 150 228];
+
+<span class="fn">diff</span>(s)          <span class="cm">% [11 29 47 63 78]  successive differences</span>
+
+fwd = <span class="fn">diff</span>(s)/h    <span class="cm">% forward at t(1:end-1): 5.5 14.5 23.5 31.5 39</span>
+bwd = <span class="fn">diff</span>(s)/h    <span class="cm">% same numbers, but belong to t(2:end)</span>
+
+cen = (s(3:end) - s(1:end-2))/(2*h)
+                   <span class="cm">% central at t(2:end-1): 10 19 27.5 35.25</span>
+
+v = [fwd(1), cen, bwd(end)]
+                   <span class="cm">% 5.5 10 19 27.5 35.25 39</span></pre>
+    <div class="key">
+      <p><code>diff(s)</code> is one element shorter than <code>s</code>. Divided by $h$, the same vector is the forward difference at the left point of each pair <em>and</em> the backward difference at the right point. Which one it is depends only on where you assign it.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============ PART 3 ============ -->
+<section class="slide section" data-part="Part 3 · Integration">
+<div class="inner">
+  <div class="num">Part 3</div>
+  <h1>Numerical integration</h1>
+  <p class="muted">Flow-rate readings to total volume, velocity to distance: add up the area under the points.</p>
+</div>
+</section>
+
+<section class="slide" data-part="Part 3 · Integration">
+<div class="inner">
+  <div class="tag">Trapezoidal method · Single and composite</div>
+  <h2>Replace the curve with straight segments</h2>
+  <div class="cols">
+    <div class="box">
+      <h3>Single trapezoid</h3>
+      <p>Join $(a,f(a))$ and $(b,f(b))$ with a line and take the area underneath:</p>
+      $$I(f)\approx\frac{f(a)+f(b)}{2}\,(b-a)$$
+    </div>
+    <div class="box">
+      <h3>Composite trapezoid</h3>
+      <p>Split $[a,b]$ into $N$ subintervals of width $h=\dfrac{b-a}{N}$ and add the trapezoids:</p>
+      $$I(f)\approx\frac{h}{2}\left[f(a)+2\sum_{i=2}^{N}f(x_i)+f(b)\right]$$
+      <p class="small muted">Interior points are shared by two trapezoids, hence the factor 2.</p>
+    </div>
+  </div>
+  <div>
+    <p>Example: $\displaystyle\int_0^{\pi}\sin x\,dx=2$</p>
+    <div class="tw"><table>
+      <tr><th>$N$</th><td>1</td><td>2</td><td>4</td><td>8</td></tr>
+      <tr><th>Trapezoid</th><td>0.0000</td><td>1.5708</td><td>1.8961</td><td>1.9742</td></tr>
+      <tr><th>Error</th><td>2.0000</td><td>0.4292</td><td>0.1039</td><td>0.0258</td></tr>
+    </table></div>
+    <p class="small" style="margin-top:.4em">One trapezoid gives 0 (both ends are on the axis). Each doubling of $N$ cuts the error to about a quarter.</p>
+  </div>
+</div>
+</section>
+
+<section class="slide" data-part="Part 3 · Integration">
+<div class="inner">
+  <div class="tag">Cumulative trapezoid</div>
+  <h2>Keep a running total</h2>
+  <div class="cols">
+    <div>
+      <p>The composite rule gives one number, the total. Often we want the integral <em>up to every data point</em>: volume in a tank over time, distance travelled so far.</p>
+      $$I_1=0,\qquad I_{k}=I_{k-1}+\frac{h}{2}\left[f(x_{k-1})+f(x_k)\right]$$
+      <p>Add one trapezoid at a time. The last running value equals the composite total.</p>
+    </div>
+    <div>
+      <p class="small">Inflow to a reservoir, $Q$ in m³/min, read every minute:</p>
+      <div class="tw"><table>
+        <tr><th>$t$ (min)</th><th>$Q$</th><th>This trapezoid</th><th>$V$ so far (m³)</th></tr>
+        <tr><td>0</td><td>2.0</td><td>–</td><td>0</td></tr>
+        <tr><td>1</td><td>3.5</td><td>(2.0+3.5)/2 = 2.75</td><td>2.75</td></tr>
+        <tr><td>2</td><td>5.2</td><td>4.35</td><td>7.10</td></tr>
+        <tr><td>3</td><td>6.1</td><td>5.65</td><td>12.75</td></tr>
+        <tr><td>4</td><td>5.4</td><td>5.75</td><td>18.50</td></tr>
+        <tr><td>5</td><td>3.8</td><td>4.60</td><td>23.10</td></tr>
+        <tr class="hl"><td>6</td><td>2.5</td><td>3.15</td><td>26.25</td></tr>
+      </table></div>
+      <p class="small" style="margin-top:.4em">A single trapezoid over 0–6 min would give (2.0+2.5)/2 × 6 = 13.5 m³, about half the real total.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="slide" data-part="Part 3 · Integration" data-demo="integ">
+<div class="inner">
+  <div class="tag">Demo · Trapezoids and the running total</div>
+  <h2>Add subintervals; watch the error shrink</h2>
+  <div class="demo">
+    <div style="display:flex;flex-direction:column;gap:.5em">
+      <canvas id="cvTr" class="cv-half" aria-label="Function with trapezoids under it"></canvas>
+      <canvas id="cvCum" class="cv-half" aria-label="Cumulative integral, exact and trapezoid"></canvas>
+      <div class="legend"><span><i style="background:var(--c1)"></i>trapezoids / cumulative trapezoid</span><span><i style="background:var(--muted)"></i>exact</span></div>
+    </div>
+    <div class="ctl">
+      <label for="trF"><span>Integrand</span> <select id="trF"><option value="sin">sin x on [0, π]</option><option value="exp">eˣ on [0, 2]</option><option value="sqrt">√x on [0, 4]</option><option value="flow">Reservoir inflow data</option></select></label>
+      <label for="trN"><span>Subintervals $N$ <output id="trNo">4</output></span><input type="range" id="trN" min="1" max="40" value="4"></label>
+      <div class="read" id="rdTr"></div>
+      <p class="hint">Top: the trapezoids. Bottom: the running total $I_k$ (dots) against the exact running integral. With the inflow data, $N$ is fixed by the readings.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="slide" data-part="Part 3 · Integration">
+<div class="inner">
+  <div class="tag">MATLAB · Trapezoids</div>
+  <h2><code>trapz</code> for the total, <code>cumtrapz</code> for the running sum</h2>
+  <div class="cols">
+<pre>t = 0:6;                               <span class="cm">% min</span>
+Q = [2.0 3.5 5.2 6.1 5.4 3.8 2.5];     <span class="cm">% m^3/min</span>
+
+V  = <span class="fn">trapz</span>(t, Q)       <span class="cm">% 26.25 m^3 in total</span>
+Vc = <span class="fn">cumtrapz</span>(t, Q)    <span class="cm">% 0 2.75 7.10 12.75 18.50 23.10 26.25</span>
+<span class="fn">plot</span>(t, Vc, <span class="kw">'-o'</span>)
+
+<span class="cm">% A function: composite rule with N = 4</span>
+x = <span class="fn">linspace</span>(0, pi, 5);   <span class="cm">% N+1 points</span>
+<span class="fn">trapz</span>(x, <span class="fn">sin</span>(x))         <span class="cm">% 1.8961</span>
+
+<span class="cm">% The composite formula written out</span>
+h = x(2) - x(1);  f = <span class="fn">sin</span>(x);
+h/2*(f(1) + 2*<span class="fn">sum</span>(f(2:end-1)) + f(end))   <span class="cm">% 1.8961</span></pre>
+    <div class="key">
+      <p>Always pass the $x$ (or $t$) vector. <code>trapz(Q)</code> alone assumes $h=1$, which is only right here by coincidence.</p>
+      <p style="margin-top:.5em"><code>cumtrapz</code> returns a vector as long as the data, starting at 0. Its last entry equals <code>trapz</code>.</p>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============ PRACTICE ============ -->
+<section class="slide" data-part="Practice">
+<div class="inner">
+  <div class="tag">Practice · Curve fitting</div>
+  <h2>Try these, then reveal</h2>
+  <div class="cols">
+    <div class="prob box">
+      <h3>1 · Linear regression</h3>
+      <p class="small">Fit $y=a_1x+a_0$ and find $r^2$.</p>
+      <div class="tw"><table><tr><th>$x$</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr><tr><th>$y$</th><td>2.2</td><td>4.1</td><td>6.3</td><td>7.9</td><td>10.2</td></tr></table></div>
+      <details><summary>Show answer</summary><p class="small">$\sum x=15,\ \sum y=30.7,\ \sum xy=111.9,\ \sum x^2=55$<br>$a_1=\dfrac{5(111.9)-15(30.7)}{5(55)-15^2}=\dfrac{99}{50}=1.98$, $a_0=6.14-1.98(3)=0.20$<br>$y=1.98x+0.20$, $r^2=0.9978$</p></details>
+    </div>
+    <div class="prob box">
+      <h3>2 · Polynomial regression</h3>
+      <p class="small">Fit $y=a_2x^2+a_1x+a_0$.</p>
+      <div class="tw"><table><tr><th>$x$</th><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td></tr><tr><th>$y$</th><td>1.0</td><td>1.8</td><td>3.9</td><td>7.2</td><td>11.8</td></tr></table></div>
+      <details><summary>Show answer</summary><p class="small">Sums: $n=5,\ \sum x=10,\ \sum x^2=30,\ \sum x^3=100,\ \sum x^4=354$, $\sum y=25.7,\ \sum xy=78.4,\ \sum x^2y=271.0$<br>$a_0=0.9971,\ a_1=0.1857,\ a_2=0.6286$<br>$y=0.6286x^2+0.1857x+0.9971$, $r^2=0.99999$</p></details>
+    </div>
+    <div class="prob box">
+      <h3>3 · Interpolation</h3>
+      <p class="small">Find the polynomial through $(1,2)$, $(2,3)$, $(4,11)$ and estimate $f(3)$.</p>
+      <details><summary>Show answer</summary><p class="small">3 points → degree 2. Newton: $b_1=2$, $b_2=\frac{3-2}{2-1}=1$, $b_3=\frac{\frac{11-3}{4-2}-1}{4-1}=1$<br>$f(x)=2+(x-1)+(x-1)(x-2)=x^2-2x+3$<br>$f(3)=6$</p></details>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="slide" data-part="Practice">
+<div class="inner">
+  <div class="tag">Practice · Differentiation and integration</div>
+  <h2>Try these, then reveal</h2>
+  <div class="cols">
+    <div class="prob box">
+      <h3>4 · Finite differences</h3>
+      <p class="small">Estimate $f'(1)$ for $f(x)=e^x$ with $h=0.1$ using forward, backward and central differences. Which is closest to the exact $e=2.71828$?</p>
+      <details><summary>Show answer</summary><p class="small">$f(0.9)=2.459603$, $f(1)=2.718282$, $f(1.1)=3.004166$<br>Forward: $2.85884$ (error $+0.1406$)<br>Backward: $2.58679$ (error $-0.1315$)<br>Central: $2.72281$ (error $+0.0045$), closest</p></details>
+    </div>
+    <div class="prob box">
+      <h3>5 · Cumulative trapezoid</h3>
+      <p class="small">A cyclist's speed is recorded. Find the distance travelled at every reading.</p>
+      <div class="tw"><table><tr><th>$t$ (s)</th><td>0</td><td>5</td><td>10</td><td>15</td><td>20</td></tr><tr><th>$v$ (m/s)</th><td>0</td><td>12</td><td>20</td><td>24</td><td>25</td></tr></table></div>
+      <details><summary>Show answer</summary><p class="small">$h=5$. Trapezoids: 30, 80, 110, 122.5<br>Running distance: 0, 30, 110, 220, 342.5 m<br>MATLAB: <code>cumtrapz(0:5:20, [0 12 20 24 25])</code></p></details>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ============ SUMMARY ============ -->
+<section class="slide" data-part="Summary">
+<div class="inner">
+  <div class="tag">Summary · Formula sheet</div>
+  <h2>What to take away</h2>
+  <div class="cols">
+    <div class="box"><h3>Curve fitting</h3>
+      <p class="small">Line: $a_1=\frac{n\sum xy-\sum x\sum y}{n\sum x^2-(\sum x)^2}$, $a_0=\bar y-a_1\bar x$</p>
+      <p class="small">Polynomial: normal equations, entries $\sum x^{j+k}$</p>
+      <p class="small">$r^2=\frac{S_t-S_r}{S_t}$, $S_{y/x}=\sqrt{\frac{S_r}{n-(m+1)}}$</p>
+      <p class="small">Interpolation: degree $n-1$ through $n$ points; beware many equally spaced points</p>
+      <p class="small"><code>polyfit</code>, <code>polyval</code></p></div>
+    <div class="box"><h3>Differentiation</h3>
+      <p class="small">Forward $\frac{f_{i+1}-f_i}{h}$, backward $\frac{f_i-f_{i-1}}{h}$: error $\propto h$</p>
+      <p class="small">Central $\frac{f_{i+1}-f_{i-1}}{2h}$: error $\propto h^2$</p>
+      <p class="small">Endpoints: forward at the start, backward at the end</p>
+      <p class="small">Too small an $h$ → round-off error grows</p>
+      <p class="small"><code>diff(f)/h</code></p></div>
+    <div class="box"><h3>Integration</h3>
+      <p class="small">Single: $\frac{f(a)+f(b)}{2}(b-a)$</p>
+      <p class="small">Composite: $\frac{h}{2}\left[f(a)+2\sum f(x_i)+f(b)\right]$, $h=\frac{b-a}{N}$</p>
+      <p class="small">Cumulative: $I_k=I_{k-1}+\frac{h}{2}(f_{k-1}+f_k)$</p>
+      <p class="small">Doubling $N$ → error about ¼</p>
+      <p class="small"><code>trapz</code>, <code>cumtrapz</code></p></div>
+  </div>
+</div>
+</section>
+
+</div>
+
+<div class="prog" id="prog"></div>
+<nav class="bar" aria-label="Slide navigation">
+  <button id="prev" type="button" aria-label="Previous slide">←</button>
+  <button id="next" type="button" aria-label="Next slide">→</button>
+  <span class="count" id="count"></span>
+  <span class="where" id="where"></span>
+  <button id="theme" type="button" aria-label="Toggle light or dark">◐</button>
+  <button id="fs" type="button" aria-label="Fullscreen">⛶</button>
+</nav>
+
+<script>
+"use strict";
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const tok = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const fmt = (v, d = 4) => !isFinite(v) ? "—" : (Math.abs(v) >= 1e5 || (Math.abs(v) < 1e-3 && v !== 0)) ? v.toExponential(3) : v.toFixed(d);
+
+function solve(A, b) { // Gaussian elimination with partial pivoting
+  const n = A.length, M = A.map((r, i) => [...r, b[i]]);
+  for (let k = 0; k < n; k++) {
+    let p = k; for (let i = k + 1; i < n; i++) if (Math.abs(M[i][k]) > Math.abs(M[p][k])) p = i;
+    if (Math.abs(M[p][k]) < 1e-300) return null;
+    [M[k], M[p]] = [M[p], M[k]];
+    for (let i = k + 1; i < n; i++) { const f = M[i][k] / M[k][k]; for (let j = k; j <= n; j++) M[i][j] -= f * M[k][j]; }
+  }
+  const x = new Array(n).fill(0);
+  for (let i = n - 1; i >= 0; i--) { let s = M[i][n]; for (let j = i + 1; j < n; j++) s -= M[i][j] * x[j]; x[i] = s / M[i][i]; }
+  return x;
+}
+function normalFit(xs, ys, m) { // raw normal equations, returns [a0..am]
+  const A = [], b = [];
+  for (let j = 0; j <= m; j++) { A.push([]); b.push(xs.reduce((s, x, i) => s + x ** j * ys[i], 0));
+    for (let k = 0; k <= m; k++) A[j].push(xs.reduce((s, x) => s + x ** (j + k), 0)); }
+  return solve(A, b);
+}
+const horner = (a, x) => { let s = 0; for (let i = a.length - 1; i >= 0; i--) s = s * x + a[i]; return s; };
+function fitScaled(xs, ys, m) { // numerically safer: fit in t = (x-c)/s
+  const c = xs.reduce((s, x) => s + x, 0) / xs.length, sc = Math.max(...xs.map(x => Math.abs(x - c))) || 1;
+  const a = normalFit(xs.map(x => (x - c) / sc), ys, m);
+  return a ? (x => horner(a, (x - c) / sc)) : null;
+}
+function stats(xs, ys, f, m) {
+  const n = xs.length, mean = ys.reduce((s, y) => s + y, 0) / n;
+  const St = ys.reduce((s, y) => s + (y - mean) ** 2, 0), Sr = ys.reduce((s, y, i) => s + (y - f(xs[i])) ** 2, 0);
+  return { St, Sr, r2: St > 0 ? (St - Sr) / St : NaN, Syx: n - (m + 1) > 0 ? Math.sqrt(Sr / (n - (m + 1))) : NaN, Sy: Math.sqrt(St / (n - 1)) };
+}
+function newtonInterp(xs, ys) {
+  const n = xs.length, c = ys.slice();
+  for (let j = 1; j < n; j++) for (let i = n - 1; i >= j; i--) c[i] = (c[i] - c[i - 1]) / (xs[i] - xs[i - j]);
+  return x => { let s = c[n - 1]; for (let i = n - 2; i >= 0; i--) s = s * (x - xs[i]) + c[i]; return s; };
+}
+function niceTicks(a, b, n = 6) {
+  const span = b - a, raw = span / n, p = 10 ** Math.floor(Math.log10(raw)), f = raw / p;
+  const step = (f < 1.5 ? 1 : f < 3.5 ? 2 : f < 7.5 ? 5 : 10) * p, out = [];
+  for (let v = Math.ceil(a / step) * step; v <= b + step * 1e-9; v += step) out.push(+v.toFixed(12));
+  return out;
+}
+
+/* ---------- plot ---------- */
+function makePlot(cv, b) {
+  const r = cv.getBoundingClientRect(), d = window.devicePixelRatio || 1;
+  cv.width = Math.max(1, Math.round(r.width * d)); cv.height = Math.max(1, Math.round(r.height * d));
+  const g = cv.getContext("2d"); g.setTransform(d, 0, 0, d, 0, 0);
+  const w = r.width, h = r.height, m = { l: 56, r: 14, t: 12, b: 34 };
+  const tx = v => b.logx ? Math.log10(v) : v, ty = v => b.logy ? Math.log10(v) : v;
+  const X = v => m.l + (tx(v) - tx(b.x0)) / (tx(b.x1) - tx(b.x0)) * (w - m.l - m.r);
+  const Y = v => h - m.b - (ty(v) - ty(b.y0)) / (ty(b.y1) - ty(b.y0)) * (h - m.t - m.b);
+  const IX = px => b.x0 + (px - m.l) / (w - m.l - m.r) * (b.x1 - b.x0);
+  const IY = py => b.y0 + (h - m.b - py) / (h - m.t - m.b) * (b.y1 - b.y0);
+  const ink = tok("--ink"), muted = tok("--muted"), line = tok("--line");
+  g.clearRect(0, 0, w, h);
+  g.font = "12px " + tok("--f-mono"); g.lineWidth = 1;
+  const xt = b.logx ? decades(b.x0, b.x1) : niceTicks(b.x0, b.x1, Math.max(3, Math.floor(w / 90)));
+  const yt = b.logy ? decades(b.y0, b.y1, 3) : niceTicks(b.y0, b.y1, Math.max(3, Math.floor(h / 55)));
+  g.strokeStyle = line; g.fillStyle = muted;
+  g.textAlign = "center"; g.textBaseline = "top";
+  xt.forEach(v => { const x = X(v); g.globalAlpha = .55; g.beginPath(); g.moveTo(x, m.t); g.lineTo(x, h - m.b); g.stroke(); g.globalAlpha = 1; g.fillText(b.logx ? "1e" + Math.round(Math.log10(v)) : String(+v.toPrecision(6)), x, h - m.b + 6); });
+  g.textAlign = "right"; g.textBaseline = "middle";
+  yt.forEach(v => { const y = Y(v); g.globalAlpha = .55; g.beginPath(); g.moveTo(m.l, y); g.lineTo(w - m.r, y); g.stroke(); g.globalAlpha = 1; g.fillText(b.logy ? "1e" + Math.round(Math.log10(v)) : String(+v.toPrecision(6)), m.l - 6, y); });
+  g.strokeStyle = muted; g.strokeRect(m.l, m.t, w - m.l - m.r, h - m.t - m.b);
+  if (b.xl) { g.textAlign = "right"; g.textBaseline = "bottom"; g.fillStyle = muted; g.fillText(b.xl, w - m.r - 4, h - m.b - 4); }
+  if (b.yl) { g.textAlign = "left"; g.textBaseline = "top"; g.fillStyle = muted; g.fillText(b.yl, m.l + 6, m.t + 4); }
+  const clip = () => { g.save(); g.beginPath(); g.rect(m.l, m.t, w - m.l - m.r, h - m.t - m.b); g.clip(); };
+  const fn = (f, color, width = 2.5, dash = [], xa = b.x0, xb = b.x1) => {
+    clip(); g.strokeStyle = color; g.lineWidth = width; g.setLineDash(dash); g.beginPath();
+    let pen = false; const steps = Math.max(200, Math.round(w));
+    for (let i = 0; i <= steps; i++) { const x = xa + (xb - xa) * i / steps, y = f(x);
+      if (!isFinite(y)) { pen = false; continue; }
+      const py = Math.max(-1e4, Math.min(1e4, Y(y)));
+      pen ? g.lineTo(X(x), py) : g.moveTo(X(x), py); pen = true; }
+    g.stroke(); g.setLineDash([]); g.restore();
+  };
+  const poly = (xs, ys, color, width = 2.5, dash = []) => { clip(); g.strokeStyle = color; g.lineWidth = width; g.setLineDash(dash); g.beginPath();
+    xs.forEach((x, i) => i ? g.lineTo(X(x), Y(ys[i])) : g.moveTo(X(x), Y(ys[i]))); g.stroke(); g.setLineDash([]); g.restore(); };
+  const dot = (x, y, color, rad = 6, ring) => { g.beginPath(); g.arc(X(x), Y(y), rad, 0, 7); g.fillStyle = color; g.fill(); if (ring) { g.strokeStyle = ring; g.lineWidth = 2; g.stroke(); } };
+  return { g, w, h, m, X, Y, IX, IY, clip, fn, poly, dot, ink, muted };
+}
+function decades(a, b, every = 1) { const out = []; for (let e = Math.ceil(Math.log10(a)); e <= Math.floor(Math.log10(b)); e += every) out.push(10 ** e); return out; }
+function alpha(color, a) { return `color-mix(in srgb, ${color} ${Math.round(a * 100)}%, transparent)`; }
+
+/* drag support: getPts() returns array of {x,y}; bounds clamp */
+function draggable(cv, state, opts) {
+  let drag = -1;
+  const pos = e => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+  const nearest = (px, py) => { let best = -1, bd = 18 * 18; state.pts.forEach((p, i) => { const d = (state.P.X(p.x) - px) ** 2 + (state.P.Y(p.y) - py) ** 2; if (d < bd) { bd = d; best = i; } }); return best; };
+  const clampP = (x, y) => ({ x: Math.min(opts.x1, Math.max(opts.x0, x)), y: Math.min(opts.y1, Math.max(opts.y0, y)) });
+  cv.addEventListener("pointerdown", e => {
+    if (!state.P) return; const [px, py] = pos(e); const i = nearest(px, py);
+    if (e.button === 2) return;
+    if (i >= 0) { drag = i; cv.setPointerCapture(e.pointerId); }
+    else if (opts.add && px > state.P.m.l && py < state.P.h - state.P.m.b) { state.pts.push(clampP(state.P.IX(px), state.P.IY(py))); opts.redraw(); }
+  });
+  cv.addEventListener("pointermove", e => { if (drag < 0) return; const [px, py] = pos(e); const p = clampP(state.P.IX(px), state.P.IY(py)); state.pts[drag].x = opts.lockX ? state.pts[drag].x : p.x; state.pts[drag].y = p.y; opts.redraw(); });
+  const end = () => { drag = -1; };
+  cv.addEventListener("pointerup", end); cv.addEventListener("pointercancel", end);
+  const remove = e => { e.preventDefault(); if (!opts.add) return; const [px, py] = pos(e); const i = nearest(px, py); if (i >= 0 && state.pts.length > 3) { state.pts.splice(i, 1); opts.redraw(); } };
+  cv.addEventListener("contextmenu", remove); cv.addEventListener("dblclick", remove);
+}
+
+/* ---------- demo: linear regression ---------- */
+const SPRING = [[10, 2.1], [20, 3.9], [30, 6.2], [40, 7.8], [50, 10.1], [60, 12.2], [70, 13.8]];
+const lin = { pts: SPRING.map(([x, y]) => ({ x, y })), P: null };
+function drawLin() {
+  const P = lin.P = makePlot($("cvLin"), { x0: 0, x1: 80, y0: 0, y1: 18, xl: "force x (N)", yl: "extension y (mm)" });
+  const xs = lin.pts.map(p => p.x), ys = lin.pts.map(p => p.y), a = normalFit(xs, ys, 1);
+  if (!a) return;
+  const f = x => a[0] + a[1] * x, s = stats(xs, ys, f, 1);
+  if ($("linSq").checked) { P.clip(); lin.pts.forEach(p => { const y0 = P.Y(p.y), y1 = P.Y(f(p.x)), side = Math.abs(y0 - y1), x = P.X(p.x);
+    P.g.fillStyle = alpha(tok("--c2"), .22); P.g.strokeStyle = tok("--c2"); P.g.lineWidth = 1.2;
+    P.g.fillRect(x, Math.min(y0, y1), side, side); P.g.strokeRect(x, Math.min(y0, y1), side, side); }); P.g.restore(); }
+  P.fn(f, tok("--c1"), 3);
+  lin.pts.forEach(p => { P.clip(); P.g.strokeStyle = tok("--c2"); P.g.lineWidth = 1.5; P.g.beginPath(); P.g.moveTo(P.X(p.x), P.Y(p.y)); P.g.lineTo(P.X(p.x), P.Y(f(p.x))); P.g.stroke(); P.g.restore(); P.dot(p.x, p.y, P.ink, 6, tok("--panel")); });
+  $("rdLin").innerHTML = `<b>n</b><span>${xs.length}</span><b>a₁</b><span>${fmt(a[1], 5)}</span><b>a₀</b><span>${fmt(a[0], 5)}</span><b>S_r</b><span>${fmt(s.Sr)}</span><b>S_t</b><span>${fmt(s.St)}</span><b>S_y/x</b><span>${fmt(s.Syx)}</span><b>r²</b><span>${fmt(s.r2)}</span>`;
+}
+draggable($("cvLin"), lin, { x0: 0, x1: 80, y0: 0, y1: 18, add: true, redraw: drawLin });
+$("linSq").addEventListener("change", drawLin);
+$("linReset").addEventListener("click", () => { lin.pts = SPRING.map(([x, y]) => ({ x, y })); drawLin(); });
+$("linOut").addEventListener("click", () => { lin.pts.push({ x: 65, y: 3.5 }); drawLin(); });
+
+/* ---------- demo: polynomial regression ---------- */
+const BRAKE = [[20, 6.1], [30, 11.2], [40, 18.5], [50, 26.0], [60, 36.4], [70, 46.7], [80, 60.2]];
+const poly = { pts: BRAKE.map(([x, y]) => ({ x, y })), P: null };
+function drawPoly() {
+  const m = +$("polyM").value; $("polyMo").textContent = m;
+  const P = poly.P = makePlot($("cvPoly"), { x0: 0, x1: 100, y0: -10, y1: 100, xl: "speed v (km/h)", yl: "braking distance d (m)" });
+  const xs = poly.pts.map(p => p.x), ys = poly.pts.map(p => p.y);
+  const f = m < xs.length ? fitScaled(xs, ys, m) : null;
+  P.g.fillStyle = alpha(tok("--accent"), .07); P.g.fillRect(P.X(Math.min(...xs)), P.m.t, P.X(Math.max(...xs)) - P.X(Math.min(...xs)), P.h - P.m.t - P.m.b);
+  if (f) P.fn(f, tok("--c1"), 3);
+  poly.pts.forEach(p => P.dot(p.x, p.y, P.ink, 6, tok("--panel")));
+  let rows = `<b>degree</b><span>${m}</span>`;
+  if (f) { const s = stats(xs, ys, f, m); rows += `<b>S_r</b><span>${fmt(s.Sr)}</span><b>S_y/x</b><span>${fmt(s.Syx)}</span><b>r²</b><span>${fmt(s.r2, 5)}</span><b>d(100)</b><span>${fmt(f(100), 1)} m</span>`;
+    if (m <= 3) { const a = normalFit(xs, ys, m); rows += a.map((c, i) => `<b>a${"₀₁₂₃"[i]}</b><span>${fmt(c, 6)}</span>`).join(""); } }
+  else rows += `<b>note</b><span>need more than ${m} points</span>`;
+  $("rdPoly").innerHTML = rows;
+}
+draggable($("cvPoly"), poly, { x0: 0, x1: 100, y0: -10, y1: 100, add: false, lockX: true, redraw: drawPoly });
+$("polyM").addEventListener("input", drawPoly);
+$("polyReset").addEventListener("click", () => { poly.pts = BRAKE.map(([x, y]) => ({ x, y })); drawPoly(); });
+
+/* ---------- demo: interpolation vs regression ---------- */
+const NOISE = Array.from({ length: 16 }, (_, i) => Math.sin(i * 12.9898 + 4.1) * 43758.5453 % 1); // fixed pseudo-noise in (-1,1)
+const IF = { runge: x => 1 / (1 + 25 * x * x), sin: x => Math.sin(2 * x) + 0.5 * x };
+function drawInterp() {
+  const n = +$("intN").value; $("intNo").textContent = n;
+  const mEl = $("intM"); mEl.max = Math.min(8, n - 1); if (+mEl.value > n - 1) mEl.value = n - 1;
+  const m = +mEl.value; $("intMo").textContent = m;
+  const fT = IF[$("intF").value], noisy = $("intNoise").checked;
+  const xs = Array.from({ length: n }, (_, i) => -1 + 2 * i / (n - 1)), ys = xs.map((x, i) => fT(x) + (noisy ? 0.08 * NOISE[i] : 0));
+  const runge = $("intF").value === "runge";
+  const P = makePlot($("cvInt"), { x0: -1, x1: 1, y0: runge ? -1 : -1.8, y1: runge ? 1.6 : 1.8, xl: "x", yl: "y" });
+  const fI = newtonInterp(xs, ys), fR = fitScaled(xs, ys, m);
+  P.fn(fT, tok("--muted"), 2, [6, 5]);
+  P.fn(fI, tok("--c2"), 2.5);
+  if (fR) P.fn(fR, tok("--c1"), 3);
+  xs.forEach((x, i) => P.dot(x, ys[i], P.ink, 5.5, tok("--panel")));
+  let eI = 0, eR = 0; for (let k = 0; k <= 400; k++) { const x = -1 + 2 * k / 400; eI = Math.max(eI, Math.abs(fI(x) - fT(x))); if (fR) eR = Math.max(eR, Math.abs(fR(x) - fT(x))); }
+  $("rdInt").innerHTML = `<b>interp. degree</b><span>${n - 1}</span><b>max error</b><span>${fmt(eI)}</span><b>LS degree</b><span>${m}</span><b>max error</b><span>${fmt(eR)}</span>`;
+}
+["intF", "intN", "intM", "intNoise"].forEach(id => $(id).addEventListener("input", drawInterp));
+
+/* ---------- demo: differentiation ---------- */
+const DF = {
+  ln:   { f: Math.log, d: x => 1 / x, x0: 0.3, x1: 4, def: 2, y0: -1.5, y1: 2 },
+  sin:  { f: Math.sin, d: Math.cos, x0: 0, x1: 6.3, def: 1, y0: -1.6, y1: 1.6 },
+  exp:  { f: Math.exp, d: Math.exp, x0: -1, x1: 2.6, def: 1, y0: -1, y1: 12 },
+  cube: { f: x => x ** 3, d: x => 3 * x * x, x0: 0, x1: 4.2, def: 3, y0: -5, y1: 70 },
+};
+function setDiffX() { const F = DF[$("dfF").value], el = $("dfX"); el.min = F.x0; el.max = F.x1; el.step = 0.01; el.value = F.def; }
+function drawDiff() {
+  const F = DF[$("dfF").value], h = 10 ** (+$("dfH").value / 100);
+  const lo = F.x0 + Math.max(h, 0.05), hi = F.x1 - Math.max(h, 0.05);
+  const xi = Math.min(hi, Math.max(lo, +$("dfX").value));
+  $("dfXo").textContent = xi.toFixed(2); $("dfHo").textContent = h < 0.1 ? h.toPrecision(2) : h.toFixed(2);
+  const f = F.f, ex = F.d(xi);
+  const fw = (f(xi + h) - f(xi)) / h, bw = (f(xi) - f(xi - h)) / h, ce = (f(xi + h) - f(xi - h)) / (2 * h);
+  const P = makePlot($("cvDiff"), { x0: F.x0, x1: F.x1, y0: F.y0, y1: F.y1, xl: "x", yl: "f(x)" });
+  P.fn(f, P.muted, 2.5);
+  P.fn(x => f(xi) + ex * (x - xi), P.ink, 1.8, [5, 4]);
+  P.fn(x => f(xi) + fw * (x - xi), tok("--c1"), 2);
+  P.fn(x => f(xi) + bw * (x - xi), tok("--c2"), 2);
+  P.fn(x => f(xi - h) + ce * (x - xi + h), tok("--c3"), 2);
+  P.dot(xi - h, f(xi - h), tok("--c2"), 4.5); P.dot(xi + h, f(xi + h), tok("--c1"), 4.5); P.dot(xi, f(xi), P.ink, 5.5, tok("--panel"));
+  // error vs h
+  const E = makePlot($("cvDiffE"), { x0: 1e-13, x1: 1, y0: 1e-12, y1: 10, logx: true, logy: true, xl: "step h", yl: "|error|" });
+  const hs = [], ef = [], ec = [];
+  for (let k = 0; k <= 130; k++) { const hh = 10 ** (-13 + k / 10); hs.push(hh);
+    ef.push(Math.max(1e-12, Math.abs((f(xi + hh) - f(xi)) / hh - ex))); ec.push(Math.max(1e-12, Math.abs((f(xi + hh) - f(xi - hh)) / (2 * hh) - ex))); }
+  E.poly(hs, ef, tok("--c1"), 2); E.poly(hs, ec, tok("--c3"), 2);
+  E.clip(); E.g.strokeStyle = E.ink; E.g.setLineDash([4, 4]); E.g.lineWidth = 1.2; E.g.beginPath(); E.g.moveTo(E.X(h), E.m.t); E.g.lineTo(E.X(h), E.h - E.m.b); E.g.stroke(); E.g.setLineDash([]); E.g.restore();
+  const row = (n, v) => `<b>${n}</b><span>${fmt(v, 6)}  (err ${fmt(v - ex, 6)})</span>`;
+  $("rdDiff").innerHTML = `<b>exact</b><span>${fmt(ex, 6)}</span>` + row("forward", fw) + row("backward", bw) + row("central", ce);
+}
+$("dfF").addEventListener("input", () => { setDiffX(); drawDiff(); });
+["dfX", "dfH"].forEach(id => $(id).addEventListener("input", drawDiff));
+setDiffX();
+
+/* ---------- demo: trapezoid / cumulative ---------- */
+const FLOW = { t: [0, 1, 2, 3, 4, 5, 6], q: [2.0, 3.5, 5.2, 6.1, 5.4, 3.8, 2.5] };
+const TR = {
+  sin:  { f: Math.sin, F: x => 1 - Math.cos(x), a: 0, b: Math.PI, y0: -0.1, y1: 1.2, c1: 2.2 },
+  exp:  { f: Math.exp, F: x => Math.exp(x) - 1, a: 0, b: 2, y0: 0, y1: 8, c1: 7 },
+  sqrt: { f: Math.sqrt, F: x => 2 / 3 * x ** 1.5, a: 0, b: 4, y0: 0, y1: 2.2, c1: 6 },
+};
+function drawTr() {
+  const key = $("trF").value, flow = key === "flow";
+  $("trN").disabled = flow;
+  let xs, ys, F, C, exact;
+  if (flow) { xs = FLOW.t; ys = FLOW.q; $("trNo").textContent = "6 (data)"; }
+  else { C = TR[key]; const N = +$("trN").value; $("trNo").textContent = N;
+    xs = Array.from({ length: N + 1 }, (_, i) => C.a + (C.b - C.a) * i / N); ys = xs.map(C.f); F = C.F; exact = C.F(C.b); }
+  const a = xs[0], b = xs[xs.length - 1];
+  const P = makePlot($("cvTr"), flow ? { x0: 0, x1: 6, y0: 0, y1: 7, xl: "t (min)", yl: "Q (m³/min)" } : { x0: a, x1: b, y0: C.y0, y1: C.y1, xl: "x", yl: "f(x)" });
+  const c1 = tok("--c1");
+  for (let i = 0; i < xs.length - 1; i++) { const g = P.g; g.beginPath(); g.moveTo(P.X(xs[i]), P.Y(0)); g.lineTo(P.X(xs[i]), P.Y(ys[i])); g.lineTo(P.X(xs[i + 1]), P.Y(ys[i + 1])); g.lineTo(P.X(xs[i + 1]), P.Y(0)); g.closePath();
+    g.fillStyle = alpha(c1, .18); g.fill(); g.strokeStyle = c1; g.lineWidth = 1.5; g.stroke(); }
+  if (!flow) P.fn(C.f, P.muted, 2.5);
+  if (xs.length <= 41) xs.forEach((x, i) => P.dot(x, ys[i], P.ink, 3.5));
+  const cum = [0]; for (let i = 1; i < xs.length; i++) cum.push(cum[i - 1] + (xs[i] - xs[i - 1]) / 2 * (ys[i] + ys[i - 1]));
+  const total = cum[cum.length - 1];
+  const Q = makePlot($("cvCum"), flow ? { x0: 0, x1: 6, y0: 0, y1: 30, xl: "t (min)", yl: "V so far (m³)" } : { x0: a, x1: b, y0: 0, y1: C.c1, xl: "x", yl: "running integral" });
+  if (!flow) Q.fn(F, Q.muted, 2.5, [6, 5]);
+  Q.poly(xs, cum, c1, 2); if (xs.length <= 41) xs.forEach((x, i) => Q.dot(x, cum[i], c1, 3.8));
+  const h = xs[1] - xs[0];
+  $("rdTr").innerHTML = `<b>h</b><span>${fmt(h, 4)}</span><b>trapezoid</b><span>${fmt(total, 6)}</span>` +
+    (flow ? `<b>single trap.</b><span>${fmt((ys[0] + ys[ys.length - 1]) / 2 * (b - a), 2)}</span>` : `<b>exact</b><span>${fmt(exact, 6)}</span><b>error</b><span>${fmt(total - exact, 6)}</span>`);
+}
+["trF", "trN"].forEach(id => $(id).addEventListener("input", drawTr));
+
+const DEMOS = { lin: drawLin, poly: drawPoly, interp: drawInterp, diff: drawDiff, integ: drawTr };
+
+/* ---------- slide engine ---------- */
+const slides = [...document.querySelectorAll(".slide")];
+let cur = 0;
+function show(i) {
+  cur = Math.max(0, Math.min(slides.length - 1, i));
+  slides.forEach((s, k) => s.classList.toggle("on", k === cur));
+  const s = slides[cur]; s.scrollTop = 0;
+  $("count").textContent = `${cur + 1} / ${slides.length}`;
+  $("where").textContent = s.dataset.part || "";
+  $("prog").style.width = ((cur + 1) / slides.length * 100) + "%";
+  if (location.hash !== "#s" + (cur + 1)) history.replaceState(null, "", "#s" + (cur + 1));
+  if (s.dataset.demo) DEMOS[s.dataset.demo]();
+}
+const fromHash = () => { const m = /^#s(\d+)$/.exec(location.hash); return m ? +m[1] - 1 : 0; };
+$("prev").onclick = () => show(cur - 1);
+$("next").onclick = () => show(cur + 1);
+document.addEventListener("keydown", e => {
+  const t = e.target.tagName; if (t === "INPUT" || t === "SELECT" || t === "TEXTAREA") return;
+  if (e.altKey || e.ctrlKey || e.metaKey) return;
+  if (["ArrowRight", "PageDown", " "].includes(e.key)) { e.preventDefault(); show(cur + 1); }
+  else if (["ArrowLeft", "PageUp"].includes(e.key)) { e.preventDefault(); show(cur - 1); }
+  else if (e.key === "Home") show(0);
+  else if (e.key === "End") show(slides.length - 1);
+  else if (e.key === "f" || e.key === "F") toggleFs();
+  else if (e.key === "t" || e.key === "T") toggleTheme();
+});
+let tsx = null;
+document.addEventListener("touchstart", e => { tsx = e.target.closest("canvas,input,pre,.tw") ? null : [e.touches[0].clientX, e.touches[0].clientY]; }, { passive: true });
+document.addEventListener("touchend", e => { if (!tsx) return; const dx = e.changedTouches[0].clientX - tsx[0], dy = e.changedTouches[0].clientY - tsx[1];
+  if (Math.abs(dx) > 60 && Math.abs(dx) > 2 * Math.abs(dy)) show(cur + (dx < 0 ? 1 : -1)); tsx = null; });
+function toggleFs() { try { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen().catch(() => {}); } catch (e) {} }
+function toggleTheme() {
+  const root = document.documentElement, dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  root.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("nm-theme", root.dataset.theme); } catch (e) {}
+  const s = slides[cur]; if (s.dataset.demo) DEMOS[s.dataset.demo]();
+}
+try { const t = localStorage.getItem("nm-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+$("fs").onclick = toggleFs; $("theme").onclick = toggleTheme;
+window.addEventListener("hashchange", () => show(fromHash()));
+let rz; window.addEventListener("resize", () => { clearTimeout(rz); rz = setTimeout(() => { const s = slides[cur]; if (s.dataset.demo) DEMOS[s.dataset.demo](); }, 80); });
+window.addEventListener("DOMContentLoaded", () => {
+  if (window.renderMathInElement) renderMathInElement(document.body, { delimiters: [{ left: "$$", right: "$$", display: true }, { left: "$", right: "$", display: false }], throwOnError: false });
+  show(fromHash());
+});
+if (document.fonts) document.fonts.ready.then(() => { const s = slides[cur]; if (s.dataset.demo) DEMOS[s.dataset.demo](); });
+</script>
+</body>
+</html>
