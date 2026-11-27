@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Numerical Methods Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}]})"></script>
+<style>
+:root{--bg:#f7f6f2;--paper:#fff;--fg:#1d2228;--mute:#5b6570;--line:#d8dbd6;--accent:#1f5f8b;--soft:#e8f0f6;--key:#2f6b3a;--keysoft:#eaf3ec}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14181c;--paper:#1c2227;--fg:#e6e9ec;--mute:#9aa5af;--line:#36404a;--accent:#7cb8e2;--soft:#21303c;--key:#8fd19c;--keysoft:#1f2f24;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#14181c;--paper:#1c2227;--fg:#e6e9ec;--mute:#9aa5af;--line:#36404a;--accent:#7cb8e2;--soft:#21303c;--key:#8fd19c;--keysoft:#1f2f24;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.5 "Source Sans 3",system-ui,sans-serif;padding-block:24px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.sheet{max-width:820px;margin:0 auto 24px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:36px 44px}
+h1,h2,h3{font-family:Archivo,system-ui,sans-serif;text-wrap:balance;margin:0}
+h1{font-size:1.7rem;font-weight:800}
+h2{font-size:1.2rem;font-weight:700;display:flex;justify-content:space-between;gap:12px;align-items:baseline;border-top:2px solid var(--fg);padding-top:14px;margin-top:30px}
+h2 .pts{font-family:"JetBrains Mono",monospace;font-size:.85rem;font-weight:600;color:var(--mute)}
+.course{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.meta{display:grid;grid-template-columns:2fr 1fr;gap:10px 24px;margin:20px 0 6px}
+.meta div{border-bottom:1px solid var(--fg);padding-top:14px;font-size:.85rem;color:var(--mute)}
+.instr{background:var(--soft);border-radius:8px;padding:12px 16px;font-size:.95rem;margin-top:16px}
+.instr ul{margin:4px 0 0;padding-left:20px}
+.tag{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-weight:700;margin:14px 0 2px}
+p{margin:6px 0}
+ol.req{margin:4px 0;padding-left:24px}
+ol.req li{margin:3px 0}
+.tw{overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;font-family:"JetBrains Mono",monospace;font-size:.88rem;margin:0 auto}
+th,td{border:1px solid var(--line);padding:5px 11px;text-align:center}
+th{background:var(--soft);font-family:"Source Sans 3",sans-serif;font-weight:700}
+.caption{text-align:center;font-size:.85rem;color:var(--mute);margin-top:4px}
+.work{border:1px dashed var(--line);border-radius:6px;height:230px;margin-top:10px;color:var(--mute);font-size:.8rem;padding:6px 10px}
+.bar{max-width:820px;margin:0 auto 16px;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+button{font:600 .9rem "Source Sans 3",sans-serif;padding:8px 14px;border-radius:6px;border:1px solid var(--line);background:var(--paper);color:var(--fg);cursor:pointer}
+button:hover{border-color:var(--accent)}
+.key h1{color:var(--key)}
+.key h2{border-top-color:var(--key)}
+.ans{background:var(--keysoft);border-left:4px solid var(--key);padding:8px 14px;border-radius:4px;margin:8px 0}
+.rub{font-size:.88rem;color:var(--mute)}
+.katex-display{overflow-x:auto;overflow-y:hidden;padding:2px 0}
+@media (max-width:600px){.sheet{padding:22px 18px}.meta{grid-template-columns:1fr}}
+@media print{
+  :root{--bg:#fff;--paper:#fff;--fg:#000;--mute:#444;--line:#999;--soft:#eee;--keysoft:#f2f2f2;--key:#000;color-scheme:light}
+  body{padding:0;font-size:11.5pt}
+  .bar{display:none}
+  .sheet{border:0;padding:0;max-width:none;margin:0}
+  .key{break-before:page}
+  .key.hidden-print{display:none}
+  h2{break-after:avoid}
+  .item{break-inside:avoid}
+  .work{height:170px}
+}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <button type="button" onclick="window.print()">Print</button>
+</div>
+
+<!-- ======================= QUIZ ======================= -->
+<main class="sheet">
+  <div class="course">Numerical Solutions to CE Problems</div>
+  <h1>Quiz: Regression, Differentiation, Integration</h1>
+  <div class="meta">
+    <div>Name</div><div>Score&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/ 30</div>
+    <div>Section</div><div>Date</div>
+  </div>
+  <div class="instr">
+    <b>Instructions.</b>
+    <ul>
+      <li>Answer all three problems. Show your solution; final answers without work get no credit.</li>
+      <li>A scientific calculator is allowed. Carry at least 4 decimal places and box your final answers with units.</li>
+    </ul>
+  </div>
+
+  <!-- Item 1 -->
+  <section class="item">
+    <h2><span>1. Concrete mix design: linear regression</span><span class="pts">10 pts</span></h2>
+    <p>A ready-mix plant is preparing a trial-mix report for a 4-storey school building. The structural engineer specifies a 28-day compressive strength of <b>40 MPa</b>. The plant tested six trial mixes with different water–cement ratios and recorded the average 28-day cylinder strength of each:</p>
+    <div class="tw"><table>
+      <tr><th>Water–cement ratio, \(x\)</th><td>0.35</td><td>0.40</td><td>0.50</td><td>0.55</td><td>0.60</td><td>0.70</td></tr>
+      <tr><th>Strength, \(y\) (MPa)</th><td>48.2</td><td>44.1</td><td>36.5</td><td>33.0</td><td>29.4</td><td>22.8</td></tr>
+    </table></div>
+    <div class="caption">Table 1. Trial-mix results (average of 3 cylinders each)</div>
+    <div class="tag">Given</div>
+    <p>The six data points above; a straight-line model \(y = a_0 + a_1 x\).</p>
+    <div class="tag">Required</div>
+    <ol class="req" type="a">
+      <li>Using the normal equations, find \(a_0\) and \(a_1\). <span class="rub">(4 pts)</span></li>
+      <li>Compute \(S_t\), \(S_r\) and the coefficient of determination \(r^2\). <span class="rub">(3 pts)</span></li>
+      <li>Predict the strength of a mix with \(x = 0.45\), and find the largest water–cement ratio that still meets the 40 MPa specification. <span class="rub">(3 pts)</span></li>
+    </ol>
+    <div class="work">Solution</div>
+  </section>
+
+  <!-- Item 2 -->
+  <section class="item">
+    <h2><span>2. Detention pond during a storm: numerical differentiation</span><span class="pts">10 pts</span></h2>
+    <p>A subdivision drains into a detention pond with nearly vertical walls, so its plan area stays at <b>\(A = 2{,}500\ \text{m}^2\)</b> at every depth. During a storm, the operator read the staff gauge every 10 minutes:</p>
+    <div class="tw"><table>
+      <tr><th>Time, \(t\) (min)</th><td>0</td><td>10</td><td>20</td><td>30</td><td>40</td><td>50</td><td>60</td></tr>
+      <tr><th>Depth, \(h\) (m)</th><td>1.20</td><td>1.32</td><td>1.51</td><td>1.76</td><td>2.05</td><td>2.30</td><td>2.47</td></tr>
+    </table></div>
+    <div class="caption">Table 2. Staff-gauge readings, \(\Delta t = 10\) min</div>
+    <p>At \(t = 30\) min the outlet pipe was releasing <b>\(Q_\text{out} = 0.40\ \text{m}^3/\text{s}\)</b>. By conservation of volume, the storm inflow is</p>
+    $$Q_\text{in} = A\,\frac{dh}{dt} + Q_\text{out}.$$
+    <div class="tag">Required</div>
+    <ol class="req" type="a">
+      <li>Estimate \(dh/dt\) at \(t = 30\) min with the 2-point <b>forward</b>, <b>backward</b> and <b>central</b> difference formulas, in m/min. <span class="rub">(5 pts)</span></li>
+      <li>Using the central-difference value, compute the storm inflow \(Q_\text{in}\) at \(t = 30\) min in m³/s. <span class="rub">(3 pts)</span></li>
+      <li>Which of the three estimates would you report, and why? State the order of its truncation error. <span class="rub">(2 pts)</span></li>
+    </ol>
+    <div class="work">Solution</div>
+  </section>
+
+  <!-- Item 3 -->
+  <section class="item">
+    <h2><span>3. Stream gauging: numerical integration</span><span class="pts">10 pts</span></h2>
+    <p>A hydrographer measures the discharge of a creek upstream of a proposed irrigation intake. Starting at the left bank, she records the depth \(d\) and the depth-averaged velocity \(v\) every 2 m across the 20 m wide channel:</p>
+    <div class="tw"><table>
+      <tr><th>Station, \(s\) (m)</th><td>0</td><td>2</td><td>4</td><td>6</td><td>8</td><td>10</td><td>12</td><td>14</td><td>16</td><td>18</td><td>20</td></tr>
+      <tr><th>Depth, \(d\) (m)</th><td>0</td><td>0.6</td><td>1.1</td><td>1.5</td><td>1.8</td><td>1.9</td><td>1.7</td><td>1.4</td><td>1.0</td><td>0.5</td><td>0</td></tr>
+      <tr><th>Velocity, \(v\) (m/s)</th><td>0</td><td>0.32</td><td>0.55</td><td>0.71</td><td>0.82</td><td>0.86</td><td>0.80</td><td>0.68</td><td>0.50</td><td>0.30</td><td>0</td></tr>
+    </table></div>
+    <div class="caption">Table 3. Cross-section survey, \(\Delta s = 2\) m (left bank at \(s = 0\))</div>
+    <p>The flow area and discharge are</p>
+    $$A = \int_0^{20} d\,ds, \qquad Q = \int_0^{20} v\,d\,ds.$$
+    <div class="tag">Required</div>
+    <ol class="req" type="a">
+      <li>Using the composite trapezoidal rule, compute the flow area \(A\) and the discharge \(Q\). <span class="rub">(5 pts)</span></li>
+      <li>Compute the mean velocity \(\bar v = Q/A\). <span class="rub">(1 pt)</span></li>
+      <li>Using the cumulative trapezoidal rule, tabulate the discharge passing between the left bank and each station. Estimate, by linear interpolation, the station that splits the flow in half. <span class="rub">(4 pts)</span></li>
+    </ol>
+    <div class="work">Solution</div>
+  </section>
+</main>
+
+</body>
+</html>
