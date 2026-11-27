@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Numerical Methods Quiz Slides</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js" onload="boot()"></script>
+<style>
+:root{--bg:#f7f6f2;--fg:#1d2228;--mute:#5b6570;--line:#cfd4d0;--accent:#1f5f8b;--soft:#e4eef6;--warm:#b4541f;--key:#2f6b3a;--keysoft:#e6f2e8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12161a;--fg:#e8ebee;--mute:#9aa5af;--line:#36404a;--accent:#7cb8e2;--soft:#1f2e3a;--warm:#f0a070;--key:#8fd19c;--keysoft:#1d2e22;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12161a;--fg:#e8ebee;--mute:#9aa5af;--line:#36404a;--accent:#7cb8e2;--soft:#1f2e3a;--warm:#f0a070;--key:#8fd19c;--keysoft:#1d2e22;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--fg);overflow:hidden}
+body{font-family:"Source Sans 3",system-ui,sans-serif;line-height:1.35}
+.slide{position:absolute;inset:0;padding:3.2vh 4vw 5vh;display:none;flex-direction:column;gap:.55em;overflow:hidden}
+.slide.on{display:flex}
+.slide.ans{display:none}
+body.answers .slide.ans.on{display:flex}
+h1,h2{font-family:Archivo,system-ui,sans-serif;margin:0;text-wrap:balance;line-height:1.1}
+h1{font-size:2.6em;font-weight:800}
+h2{font-size:1.55em;font-weight:800}
+.kicker{font-size:.72em;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:var(--accent);display:flex;justify-content:space-between;gap:1em}
+.kicker .pts{font-family:"JetBrains Mono",monospace;color:var(--warm)}
+.ans .kicker{color:var(--key)}
+p{margin:0}
+.tw{display:flex;justify-content:center;margin:.2em 0}
+table{border-collapse:collapse;font-family:"JetBrains Mono",monospace;font-size:.9em}
+th,td{border:2px solid var(--line);padding:.22em .6em;text-align:center}
+th{background:var(--soft);font-family:"Source Sans 3",sans-serif;font-weight:700;text-align:left;white-space:nowrap}
+.cap{text-align:center;font-size:.7em;color:var(--mute)}
+.req{background:var(--soft);border-left:.25em solid var(--accent);border-radius:.3em;padding:.4em .8em}
+.req b.l{font-family:Archivo,sans-serif;color:var(--accent);font-size:.8em;letter-spacing:.08em;text-transform:uppercase}
+.req ol{margin:.2em 0 0;padding-left:1.4em}
+.req li{margin:.12em 0}
+.pp{color:var(--mute);font-size:.75em;font-family:"JetBrains Mono",monospace}
+.hl{color:var(--warm);font-weight:700}
+.box{background:var(--keysoft);border-left:.25em solid var(--key);border-radius:.3em;padding:.3em .8em}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:1em;align-items:start}
+.rules{font-size:1.1em;display:grid;gap:.45em;margin-top:.4em}
+.rules div{display:flex;gap:.6em;align-items:baseline}
+.rules span.n{font-family:"JetBrains Mono",monospace;color:var(--warm);font-weight:600;min-width:2.2em}
+.topics{display:flex;gap:.6em;flex-wrap:wrap;margin-top:.3em}
+.topics span{border:2px solid var(--accent);color:var(--accent);border-radius:99em;padding:.15em .8em;font-weight:700;font-size:.85em}
+.katex-display{margin:.25em 0;overflow:visible}
+.katex-display>.katex{max-width:none}
+.foot{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:space-between;padding:.6vh 1.2vw;font:600 max(11px,1.3vh) "JetBrains Mono",monospace;color:var(--mute);pointer-events:none}
+.timer{position:fixed;top:1.4vh;right:1.6vw;font:700 max(16px,3.4vh) "JetBrains Mono",monospace;color:var(--warm);display:none}
+.timer.run{display:block}
+.timer.low{color:#d03030}
+</style>
+</head>
+<body>
+
+<!-- 1. Title -->
+<section class="slide" data-title="Quiz">
+  <div class="kicker"><span>Numerical Solutions to CE Problems</span><span class="pts">30 pts</span></div>
+  <h1>Quiz</h1>
+  <div class="topics"><span>Regression</span><span>Differentiation</span><span>Integration</span></div>
+  <div class="rules">
+    <div><span class="n">1</span><span>Answer all three problems on your own paper. Copy the data you use.</span></div>
+    <div><span class="n">2</span><span>Show your solution: a final answer without work gets no credit.</span></div>
+    <div><span class="n">3</span><span>Scientific calculator only. Carry at least 4 decimal places.</span></div>
+    <div><span class="n">4</span><span>Box your final answers <b>with units</b>.</span></div>
+  </div>
+</section>
+
+<!-- 2. Problem 1 -->
+<section class="slide" data-title="Problem 1">
+  <div class="kicker"><span>Problem 1 · Linear regression</span><span class="pts">10 pts</span></div>
+  <h2>Concrete mix design</h2>
+  <p>A ready-mix plant is preparing a trial-mix report for a 4-storey school. The structural engineer specifies a 28-day strength of <span class="hl">40&nbsp;MPa</span>. Six trial mixes were tested:</p>
+  <div class="tw"><table>
+    <tr><th>Water–cement ratio, \(x\)</th><td>0.35</td><td>0.40</td><td>0.50</td><td>0.55</td><td>0.60</td><td>0.70</td></tr>
+    <tr><th>Strength, \(y\) (MPa)</th><td>48.2</td><td>44.1</td><td>36.5</td><td>33.0</td><td>29.4</td><td>22.8</td></tr>
+  </table></div>
+  <div class="req"><b class="l">Required</b> &nbsp;Model: \(y = a_0 + a_1 x\)
+    <ol type="a">
+      <li>Using the normal equations, find \(a_0\) and \(a_1\). <span class="pp">(4)</span></li>
+      <li>Compute \(S_t\), \(S_r\) and \(r^2\). <span class="pp">(3)</span></li>
+      <li>Predict the strength at \(x = 0.45\), and find the largest water–cement ratio that still meets 40&nbsp;MPa. <span class="pp">(3)</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- 3. Problem 2 -->
+<section class="slide" data-title="Problem 2">
+  <div class="kicker"><span>Problem 2 · Numerical differentiation</span><span class="pts">10 pts</span></div>
+  <h2>Detention pond during a storm</h2>
+  <p>A subdivision drains into a pond with vertical walls, plan area <span class="hl">\(A = 2{,}500\ \text{m}^2\)</span>. The operator read the staff gauge every 10&nbsp;min:</p>
+  <div class="tw"><table>
+    <tr><th>Time, \(t\) (min)</th><td>0</td><td>10</td><td>20</td><td>30</td><td>40</td><td>50</td><td>60</td></tr>
+    <tr><th>Depth, \(h\) (m)</th><td>1.20</td><td>1.32</td><td>1.51</td><td>1.76</td><td>2.05</td><td>2.30</td><td>2.47</td></tr>
+  </table></div>
+  <p>At \(t = 30\) min the outlet released <span class="hl">\(Q_\text{out} = 0.40\ \text{m}^3/\text{s}\)</span>. &nbsp;Storm inflow: \(\;Q_\text{in} = A\,\dfrac{dh}{dt} + Q_\text{out}\)</p>
+  <div class="req"><b class="l">Required</b>
+    <ol type="a">
+      <li>Estimate \(dh/dt\) at \(t = 30\) min by 2-point <b>forward</b>, <b>backward</b> and <b>central</b> differences (m/min). <span class="pp">(5)</span></li>
+      <li>Using the central value, compute \(Q_\text{in}\) at \(t = 30\) min in m³/s. <span class="pp">(3)</span></li>
+      <li>Which estimate would you report, and why? State its truncation-error order. <span class="pp">(2)</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- 4. Problem 3 -->
+<section class="slide" data-title="Problem 3">
+  <div class="kicker"><span>Problem 3 · Numerical integration</span><span class="pts">10 pts</span></div>
+  <h2>Stream gauging for an irrigation intake</h2>
+  <p>From the left bank, a hydrographer records depth \(d\) and depth-averaged velocity \(v\) every <span class="hl">2&nbsp;m</span> across a 20&nbsp;m creek:</p>
+  <div class="tw"><table>
+    <tr><th>Station, \(s\) (m)</th><td>0</td><td>2</td><td>4</td><td>6</td><td>8</td><td>10</td><td>12</td><td>14</td><td>16</td><td>18</td><td>20</td></tr>
+    <tr><th>Depth, \(d\) (m)</th><td>0</td><td>0.6</td><td>1.1</td><td>1.5</td><td>1.8</td><td>1.9</td><td>1.7</td><td>1.4</td><td>1.0</td><td>0.5</td><td>0</td></tr>
+    <tr><th>Velocity, \(v\) (m/s)</th><td>0</td><td>0.32</td><td>0.55</td><td>0.71</td><td>0.82</td><td>0.86</td><td>0.80</td><td>0.68</td><td>0.50</td><td>0.30</td><td>0</td></tr>
+  </table></div>
+  <p style="text-align:center">\(A = \displaystyle\int_0^{20} d\,ds \qquad Q = \int_0^{20} v\,d\,ds\)</p>
+  <div class="req"><b class="l">Required</b>
+    <ol type="a">
+      <li>By the composite trapezoidal rule, compute the flow area \(A\) and discharge \(Q\). <span class="pp">(5)</span></li>
+      <li>Compute the mean velocity \(\bar v = Q/A\). <span class="pp">(1)</span></li>
+      <li>By the cumulative trapezoidal rule, tabulate the discharge from the left bank to each station; interpolate the station that splits the flow in half. <span class="pp">(4)</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- 5. Pencils down -->
+<section class="slide" data-title="Time">
+  <div class="kicker"><span>Numerical Solutions to CE Problems</span><span></span></div>
+  <h1 style="margin-top:auto">Pencils down.</h1>
+  <p style="font-size:1.3em;color:var(--mute);margin-bottom:auto">Pass your papers forward.</p>
+</section>
+
+
+<div class="timer" id="timer"></div>
+<div class="foot"><span id="where"></span><span>← → move · F fullscreen · T theme · S timer</span></div>
+
+<script>
+const all=[...document.querySelectorAll('.slide')];
+let i=0, answers=false;
+const live=()=>all.filter(s=>answers||!s.classList.contains('ans'));
+function fits(s){
+  if(s.scrollHeight>s.clientHeight)return false;
+  const r=s.getBoundingClientRect(),cs=getComputedStyle(s),L=r.left+parseFloat(cs.paddingLeft)-1,R=r.right-parseFloat(cs.paddingRight)+1;
+  return [...s.querySelectorAll('table,.katex-display .base')].every(e=>{const b=e.getBoundingClientRect();return b.left>=L&&b.right<=R});
+}
+function fit(s){
+  let lo=10,hi=Math.min(innerHeight*0.055,innerWidth*0.032);
+  s.style.fontSize=hi+'px';
+  if(fits(s))return;
+  for(let k=0;k<16;k++){const m=(lo+hi)/2;s.style.fontSize=m+'px';fits(s)?lo=m:hi=m}
+  s.style.fontSize=lo+'px';
+}
+function show(n){
+  const L=live(); i=Math.max(0,Math.min(L.length-1,n));
+  all.forEach(s=>s.classList.remove('on')); const s=L[i]; s.classList.add('on'); fit(s);
+  document.getElementById('where').textContent=(i+1)+' / '+L.length+' · '+s.dataset.title;
+  history.replaceState(null,'','#s'+(i+1));
+}
+// Timer: S starts/stops a countdown (asks minutes on first press via digits typed beforehand, default 45)
+let tEnd=0,tId=0,digits='';
+function tick(){const el=document.getElementById('timer');const r=Math.max(0,Math.round((tEnd-Date.now())/1000));
+  el.textContent=Math.floor(r/60)+':'+String(r%60).padStart(2,'0');el.classList.toggle('low',r<=300);if(!r){clearInterval(tId);tId=0}}
+function toggleTimer(){const el=document.getElementById('timer');
+  if(el.classList.contains('run')){clearInterval(tId);tId=0;el.classList.remove('run');return}
+  tEnd=Date.now()+(parseInt(digits)||45)*60000;digits='';el.classList.add('run');tick();tId=setInterval(tick,1000)}
+addEventListener('keydown',e=>{
+  const k=e.key;
+  if(/^[0-9]$/.test(k)){digits+=k;return}
+  if(['ArrowRight','PageDown',' '].includes(k)){e.preventDefault();show(i+1)}
+  else if(['ArrowLeft','PageUp'].includes(k)){e.preventDefault();show(i-1)}
+  else if(k==='Home')show(0); else if(k==='End')show(1e9);
+  else if(k==='f'||k==='F'){document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{})}
+  else if(k==='t'||k==='T'){const r=document.documentElement,d=r.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');r.dataset.theme=d==='dark'?'light':'dark'}
+  else if(k==='s'||k==='S')toggleTimer();
+  if(!/^[0-9]$/.test(k))digits='';
+});
+addEventListener('click',e=>{if(e.clientX>innerWidth/2)show(i+1);else show(i-1)});
+addEventListener('resize',()=>fit(live()[i]));
+function boot(){
+  renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}]});
+  const m=location.hash.match(/s(\d+)/); show(m?+m[1]-1:0);
+  document.fonts&&document.fonts.ready.then(()=>fit(live()[i]));
+}
+</script>
+</body>
+</html>
